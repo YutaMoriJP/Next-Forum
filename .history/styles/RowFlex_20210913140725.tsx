@@ -1,0 +1,13 @@
+import styled from "styled-components";
+
+const RowFlex = styled.article`
+  display: flex;
+  flex-direction: row;
+  > * {
+    margin-right: 0.4rem;
+    margin-bottom: 3px;
+    flex: 1 1 auto;
+  }
+`;
+
+export default RowFlex;
