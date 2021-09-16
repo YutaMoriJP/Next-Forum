@@ -1,0 +1,4 @@
+[build]
+functions = "functions"
+build = "npm run build"
+publish = "out"
