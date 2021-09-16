@@ -29,9 +29,7 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
     fetch("/.netlify/functions/api").then(data =>
       console.log("api data", data)
     );
-    fetch("/.netlify/functions/express/").then(data =>
-      console.log("express data", data)
-    );
+    fetch("/.netlify/functions/express/");
   }, []);
   return (
     <>

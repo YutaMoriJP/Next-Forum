@@ -26,12 +26,7 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
   const { open: postSubmitted, toggle: postToggle } = useToggle();
 
   useEffect(() => {
-    fetch("/.netlify/functions/api").then(data =>
-      console.log("api data", data)
-    );
-    fetch("/.netlify/functions/express/").then(data =>
-      console.log("express data", data)
-    );
+    fetch("/.netlify/functions/api");
   }, []);
   return (
     <>
