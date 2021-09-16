@@ -23,8 +23,6 @@ interface HomeProps {
 
 const Home = ({ posts }: HomeProps): JSX.Element => {
   const { open, toggle, onClose } = useToggle();
-  const { open: postSubmitted, toggle: postToggle } = useToggle();
-
   useEffect(() => {
     fetch("/.netlify/functions/server/index").then(res => console.log(res));
   }, []);
@@ -44,7 +42,7 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
         <AnimatePresence exitBeforeEnter>
           {open && (
             <Modal handleClose={onClose}>
-              <Post handleClose={onClose} postToggle={postToggle} />
+              <Post handleClose={onClose} />
             </Modal>
           )}
         </AnimatePresence>

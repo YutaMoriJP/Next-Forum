@@ -1,6 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
+import { getAllPosts } from "../util/getAllPosts";
 
 const Post = ({ post }) => {
   const { title, content, comments, slug, _id } = post;
@@ -15,35 +16,23 @@ const Post = ({ post }) => {
     </>
   );
 };
-export const getStaticPaths: GetStaticPaths = () => {
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await getAllPosts();
+  const paths = res.map(({ slug }) => ({ params: { slug } }));
   return {
-    paths: [
-      {
-        params: {
-          slug: "first-post",
-        },
-      },
-      {
-        params: {
-          slug: "second-post",
-        },
-      },
-    ],
+    paths,
     fallback: false,
   };
 };
 
-export const getStaticProps: GetStaticProps = ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { slug } = params;
+  const res = await getAllPosts();
+  const post = res.find(post => post.slug === slug);
   return {
     props: {
-      post: {
-        title: "POST",
-        content: "Tough days continue...",
-        comments: [],
-        slug,
-        id: 1,
-      },
+      post,
     },
   };
 };

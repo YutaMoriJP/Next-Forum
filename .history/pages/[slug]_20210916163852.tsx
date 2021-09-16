@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
-
+ 
 const Post = ({ post }) => {
   const { title, content, comments, slug, _id } = post;
   console.log("post", post);
@@ -46,6 +46,4 @@ export const getStaticProps: GetStaticProps = ({ params }) => {
       },
     },
   };
-};
-
 export default Post;
