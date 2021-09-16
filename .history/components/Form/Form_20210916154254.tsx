@@ -51,7 +51,7 @@ const Form = ({
     console.log(new Date());
     const updatedCommnents = [
       ...comments,
-      { comment, id: uuidv4(), date: new Date().toLocaleDateString() },
+      { comment, id: uuidv4(), date: new Date() },
     ];
     //update later
     fetch(`/.netlify/functions/express/posts?id=${id}`, {

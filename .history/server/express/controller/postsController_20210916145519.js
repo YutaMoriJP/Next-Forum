@@ -49,7 +49,9 @@ const postPutController = async (req, res) => {
     //finds the data with the given id and updates it with the data
     //const updatedUsers = await User.findByIdAndUpdate(id, req.body, { new: true,});
     //    const data = await Posts.findById(id);
-    res.json(data);
+    res.json({
+      data,
+    });
   } catch (error) {
     res.json({ error: error.message });
   }

@@ -12,7 +12,7 @@ const Post = ({ post }) => {
       {/* renders the post created by the user, containing with the title and content */}
       <Content title={title} content={content} main={false} />
       {/* renders the comment section, allowing users to send a POST request with the comment*/}
-      <Form main={true} center={true} comment={comments} id={_id} />
+      <Form center={true} comment={comments} id={_id} />
     </>
   );
 };

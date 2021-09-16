@@ -3,7 +3,6 @@ import Title from "../../styles/Title";
 export interface CommentProp {
   id: string;
   comment: string;
-  date: string;
   [data: string]: any;
 }
 export interface CommentProps {
@@ -19,9 +18,9 @@ const Comments = ({ comments }): JSX.Element => {
         {comments.length > 1 || comments.length === 0 ? "s" : ""}
       </Title>
       {!!comments.length &&
-        comments.map(({ comment, id, date }) => {
+        comments.map(({ comment, id }) => {
           console.log("iterated comment", comment);
-          return <Comment comment={comment} id={id} key={id} date={date} />;
+          return <Comment comment={comment} id={id} key={id} />;
         })}
     </>
   );

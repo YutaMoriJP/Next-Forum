@@ -48,11 +48,7 @@ const Form = ({
     //it's not needed anymore since user has passed the test
     onClose();
 
-    console.log(new Date());
-    const updatedCommnents = [
-      ...comments,
-      { comment, id: uuidv4(), date: new Date().toLocaleDateString() },
-    ];
+    const updatedCommnents = [...comments, { comment, id: uuidv4() }];
     //update later
     fetch(`/.netlify/functions/express/posts?id=${id}`, {
       method: "PUT",

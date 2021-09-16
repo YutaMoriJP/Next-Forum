@@ -15,7 +15,10 @@ import FormStyled from "../../styles/Form";
 type State = CommentProp[] | [];
 
 interface FormProps {
-  main: boolean;
+  title?: string;
+  content?: string;
+  main?: boolean;
+  sub?: boolean;
   center: boolean;
   comment: any[];
   id: string;
@@ -24,15 +27,18 @@ interface FormProps {
 const Form = ({
   main = true,
   center = false,
+  title = "TITLE",
+  content = "CONTENT",
   comment,
   id,
 }: FormProps): JSX.Element => {
-  const [comments, setComments] = useState<State>(comment);
-  console.log("comments", comments);
+  const [comments, setComments] = useState<State>([]);
+
   //used for clearing input field, after submit event is fired
   const { open, toggle } = useToggle();
   //used for error handling when user submits comment without meaningful text
   const { open: isMessageOpen, onOpen, onClose } = useToggle(false);
+  //dynamically import fuse module so async func.
   const handleMainSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -47,23 +53,11 @@ const Form = ({
     //unmounts <Message/> component if it's still mounted
     //it's not needed anymore since user has passed the test
     onClose();
-
-    console.log(new Date());
-    const updatedCommnents = [
-      ...comments,
-      { comment, id: uuidv4(), date: new Date().toLocaleDateString() },
-    ];
-    //update later
-    fetch(`/.netlify/functions/express/posts?id=${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedCommnents),
-    })
-      .then(res => res.json())
-      .then(({ comments }) => {
-        console.log("fetch updated comments?", comments);
-        setComments(comments);
-      });
+    const newComment = {
+      comment: comment as string,
+      id: uuidv4() as string,
+    };
+    setComments(prevComments => [newComment, ...prevComments]);
     toggle();
   };
   return (

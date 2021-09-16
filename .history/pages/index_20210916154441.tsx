@@ -33,6 +33,19 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
 
   console.log("postsState", postsState);
 
+  //just for testing, will be removed
+  useEffect(() => {
+    return;
+    fetch("/.netlify/functions/api")
+      .then(res => res.json())
+      .then(data => console.log(data));
+    fetch("/.netlify/functions/express/")
+      .then(res => res.json())
+      .then(data => console.log(data));
+    fetch("/.netlify/functions/express/posts")
+      .then(res => res.json())
+      .then(data => console.log(data));
+  }, []);
   useEffect(() => {
     console.log("<Home/> mounted");
     return () => console.log("<home/> unmounted");

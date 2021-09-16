@@ -15,7 +15,10 @@ import FormStyled from "../../styles/Form";
 type State = CommentProp[] | [];
 
 interface FormProps {
-  main: boolean;
+  title?: string;
+  content?: string;
+  main?: boolean;
+  sub?: boolean;
   center: boolean;
   comment: any[];
   id: string;
@@ -24,6 +27,8 @@ interface FormProps {
 const Form = ({
   main = true,
   center = false,
+  title = "TITLE",
+  content = "CONTENT",
   comment,
   id,
 }: FormProps): JSX.Element => {
@@ -48,12 +53,7 @@ const Form = ({
     //it's not needed anymore since user has passed the test
     onClose();
 
-    console.log(new Date());
-    const updatedCommnents = [
-      ...comments,
-      { comment, id: uuidv4(), date: new Date().toLocaleDateString() },
-    ];
-    //update later
+    const updatedCommnents = [...comments, comment];
     fetch(`/.netlify/functions/express/posts?id=${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

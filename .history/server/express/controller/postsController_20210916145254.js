@@ -43,13 +43,22 @@ const postPutController = async (req, res) => {
   try {
     const id = req.query.id;
     const body = req.body;
-    const comments = body;
-    const data = await Posts.findByIdAndUpdate(id, { comments }, { new: true });
+    const { comments } = body;
+    const updated = await Posts.findByIdAndUpdate(
+      id,
+      { comments },
+      { new: true }
+    );
     //const data = await Posts.findById(id);
     //finds the data with the given id and updates it with the data
     //const updatedUsers = await User.findByIdAndUpdate(id, req.body, { new: true,});
     //    const data = await Posts.findById(id);
-    res.json(data);
+    res.json({
+      updated,
+      msg: "successfully updated...",
+      comments,
+      body: req.body,
+    });
   } catch (error) {
     res.json({ error: error.message });
   }

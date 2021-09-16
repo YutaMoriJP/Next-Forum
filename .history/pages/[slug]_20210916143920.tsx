@@ -4,15 +4,16 @@ import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
 
 const Post = ({ post }) => {
-  const { title, content, comments, slug, _id } = post;
+  const { title, content, comments, slug, id } = post;
   console.log("post", post);
   // -> /.netlify/functions/api/id -> comments
   return (
     <>
+      <h1>id-{id}</h1>
       {/* renders the post created by the user, containing with the title and content */}
       <Content title={title} content={content} main={false} />
       {/* renders the comment section, allowing users to send a POST request with the comment*/}
-      <Form main={true} center={true} comment={comments} id={_id} />
+      <Form center={true} />
     </>
   );
 };
