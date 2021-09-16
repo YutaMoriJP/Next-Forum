@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import style from "../styles/notfound.module.css";
 import Link from "next/link";
 
 const NotFound = (): JSX.Element => {
