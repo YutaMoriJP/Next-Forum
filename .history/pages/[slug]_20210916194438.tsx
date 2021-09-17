@@ -1,7 +1,6 @@
 import { GetStaticProps, GetStaticPaths } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
-import { getAllPosts } from "../util/getAllPosts";
 
 const Post = ({ post }) => {
   const { title, content, comments, slug, _id } = post;
@@ -16,23 +15,36 @@ const Post = ({ post }) => {
     </>
   );
 };
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await getAllPosts();
-  const paths = res.map(({ slug }) => ({ params: { slug } }));
+export const getStaticPaths: GetStaticPaths = () => {
   return {
-    paths,
+    paths: [
+      {
+        params: {
+          slug: "first-post",
+        },
+      },
+      {
+        params: {
+          slug: "second-post",
+        },
+      },
+    ],
     fallback: false,
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = ({ params }) => {
   const { slug } = params;
-  const res = await getAllPosts();
-  const post = res.find(post => post.slug === slug);
   return {
     props: {
-      post,
+      post: {
+        title: "FIRST POST",
+        content:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores perspiciatis ab dolore repellendus eius, deserunt est earum corrupti, laudantium nulla similique dicta quae cum neque ut necessitatibus veniam! Rem, excepturi.",
+        comments: [],
+        slug: "first-post",
+        id: 1,
+      },
     },
   };
 };
