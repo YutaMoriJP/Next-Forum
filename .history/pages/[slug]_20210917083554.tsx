@@ -14,7 +14,7 @@ const Post = ({ post }): JSX.Element => {
       </Center>
     );
 
-  const { title, content, comments, _id, slug } = post;
+  const { title, content, comments, slug, _id } = post;
   return (
     <>
       {/* renders the post created by the user, containing with the title and content */}

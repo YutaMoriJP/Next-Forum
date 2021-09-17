@@ -6,6 +6,7 @@ import Center from "../styles/Center";
 import Spinner from "@material-ui/core/CircularProgress";
 
 const Post = ({ post }): JSX.Element => {
+  const { title, content, comments, slug, _id } = post;
   console.log("post", post);
   if (!post)
     return (
@@ -14,7 +15,6 @@ const Post = ({ post }): JSX.Element => {
       </Center>
     );
 
-  const { title, content, comments, _id, slug } = post;
   return (
     <>
       {/* renders the post created by the user, containing with the title and content */}
