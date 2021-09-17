@@ -1,4 +1,4 @@
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
+import { GetStaticProps, GetStaticPaths } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
@@ -16,18 +16,6 @@ const Post = ({ post }): JSX.Element => {
     </>
   );
 };
-
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { slug } = params;
-  const res = await getAllPosts();
-  const post = res.find(post => post.slug === slug);
-  return {
-    props: {
-      post,
-    },
-  };
-};
-/*
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await getAllPosts();
@@ -49,6 +37,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     revalidate: 1,
   };
 };
- */
 
 export default Post;
