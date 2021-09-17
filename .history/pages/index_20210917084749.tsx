@@ -34,7 +34,7 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
   const { open: postSubmitted, toggle: postToggle } = useToggle();
   const initialRender = useRef(true);
   console.log("postsState", postsState);
-  if (!posts) return <Loading />; //page is being statically re-generated
+  if (!posts) return <Loading />;
 
   useEffect(() => {
     console.log("<Home/> mounted");

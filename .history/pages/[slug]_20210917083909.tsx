@@ -2,10 +2,18 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
-import Loading from "../components/Loading";
+import Center from "../styles/Center";
+import Spinner from "@material-ui/core/CircularProgress";
+
 const Post = ({ post }): JSX.Element => {
   console.log("post", post);
-  if (!post) return <Loading />; //page is being statically re-generated
+  if (!post)
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    );
+
   const { title, content, comments, _id, slug } = post;
   return (
     <>

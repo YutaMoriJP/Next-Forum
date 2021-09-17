@@ -5,7 +5,7 @@ import { getAllPosts } from "../util/getAllPosts";
 import Loading from "../components/Loading";
 const Post = ({ post }): JSX.Element => {
   console.log("post", post);
-  if (!post) return <Loading />; //page is being statically re-generated
+  if (!post) return <Loading />;
   const { title, content, comments, _id, slug } = post;
   return (
     <>
