@@ -31,10 +31,10 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
         console.log("express data", data);
         return data.json();
       })
-      .then(e => console.log("e", e))
+      .then(e => console.log(e))
       .catch(e => {
-        console.log("e", e);
-        console.log("e", e.message);
+        console.log(e);
+        console.log(e.message);
       });
   }, []);
   return (

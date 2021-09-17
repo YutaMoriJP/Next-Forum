@@ -33,8 +33,8 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
       })
       .then(e => console.log("e", e))
       .catch(e => {
-        console.log("e", e);
-        console.log("e", e.message);
+        console.log(e);
+        console.log(e.message);
       });
   }, []);
   return (

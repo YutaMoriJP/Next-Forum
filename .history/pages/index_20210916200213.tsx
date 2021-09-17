@@ -26,15 +26,18 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
   const { open: postSubmitted, toggle: postToggle } = useToggle();
 
   useEffect(() => {
+    fetch("/.netlify/functions/api").then(data =>
+      console.log("api data", data)
+    );
     fetch("/.netlify/functions/express/")
       .then(data => {
         console.log("express data", data);
         return data.json();
       })
-      .then(e => console.log("e", e))
+      .then(e => console.log(e))
       .catch(e => {
-        console.log("e", e);
-        console.log("e", e.message);
+        console.log(e);
+        console.log(e.message);
       });
   }, []);
   return (
