@@ -21,16 +21,16 @@ const options = {
   useUnifiedTopology: true,
 };
 //connect to MongoDB
-const res = mongoose
-  .connect(process.env.DB_URI, options)
-  .then(mongoose => mongoose)
-  .catch(error => console.log(error.message));
+//const res = mongoose.connect(process.env.DB_URI, options).then(mongoose => mongoose).catch(error => console.log(error.message));
 
 const handler = serverless(app);
 
 module.exports.handler = async (event, context) => {
-  await res;
-  //const res = await mongoose.connect(process.env.DB_URI, options).then(mongoose => mongoose).catch(error => console.log(error.message));
+  //await res;
+  const res = await mongoose
+    .connect(process.env.DB_URI, options)
+    .then(mongoose => mongoose)
+    .catch(error => console.log(error.message));
   const result = await handler(event, context);
   return result;
 };

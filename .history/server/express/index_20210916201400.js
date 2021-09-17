@@ -29,7 +29,7 @@ const res = mongoose
 const handler = serverless(app);
 
 module.exports.handler = async (event, context) => {
-  await res;
+  //await res;
   //const res = await mongoose.connect(process.env.DB_URI, options).then(mongoose => mongoose).catch(error => console.log(error.message));
   const result = await handler(event, context);
   return result;
