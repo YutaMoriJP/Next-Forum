@@ -5,9 +5,9 @@ import { getAllPosts } from "../util/getAllPosts";
 import Center from "../styles/Center";
 import Spinner from "@material-ui/core/CircularProgress";
 
-const Post = ({ post }): JSX.Element => {
+const Post = ({ post }) => {
   const { title, content, comments, slug, _id } = post;
-  console.log("post", post);
+  console.log("post", !!post);
   if (!post)
     return (
       <Center>

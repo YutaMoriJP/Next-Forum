@@ -5,16 +5,16 @@ import { getAllPosts } from "../util/getAllPosts";
 import Center from "../styles/Center";
 import Spinner from "@material-ui/core/CircularProgress";
 
-const Post = ({ post }): JSX.Element => {
+const Post = ({ post }) => {
   const { title, content, comments, slug, _id } = post;
   console.log("post", post);
+  // -> /.netlify/functions/api/id -> comments
   if (!post)
     return (
       <Center>
         <Spinner />
       </Center>
     );
-
   return (
     <>
       {/* renders the post created by the user, containing with the title and content */}
@@ -42,7 +42,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
     },
-    revalidate: true,
+    revalidate: 1,
   };
 };
 
