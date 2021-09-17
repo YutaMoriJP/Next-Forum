@@ -111,6 +111,7 @@ export const getServerSideProps = async () => {
     props: {
       posts,
     },
+    revalidate: 1,
   };
 };
 

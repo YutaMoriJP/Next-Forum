@@ -104,13 +104,13 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
   );
 };
 
-export const getServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const posts = await getAllPosts();
-  //getStaticProps: GetStaticProps
   return {
     props: {
       posts,
     },
+    revalidate: 60,
   };
 };
 
