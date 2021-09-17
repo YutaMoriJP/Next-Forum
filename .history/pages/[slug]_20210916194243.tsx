@@ -37,14 +37,12 @@ export const getStaticProps: GetStaticProps = ({ params }) => {
   const { slug } = params;
   return {
     props: {
-      post: {
-        title: "FIRST POST",
-        content:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores perspiciatis ab dolore repellendus eius, deserunt est earum corrupti, laudantium nulla similique dicta quae cum neque ut necessitatibus veniam! Rem, excepturi.",
-        comments: [],
-        slug: "first-post",
-        id: 1,
-      },
+      title: "FIRST POST",
+      content:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores perspiciatis ab dolore repellendus eius, deserunt est earum corrupti, laudantium nulla similique dicta quae cum neque ut necessitatibus veniam! Rem, excepturi.",
+      comments: [],
+      slug: "first-post",
+      id: 1,
     },
   };
 };
