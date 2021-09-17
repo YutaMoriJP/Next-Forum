@@ -75,7 +75,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
   return (
     <Box>
       <BoxHeader>
-        <Title alignSelf="center">New Topic</Title>
+        <Title>New Topic</Title>
         <IconButton onClick={handleClose}>
           <CloseIcon />
         </IconButton>

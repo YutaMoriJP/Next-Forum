@@ -24,7 +24,7 @@ const Content = ({
   return (
     <Box>
       <BoxHeader>
-        <Title as="h1">{title}</Title>
+        <Title as="h3">{title}</Title>
       </BoxHeader>
       <BoxContent>
         <Text weight={400}>{content}</Text>
