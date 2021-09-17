@@ -3,26 +3,20 @@ import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
 import Center from "../styles/Center";
-import Spinner from "@material-ui/core/CircularProgress";
-
+import Spinner from "@material-ui/core/";
 const Post = ({ post }) => {
   const { title, content, comments, slug, _id } = post;
   console.log("post", post);
   // -> /.netlify/functions/api/id -> comments
   if (post)
     return (
-      <Center>
-        <Spinner />
-      </Center>
+      <>
+        {/* renders the post created by the user, containing with the title and content */}
+        <Content title={title} content={content} main={false} />
+        {/* renders the comment section, allowing users to send a POST request with the comment*/}
+        <Form main={true} center={true} comment={comments} id={_id} />
+      </>
     );
-  return (
-    <>
-      {/* renders the post created by the user, containing with the title and content */}
-      <Content title={title} content={content} main={false} />
-      {/* renders the comment section, allowing users to send a POST request with the comment*/}
-      <Form main={true} center={true} comment={comments} id={_id} />
-    </>
-  );
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -42,7 +36,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
     },
-    revalidate: 1,
+    revalidate: true,
   };
 };
 
