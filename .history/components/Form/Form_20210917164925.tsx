@@ -89,7 +89,6 @@ const Form = ({
           )}
         </Center>
       </FormStyled>
-      {/* renders comments */}
       {main && <Comments comments={comments} />}
     </CommentsWrapper>
   );

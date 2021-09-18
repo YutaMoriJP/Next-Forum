@@ -4,8 +4,7 @@ const { v4 } = require("uuid");
 const postController = async (req, res) => {
   try {
     //find ALL stored data in DB
-    //sort({updated:'desc'}) sorts data by desc order by the updatedAt property
-    const existsData = await Posts.find({}).sort({ updatedAt: "desc" });
+    const existsData = await Posts.find({}).sort({ updatedAt: "asc" });
     //if data already exists, then return existing data
     if (existsData.length) {
       return res.json(existsData);

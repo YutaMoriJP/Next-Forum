@@ -7,7 +7,6 @@ import Head from "next/head";
 
 const Post = ({ post }): JSX.Element => {
   console.log("post", post);
-  //not needed for serversideprops?
   if (!post)
     return (
       <>
@@ -17,13 +16,13 @@ const Post = ({ post }): JSX.Element => {
         <Loading />
       </>
     );
-  const { title, content, comments, _id, slug, createdAt } = post;
+  const { title, content, comments, _id, slug } = post;
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      {/* renders the post created by the user, containing the title and content */}
+      {/* renders the post created by the user, containing with the title and content */}
       <Content title={title} content={content} main={false} />
       {/* renders the comment section, allowing users to send a POST request with the comment*/}
       <Form main={true} center={true} comment={comments} id={_id} />

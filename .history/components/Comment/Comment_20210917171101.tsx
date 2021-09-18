@@ -16,7 +16,7 @@ const Comment = ({
       <Icon />
       <Column>
         <Row>
-          {/* username, added later when intergrated with netlify identity */}
+          {/* username */}
           <Text weight={500}>Annonymous</Text>
           {/* date */}
           <Text color="#495057" size="0.6rem">

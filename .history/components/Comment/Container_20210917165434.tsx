@@ -19,7 +19,7 @@ const Comments = ({ comments }): JSX.Element => {
         {comments.length > 1 || comments.length === 0 ? "s" : ""}
       </Title>
       {!!comments.length &&
-        comments.map(({ comment, id, date }): JSX.Element => {
+        comments.map(({ comment, id, date }) => {
           return <Comment comment={comment} id={id} key={id} date={date} />;
         })}
     </>
