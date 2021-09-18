@@ -22,6 +22,9 @@ const Content = ({
   slug = "",
   main = false,
 }: ContentProps): JSX.Element => {
+  //the shortened title will only be used on the Home Page
+  //controlled with the main prop, so if main points at true, then the shortedTitle is used
+  //if not, like on the specific page of that post, the title prop is used as is
   const shortenedTitle = shortenText(title, 5);
   const shortenedReadMore = shortenText(title, 5);
   return (
@@ -32,7 +35,7 @@ const Content = ({
       <BoxContent>
         <Text weight={400}>{content}</Text>
       </BoxContent>
-      {/* if main points at true, then <Content/> is rendered on the home page, if not, then it's the [slug].tsx page */}
+      {/* if main points at true, then <Content/> is rendered on the home page, if not, then it's the [slug].tsx page, and 'Read...' is not rendered */}
       {main && (
         <Link href={`/${slug}`}>
           <Button>{`READ ${shortenedReadMore.toUpperCase()}`}</Button>
