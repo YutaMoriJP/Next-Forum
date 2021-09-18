@@ -16,10 +16,11 @@ const Comments = ({ comments }): JSX.Element => {
   return (
     <>
       <Title as={"h4"} position="left">
-        {/*add 's' to Comment if comments is 0 or more than 1*/}
         {`${comments.length} Comment${
           comments.length > 1 || comments.length === 0 ? "s" : ""
         }`}
+        {comments.length} Comment
+        {comments.length > 1 || comments.length === 0 ? "s" : ""}
       </Title>
       {!!comments.length &&
         comments.map(({ comment, id, date }): JSX.Element => {
