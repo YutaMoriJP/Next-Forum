@@ -41,7 +41,7 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
   useEffect(() => {
     console.log(
       "%c App is currently in development, so console will be pretty messy, but will be cleaned up later :)",
-      "color: lightseagreen; font-size: 2rem"
+      "color: lightseagreen; font-size: 3rem"
     );
     console.log("<Home/> mounted");
     return () => console.log("<home/> unmounted");
