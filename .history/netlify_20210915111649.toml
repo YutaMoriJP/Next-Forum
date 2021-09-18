@@ -1,4 +1,0 @@
-[build]
-functions = "/server"
-build = "npm run build"
-publish = "out"
