@@ -71,8 +71,6 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
       <Head>
         <title>HOME</title>
       </Head>
-      {/*Github link */}
-      <Source />
       {/* renders Modal component below*/}
       <Right width="95%" maxWidth="100%">
         <Button onClick={toggle}>{`${

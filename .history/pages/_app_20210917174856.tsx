@@ -7,7 +7,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   console.log("pageprops", pageProps);
   return (
     <>
-      <Source />
       <Component {...pageProps} />
     </>
   );

@@ -13,8 +13,7 @@ import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getAllPosts } from "../util/getAllPosts";
 import Loading from "../components/Loading";
-
-import Source from "../components/Source";
+<Source />;
 
 interface Post {
   title: string;
@@ -71,8 +70,6 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
       <Head>
         <title>HOME</title>
       </Head>
-      {/*Github link */}
-      <Source />
       {/* renders Modal component below*/}
       <Right width="95%" maxWidth="100%">
         <Button onClick={toggle}>{`${

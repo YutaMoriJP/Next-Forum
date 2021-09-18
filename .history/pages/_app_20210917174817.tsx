@@ -4,7 +4,7 @@ import Source from "../components/Source";
 
 function MyApp({ Component, pageProps }: AppProps) {
   console.log("App", Component);
-  console.log("pageprops", pageProps);
+  console.log("pageprops", pageprops);
   return (
     <>
       <Source />
