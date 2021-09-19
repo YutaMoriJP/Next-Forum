@@ -3,7 +3,7 @@ import IconComponent from "../Icon";
 import Left from "../../styles/Left";
 
 const Source = (): JSX.Element => (
-  <Left>
+  <Left bottom>
     <IconComponent
       Icon={<FaGithub color="black" />}
       txt="GitHub Source"

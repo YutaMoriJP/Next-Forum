@@ -2,13 +2,12 @@ import styled from "styled-components";
 
 const Navbar = styled.nav`
   display: flex;
-  background: white;
   width: 100vw;
   margin: 0;
-  padding: 10px;
   justify-content: flex-end;
+  align-items: center;
   > * {
-    margin: 10px;
+    margin: 12px;
   }
 `;
 

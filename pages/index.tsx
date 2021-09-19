@@ -6,14 +6,16 @@ import Content from "../components/Content"; //renders post content
 import Post from "../components/Post"; //component used for creating & submitting new post
 import useToggle from "../useHooks/useToggle"; //manages opening/closing modal, and fetching updated data from server
 import Button from "../styles/Button"; //used for create/close thread button
-import Right from "../styles/Right"; //aligns 'create thread' to the right side of the page
 import Modal from "../components/Modal"; //used for submitting new post
 import { AnimatePresence } from "framer-motion"; //used for modal animation
 import { useEffect, useRef, useState } from "react";
 import { getAllPosts } from "../util/getAllPosts"; //fetches data from backend in serversideprops
 import Loading from "../components/Loading"; //removed if static reg. isn't used
 import Source from "../components/Source"; //used for linking to github
-import { useAuth } from "../store/AuthContext";
+import Left from "../styles/Left";
+import IconButton from "@material-ui/core/IconButton";
+import Add from "@material-ui/icons/Add";
+import Close from "@material-ui/icons/Close";
 
 interface Post {
   title: string;
@@ -34,8 +36,6 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
   const [postsState, setPostsState] = useState(posts);
   //manages when postsState is updated (when user submits a new post)
   const { open: postSubmitted, toggle: postToggle } = useToggle();
-  const [auth, dispatchAuth] = useAuth();
-  console.log("auth", auth, dispatchAuth);
 
   //if Home is mounted, setPostsState shouldn't be called, so it blocks data fetching in initial mounting phase
   const initialRender = useRef(true);
@@ -86,11 +86,11 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
       {/*Github link */}
       <Source />
       {/* renders Modal component below*/}
-      <Right width="95%" maxWidth="100%">
-        <Button onClick={toggle}>{`${
-          !open ? "CREATE" : "CLOSE"
-        } THREAD`}</Button>
-      </Right>
+      <Left top>
+        <IconButton onClick={toggle}>
+          {!open ? <Add color="primary" /> : <Close color="primary" />}
+        </IconButton>
+      </Left>
       {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}
       {open && (
         <AnimatePresence exitBeforeEnter>
