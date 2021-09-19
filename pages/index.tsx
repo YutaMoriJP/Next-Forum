@@ -1,20 +1,19 @@
 //index.ts
-
 import Head from "next/head";
-//import Editor from "../components/Editor/Editor";
+//import Editor from "../components/Editor/Editor"; //used for richer editor experience, might be implemented later
 import { GetServerSideProps } from "next";
-import Content from "../components/Content";
-import Post from "../components/Post";
-import useToggle from "../useHooks/useToggle";
-import Button from "../styles/Button";
-import Right from "../styles/Right";
-import Modal from "../components/Modal";
-import { AnimatePresence } from "framer-motion";
+import Content from "../components/Content"; //renders post content
+import Post from "../components/Post"; //component used for creating & submitting new post
+import useToggle from "../useHooks/useToggle"; //manages opening/closing modal, and fetching updated data from server
+import Button from "../styles/Button"; //used for create/close thread button
+import Right from "../styles/Right"; //aligns 'create thread' to the right side of the page
+import Modal from "../components/Modal"; //used for submitting new post
+import { AnimatePresence } from "framer-motion"; //used for modal animation
 import { useEffect, useRef, useState } from "react";
-import { getAllPosts } from "../util/getAllPosts";
-import Loading from "../components/Loading";
-
-import Source from "../components/Source";
+import { getAllPosts } from "../util/getAllPosts"; //fetches data from backend in serversideprops
+import Loading from "../components/Loading"; //removed if static reg. isn't used
+import Source from "../components/Source"; //used for linking to github
+import { useAuth } from "../store/AuthContext";
 
 interface Post {
   title: string;
@@ -31,22 +30,30 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
   console.log("renders <Home/>");
   //used for controlling <Modal />
   const { open, toggle, onClose } = useToggle();
-  //maintains forum posts
+  //state managing forum posts data
   const [postsState, setPostsState] = useState(posts);
+  //manages when postsState is updated (when user submits a new post)
   const { open: postSubmitted, toggle: postToggle } = useToggle();
-  const initialRender = useRef(true);
-  console.log("postsState", postsState);
-  if (!posts) return <Loading />; //page is being statically re-generated
+  const [auth, dispatchAuth] = useAuth();
+  console.log("auth", auth, dispatchAuth);
 
+  //if Home is mounted, setPostsState shouldn't be called, so it blocks data fetching in initial mounting phase
+  const initialRender = useRef(true);
+
+  console.log("postsState", postsState);
+  //removed later if page is statically re-generated
+  if (!posts) return <Loading />; //IF page is being statically re-generated
+  //can be removed later
   useEffect(() => {
     console.log(
       "%c App is currently in development, so console will be pretty messy, but will be cleaned up later :)",
-      "color: lightseagreen; font-size: 2rem"
+      "color: lightseagreen; font-size: 1.2rem"
     );
     console.log("<Home/> mounted");
     return () => console.log("<home/> unmounted");
   }, []);
 
+  //called when a new post submission happens, and fetches the updated data from the database
   useEffect(() => {
     //effect is only called when postSubmitted updates (POST request is sent)
     //prevents effect from running in initial mounting
@@ -70,6 +77,7 @@ const Home = ({ posts }: HomeProps): JSX.Element => {
       initialRender.current = false;
     };
   }, [postSubmitted]);
+
   return (
     <>
       <Head>

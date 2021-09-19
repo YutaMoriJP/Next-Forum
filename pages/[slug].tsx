@@ -2,21 +2,14 @@ import { GetServerSideProps } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
-import Loading from "../components/Loading";
 import Head from "next/head";
+import Error from "next/error";
 
-const Post = ({ post }): JSX.Element => {
+const Post = ({ post, isError }): JSX.Element => {
   console.log("post", post);
-  //not needed for serversideprops?
-  if (!post)
-    return (
-      <>
-        <Head>
-          <title>Loading...</title>
-        </Head>
-        <Loading />
-      </>
-    );
+  console.log("isError", isError);
+  //if isError is true, then render Error page, like a 404 page
+  if (isError) return <Error statusCode={500} />;
   const { title, content, comments, _id, slug, createdAt } = post;
   return (
     <>
@@ -32,14 +25,22 @@ const Post = ({ post }): JSX.Element => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { slug } = params;
-  const res = await getAllPosts();
-  const post = res.find(post => post.slug === slug);
-  return {
-    props: {
-      post,
-    },
-  };
+  console.log("params object for each [slug] page", params);
+  try {
+    const { slug } = params; //{ slug: 'title-c8fc3155-497b-48c2-99f7-240a9407eea6' }
+    const res = await getAllPosts();
+    //request failed, render <Error/> page
+    if (!res) return { props: { post: null, isError: true } };
+    const post = res.find(post => post.slug === slug);
+    return {
+      props: {
+        post,
+      },
+    };
+  } catch (error) {
+    //network error
+    return { props: { post: undefined, isError: true } };
+  }
 };
 /*
 

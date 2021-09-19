@@ -1,6 +1,7 @@
 const Posts = require("../model/index");
 const { v4 } = require("uuid");
 
+//controller called to fetch ALL posts
 const postController = async (req, res) => {
   try {
     //find ALL stored data in DB
@@ -27,6 +28,7 @@ const postController = async (req, res) => {
   }
 };
 
+//called when POST request is sent i.e. a new post is created from the client side
 const postPostController = async (req, res) => {
   try {
     const body = req.body;
@@ -40,16 +42,18 @@ const postPostController = async (req, res) => {
   }
 };
 
+//called when PUT request is sent, for now only comments field is updated (a new comment is submitted)
+//but later, when user authentication is added, will allow for post update, but only for the content and NOT the title
 const postPutController = async (req, res) => {
   try {
-    const id = req.query.id;
-    const body = req.body;
-    const comments = body;
+    const id = req.query.id; //obtains query string http://api.com?id=1234, id = 1234
+    const comments = req.body; //obtains request body, i.e. fetch(url, {body: comments}), body = [{comment:'hi', id:1234, date:'09/19/2021'}]
+    // const comments = body;
     const data = await Posts.findByIdAndUpdate(id, { comments }, { new: true });
     //const data = await Posts.findById(id);
     //finds the data with the given id and updates it with the data
     //const updatedUsers = await User.findByIdAndUpdate(id, req.body, { new: true,});
-    //    const data = await Posts.findById(id);
+    //const data = await Posts.findById(id);
     res.json(data);
   } catch (error) {
     res.json({ error: error.message });
