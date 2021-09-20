@@ -17,8 +17,8 @@ const IconComponentWrapper = styled.article`
     padding: 6px;
     position: absolute;
     z-index: 1;
-    font-size: 0.8rem;
-    width: fit-content;
+    font-size: 0.5rem;
+    width: max-content;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
