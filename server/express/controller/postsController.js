@@ -33,6 +33,7 @@ const postPostController = async (req, res) => {
   try {
     const body = req.body;
     const { title } = body;
+    //remove ? from slug, or else it becomes a query string if title ends with ?
     const slug = `${title.replace(/\?/g, "")}-${v4()}`;
     const newData = { ...body, slug, comments: [] };
     const data = await Posts(newData).save();
