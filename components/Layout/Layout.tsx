@@ -3,12 +3,13 @@ import Nav from "./Nav";
 
 interface LayoutProps {
   children: React.ReactNode;
+  CreateThread: React.ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children, CreateThread }: LayoutProps): JSX.Element => {
   return (
     <>
-      <Nav />
+      <Nav CreateThread={CreateThread} />
       {children}
     </>
   );

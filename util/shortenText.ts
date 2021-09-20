@@ -10,7 +10,7 @@
 const shortenText = (sentence: string, length: number) => {
   const sentenceArr: string[] = sentence.split(" ");
   const shorterSentence: string =
-    sentence.length > length
+    sentenceArr.length > length
       ? sentenceArr.slice(0, length).join(" ") + "..."
       : sentenceArr.join(" ");
   return shorterSentence;

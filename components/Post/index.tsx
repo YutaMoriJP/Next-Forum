@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Box from "../../styles/Box";
 import Title from "../../styles/Title";
 import BoxHeader from "../../styles/BoxHeader";
@@ -11,6 +11,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import useInput from "../../useHooks/useInput";
 import Message from "../Message/Message"; //rendered if invalid action occurs and renders a message
 import isStringEmptry from "../../util/isStringEmpty"; //validates whether string is empty or not
+import { useRouter } from "next/router";
 
 type State =
   | { title: string; content: string; created: false }
@@ -41,8 +42,13 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     resetContent();
   };
 
+  const pageSlug = useRef(null);
+
+  //used to re-direct user to the newly created post
+  const router = useRouter();
+  console.log("router", router);
   //called when user submits comment, transform to async fn
-  const handleClick = (): void => {
+  const handleClick = async () => {
     const { value: titleVal } = title;
     const { value: contentVal } = content;
     //validation - if title or content are empty, then POST request is not sent
@@ -55,27 +61,47 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     //body for post request
     const postData = { title: titleVal, content: contentVal };
     //send post request like this?
-    fetch("/.netlify/functions/express/posts", {
+    await fetch("/.netlify/functions/express/posts", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData),
     })
       .then(res => res.json())
-      .then(data => console.log("post data", data))
-      .catch(e => console.log("e", e.message));
+      .then(data => {
+        //stores a reference of the newly created post's slug
+        pageSlug.current = data.slug;
+        return data;
+      })
+      .catch(e => {
+        console.log("e", e.message);
+        return e;
+      });
     //update <Home/> to render the newly created data
     postToggle();
     //clean up input
     resetInput();
     //close modal
     handleClose();
+    router.push("/");
   };
+
+  useEffect(() => {
+    //if pageSlug.current points at some path string, then user will first be re-directed to home page
+    //and then re-directed to the newly created post page, which is necessary to properly render the newly created [slug].tsx page
+    return () => {
+      if (pageSlug.current) {
+        setTimeout(() => {
+          router.push(pageSlug.current);
+        }, 500);
+      }
+    };
+  }, []);
   return (
     <Box>
       <BoxHeader>
         <Title alignSelf="center">New Topic</Title>
         <IconButton onClick={handleClose}>
-          <CloseIcon />
+          <CloseIcon aria-label="Close Thread" />
         </IconButton>
       </BoxHeader>
       <BoxContent>

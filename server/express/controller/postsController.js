@@ -33,7 +33,7 @@ const postPostController = async (req, res) => {
   try {
     const body = req.body;
     const { title } = body;
-    const slug = `${title}-${v4()}`;
+    const slug = `${title.replace(/\?/g, "")}-${v4()}`;
     const newData = { ...body, slug, comments: [] };
     const data = await Posts(newData).save();
     res.json(data);

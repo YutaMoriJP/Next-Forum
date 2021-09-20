@@ -6,15 +6,15 @@ import Right from "./Right";
 const Button = styled.button`
   width: fit-content;
   padding: 10px 20px;
-  border: 2px solid #4926b4;
+  border: 2px solid #4926b4 !important;
   border-radius: 4px;
-  cursor: pointer;
   background-color: #4926b4;
   color: white;
   margin: 2px 0;
+  cursor: pointer !important;
   transition: all 0.6s ease-in-out;
   :active {
-    background-color: white;
+    background: transparent !important;
     color: black;
   }
   :hover {
@@ -39,11 +39,6 @@ const Button = styled.button`
     margin-top: 5px;
     text-transform: uppercase;
     flex: 0;
-    :hover {
-      transform: scale(1);
-      background-color: white;
-      color: black;
-    }
   }
 `;
 
