@@ -8,6 +8,7 @@ import BoxContent from "../../styles/BoxContent";
 import Button from "../../styles/Button";
 //used to shorten title like 'BAYERN WINS AGAIN BY LARGE MARGIN' -> 'BAYERN WINS AGAIN...'
 import shortenText from "../../util/shortenText";
+import ReactMarkDown from "react-markdown";
 
 interface ContentProps {
   title: string;
@@ -33,7 +34,7 @@ const Content = ({
         <Title as="h3">{main ? shortenedTitle : title}</Title>
       </BoxHeader>
       <BoxContent>
-        <Text weight={400}>{content}</Text>
+        <ReactMarkDown>{content}</ReactMarkDown>
       </BoxContent>
       {/* if main points at true, then <Content/> is rendered on the home page, if not, then it's the [slug].tsx page, and 'Read...' is not rendered */}
       {main && (

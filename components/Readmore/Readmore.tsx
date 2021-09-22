@@ -1,16 +1,18 @@
 import useToggle from "../../useHooks/useToggle";
 import ReadMore from "../../styles/Readmore";
+import ReactMarkDown from "react-markdown";
 
 interface MoreProps {
-  children: string;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
 }
 
 interface ReadmoreProps {
   children: string;
 }
 
-const More = ({ children }: MoreProps): JSX.Element => {
-  const { open, onOpen, onClose } = useToggle();
+const More = ({ open, onOpen, onClose }: MoreProps): JSX.Element => {
   return (
     <>
       {!open && (
@@ -23,7 +25,6 @@ const More = ({ children }: MoreProps): JSX.Element => {
       )}
       {open && (
         <>
-          {children}{" "}
           <ReadMore onClick={onClose} size="0.8rem">
             Hide.
           </ReadMore>
@@ -34,12 +35,18 @@ const More = ({ children }: MoreProps): JSX.Element => {
 };
 
 const Readmore = ({ children }: ReadmoreProps): JSX.Element => {
-  const visibleComment = children.slice(0, 150);
-  const rest = children.slice(100);
+  const visibleComment = children.split(" ").slice(0, 30).join(" ");
+  const { open, onOpen, onClose } = useToggle();
+  const rest = children.split(" ").slice(30).join(" "); //if comment is smaller than an array of size 30, then rest will point at empty string
   return (
     <>
-      {visibleComment}
-      {rest && <More>{rest}</More>}
+      {/* rest.length checks that comment is large, and if open is also true, then rest will be rendered*/}
+      <ReactMarkDown>
+        {visibleComment + " " + (rest.length > 0 && open ? rest : "")}
+      </ReactMarkDown>
+      {/*if rest is an empty string then <More/> will NOT be rendered*/}
+      {/*<More/> will toggle the open state, with a Read More... and Hide text*/}
+      {rest && <More open={open} onOpen={onOpen} onClose={onClose} />}
     </>
   );
 };
