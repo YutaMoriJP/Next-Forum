@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import Box from "../../styles/Box";
-import Text from "../../styles/Text";
 import Title from "../../styles/Title";
 import BoxHeader from "../../styles/BoxHeader";
 import BoxContent from "../../styles/BoxContent";

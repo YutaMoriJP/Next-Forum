@@ -82,17 +82,23 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     resetInput();
     //close modal
     handleClose();
-    router.push("/");
+    //if at home then user does not need to be re-directed to home page
+    router.asPath !== "/" && router.push("/");
   };
 
   useEffect(() => {
-    //if pageSlug.current points at some path string, then user will first be re-directed to home page
+    //this check is necessary as this function runs when page is unmounted, and it can unmount when the modal is closed too
+    //if pageSlug.current points at some path string, like 'new-post', then user will first be re-directed to home page '/'
     //and then re-directed to the newly created post page, which is necessary to properly render the newly created [slug].tsx page
     return () => {
+      //if at home, then timer logic is not needed
+      if (router.asPath === "/" && pageSlug.current) {
+        router.push(pageSlug.current);
+      }
       if (pageSlug.current) {
         setTimeout(() => {
           router.push(pageSlug.current);
-        }, 500);
+        }, 800);
       }
     };
   }, []);
