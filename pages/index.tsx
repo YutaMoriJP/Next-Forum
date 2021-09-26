@@ -83,6 +83,7 @@ const Home = ({
             title={post.title}
             content={post.content}
             slug={post.slug}
+            creator={post.creator}
             main={true}
           ></Content>
         );

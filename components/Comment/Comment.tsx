@@ -10,6 +10,7 @@ import Readmore from "../Readmore/Readmore";
 const Comment = ({
   comment = "main comment",
   date = " Posted at 09/02/2021",
+  userName,
 }: CommentProp): JSX.Element => {
   return (
     <CommentWrapper>
@@ -17,7 +18,7 @@ const Comment = ({
       <Column>
         <Row>
           {/* username, added later when intergrated with netlify identity */}
-          <Text weight={500}>Annonymous</Text>
+          <Text weight={500}>{userName}</Text>
           {/* date */}
           <Text color="#495057" size="0.6rem">
             {date}

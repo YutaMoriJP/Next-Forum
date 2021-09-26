@@ -17,7 +17,7 @@ interface LayoutProps {
 const Layout = ({ children, CreateThread }: LayoutProps): JSX.Element => {
   const { open, onClose, onOpen } = useToggle();
   //removed, when project is done
-  useEffect(() => {
+  useEffect((): void => {
     onOpen();
   }, []);
   return (
@@ -37,7 +37,7 @@ const Layout = ({ children, CreateThread }: LayoutProps): JSX.Element => {
                 Please note that this project is not fully done yet and is still
                 under construction. Please checkout the [GitHub
                 repo](https://github.com/YutaMoriJP/next-forum) if you are
-                curious about the development. More features will be added :)
+                curious about the development. More features will be added 😊
               </ReactMarkdown>
             </BoxContent>
           </Box>

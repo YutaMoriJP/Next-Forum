@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import Box from "../../styles/Box";
 import Title from "../../styles/Title";
 import BoxHeader from "../../styles/BoxHeader";
@@ -11,11 +12,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import useInput from "../../useHooks/useInput";
 import Message from "../Message/Message"; //rendered if invalid action occurs and renders a message
 import isStringEmptry from "../../util/isStringEmpty"; //validates whether string is empty or not
-import { useRouter } from "next/router";
-
-type State =
-  | { title: string; content: string; created: false }
-  | { title: string; content: string; created: true };
+import { useAuth } from "../../store/AuthContext";
+import getUsername from "../../util/getUsername";
 
 interface MockProps {
   handleClose: () => void;
@@ -24,11 +22,10 @@ interface MockProps {
 
 //used for creating a new thread
 const Thread = ({ handleClose, postToggle }: MockProps) => {
-  const [post, setPost] = useState<State>({
-    title: "",
-    content: "",
-    created: false,
-  }); //fires POST Request to create a new post
+  //get user object from useAuth hook
+  const { user } = useAuth();
+  //pass user object to getUsername function to get the username from the user object
+  const userName = getUsername(user);
 
   const { open: onSubmitted } = useToggle();
   //used for <Message/> when invalid action happens
@@ -57,9 +54,14 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       return;
     }
     onClose(); //closes <Message/> if it's still mounted
-    setPost({ title: titleVal, content: contentVal, created: true });
-    //body for post request
-    const postData = { title: titleVal, content: contentVal };
+
+    //body data for post request
+    const postData = {
+      title: titleVal,
+      content: contentVal,
+      creator: userName,
+    };
+
     //send post request like this?
     await fetch("/.netlify/functions/express/posts", {
       method: "POST",
@@ -95,6 +97,8 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       if (router.asPath === "/" && pageSlug.current) {
         router.push(pageSlug.current);
       }
+      //pageSlug.current does point at valid URL and current location is not home, then push user to the NEWLY created page
+      //after 800ms seconds
       if (pageSlug.current) {
         setTimeout(() => {
           router.push(pageSlug.current);

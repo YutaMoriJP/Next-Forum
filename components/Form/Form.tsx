@@ -11,6 +11,8 @@ import isStringEmpty from "../../util/isStringEmpty";
 import Message from "../Message/Message";
 import CommentsWrapper from "../../styles/CommentWrapper";
 import FormStyled from "../../styles/Form";
+import { useAuth } from "../../store/AuthContext";
+import getUsername from "../../util/getUsername";
 
 type State = CommentProp[] | [];
 
@@ -29,10 +31,18 @@ const Form = ({
 }: FormProps): JSX.Element => {
   const [comments, setComments] = useState<State>(comment);
   console.log("comments", comments);
+  //used to store the name of the one who commented
+  const { user } = useAuth();
+  //getUsername gets the username from the user object and formats it
+  const userName = getUsername(
+    user || { user_metadata: { full_name: "Annonymous" } }
+  );
+  console.log("username", userName);
   //used for clearing input field, after submit event is fired
   const { open, toggle } = useToggle();
   //used for error handling when user submits comment without meaningful text
   const { open: isMessageOpen, onOpen, onClose } = useToggle(false);
+  //
   const handleMainSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -48,10 +58,14 @@ const Form = ({
     //it's not needed anymore since user has passed the test
     onClose();
 
-    console.log(new Date());
     const updatedCommnents = [
       ...comments,
-      { comment, id: uuidv4(), date: new Date().toLocaleDateString() },
+      {
+        comment,
+        id: uuidv4(),
+        date: new Date().toLocaleDateString(),
+        userName,
+      },
     ];
     //update later
     fetch(`/.netlify/functions/express/posts?id=${id}`, {

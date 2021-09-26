@@ -18,6 +18,7 @@ const postController = async (req, res) => {
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores perspiciatis ab dolore repellendus eius, deserunt est earum corrupti, laudantium nulla similique dicta quae cum neque ut necessitatibus veniam! Rem, excepturi.",
       slug: `title-${v4()}`,
       comments: [],
+      creator: "Annonymous",
     });
     //stores newly created data
     const savedData = await data.save();

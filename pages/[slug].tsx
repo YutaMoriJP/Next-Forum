@@ -7,14 +7,14 @@ import Head from "next/head";
 const Post = ({ post }): JSX.Element => {
   console.log("post", post);
   //if isError is true, then render Error page, like a 404 page
-  const { title, content, comments, _id, slug, createdAt } = post;
+  const { title, content, comments, _id, slug, createdAt, creator } = post;
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
       {/* renders the post created by the user, containing the title and content */}
-      <Content title={title} content={content} main={false} />
+      <Content title={title} content={content} main={false} creator={creator} />
       {/* renders the comment section, allowing users to send a POST request with the comment*/}
       <Form main={true} center={true} comment={comments} id={_id} />
     </>

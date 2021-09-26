@@ -11,6 +11,7 @@ import formatUserName from "../../util/formatUsername";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockCloseIcon from "@material-ui/icons/Lock";
 import { IconComponent } from "../Icon";
+import getUsername from "../../util/getUsername";
 
 const IconButton = styled(IconWrapper)`
   pointer-events: ${(props: { pointerEvent: string }) =>
@@ -78,9 +79,8 @@ const Nav = ({ CreateThread }: NavProps): JSX.Element => {
           )}
           {user && (
             <>
-              <Text weight={600}>
-                Hi, {formatUserName(user.user_metadata.full_name)}
-              </Text>
+              {/* the getUsername function receives the user object and returns the formatted username */}
+              <Text weight={600}>Hi, {getUsername(user)}</Text>
             </>
           )}
         </Navbar>

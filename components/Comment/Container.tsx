@@ -4,6 +4,7 @@ export interface CommentProp {
   id: string;
   comment: string;
   date: string;
+  userName: string;
   [data: string]: any;
 }
 export interface CommentProps {
@@ -22,8 +23,16 @@ const Comments = ({ comments }): JSX.Element => {
         }`}
       </Title>
       {!!comments.length &&
-        comments.map(({ comment, id, date }): JSX.Element => {
-          return <Comment comment={comment} id={id} key={id} date={date} />;
+        comments.map(({ comment, id, date, userName }): JSX.Element => {
+          return (
+            <Comment
+              comment={comment}
+              id={id}
+              key={id}
+              date={date}
+              userName={userName}
+            />
+          );
         })}
     </>
   );
