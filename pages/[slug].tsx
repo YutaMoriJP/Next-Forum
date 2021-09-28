@@ -6,7 +6,6 @@ import Head from "next/head";
 
 const Post = ({ post }): JSX.Element => {
   console.log("post", post);
-  //if isError is true, then render Error page, like a 404 page
   const { title, content, comments, _id, slug, createdAt, creator } = post;
   return (
     <>

@@ -9,12 +9,17 @@ import Title from "../../styles/Title";
 import BoxHeader from "../../styles/BoxHeader";
 import BoxContent from "../../styles/BoxContent";
 import ReactMarkdown from "react-markdown";
+import { useAuth } from "../../store/AuthContext";
+
+//import Loading from "../Loading/index";
 interface LayoutProps {
   children: React.ReactNode;
   CreateThread: React.ReactNode;
 }
 
 const Layout = ({ children, CreateThread }: LayoutProps): JSX.Element => {
+  //only render children and navbar if user is authorized
+  const { authReady } = useAuth();
   const { open, onClose, onOpen } = useToggle();
   //removed, when project is done
   useEffect((): void => {
@@ -43,8 +48,15 @@ const Layout = ({ children, CreateThread }: LayoutProps): JSX.Element => {
           </Box>
         </Modal>
       )}
-      <Nav CreateThread={CreateThread} />
-      {children}
+
+      {/* user needs to be authroized first to see UI */}
+      {/* using authReady avoids using it in other places like Nav, or other nested children */}
+      {authReady ? (
+        <>
+          <Nav CreateThread={CreateThread} />
+          {children}
+        </>
+      ) : null}
     </>
   );
 };

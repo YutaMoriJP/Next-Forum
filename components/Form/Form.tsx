@@ -13,6 +13,7 @@ import CommentsWrapper from "../../styles/CommentWrapper";
 import FormStyled from "../../styles/Form";
 import { useAuth } from "../../store/AuthContext";
 import getUsername from "../../util/getUsername";
+import { generateNumber } from "../../util/generateNum";
 
 type State = CommentProp[] | [];
 
@@ -57,7 +58,10 @@ const Form = ({
     //unmounts <Message/> component if it's still mounted
     //it's not needed anymore since user has passed the test
     onClose();
-
+    console.log(
+      "user?.user_metadata?.color || generateNumber(1, 6)",
+      user?.user_metadata?.color || generateNumber(1, 6)
+    );
     const updatedCommnents = [
       ...comments,
       {
@@ -65,6 +69,7 @@ const Form = ({
         id: uuidv4(),
         date: new Date().toLocaleDateString(),
         userName,
+        colorID: user?.user_metadata?.color || generateNumber(1, 6),
       },
     ];
     //update later

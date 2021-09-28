@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import netlifyIdentity, { User } from "netlify-identity-widget";
 
+import { generateNumber } from "../util/generateNum";
+
 const initialContextValue = {
   login: () => {},
   logout: () => {},
@@ -73,6 +75,21 @@ const AuthContextComponent = ({ children }) => {
     //initializes netlify identity when component is mounted
     netlifyIdentity.init();
 
+    //save data - might need to be re-factored to consider first time login, when does this function run ? after user signs up?
+    const save = async () => {
+      //if user is not logged in return
+      if (!user) return;
+      //used to check if user has already color id stored, if so return
+      const currentUser = await netlifyIdentity.gotrue.currentUser();
+      if (currentUser?.user_metadata?.color) {
+        console.log("color stored so return");
+        return;
+      }
+      const userSetting = { data: { color: generateNumber(1, 6) } };
+      await netlifyIdentity.gotrue.currentUser().update(userSetting);
+    };
+    save();
+
     //cleanup
     return () => {
       netlifyIdentity.off("login");
@@ -81,6 +98,7 @@ const AuthContextComponent = ({ children }) => {
   }, []);
 
   console.log("user", user);
+  console.log("netlifyIdentity", netlifyIdentity);
   return (
     <AuthContext.Provider value={contextValues}>
       {children}

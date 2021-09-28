@@ -1,5 +1,4 @@
 import { useAuth } from "../../store/AuthContext";
-import Loading from "../Loading/index";
 import Navbar from "../../styles/Navbar";
 import Text from "../../styles/Text";
 import IconWrapper from "@material-ui/core/IconButton";
@@ -7,7 +6,6 @@ import Home from "@material-ui/icons/Home";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import formatUserName from "../../util/formatUsername";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockCloseIcon from "@material-ui/icons/Lock";
 import { IconComponent } from "../Icon";
@@ -47,11 +45,8 @@ const Nav = ({ CreateThread }: NavProps): JSX.Element => {
     <>
       <>
         <Navbar>
-          {/* if authReady isn't set to true, then user isn't authenticated yet, so logout/login should not be rendered yet*/}
-          {!authReady && <Loading />}
           {CreateThread}
           {/* allows user to navigate back to homepage*/}
-
           <IconComponent
             txt="HOME"
             Icon={
@@ -62,21 +57,18 @@ const Nav = ({ CreateThread }: NavProps): JSX.Element => {
               </Link>
             }
           />
-          {/*if user is logged in, render an introduction message*/}
-          {authReady && (
-            <IconComponent
-              txt={user ? "LOGOUT" : "LOGIN"}
-              Icon={
-                <IconWrapper onClick={handleClick}>
-                  {user ? (
-                    <LockCloseIcon style={{ color: "#4926b4" }} />
-                  ) : (
-                    <LockOpenIcon style={{ color: "#4926b4" }} />
-                  )}
-                </IconWrapper>
-              }
-            />
-          )}
+          <IconComponent
+            txt={user ? "LOGOUT" : "LOGIN"}
+            Icon={
+              <IconWrapper onClick={handleClick}>
+                {user ? (
+                  <LockCloseIcon style={{ color: "#4926b4" }} />
+                ) : (
+                  <LockOpenIcon style={{ color: "#4926b4" }} />
+                )}
+              </IconWrapper>
+            }
+          />
           {user && (
             <>
               {/* the getUsername function receives the user object and returns the formatted username */}
