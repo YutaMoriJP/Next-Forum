@@ -1,22 +1,20 @@
-const getDate = () => {
-  return new Date();
+const getMonth = (date: Date) => {
+  return date.getMonth() + 1;
 };
 
-const getMonth = () => {
-  return getDate().getMonth() + 1;
+const getDay = (date: Date) => {
+  console.log(date);
+  return date.getDate();
 };
 
-const getDay = () => {
-  return getDate().getDate();
+const getYear = (date: Date) => {
+  return date.getFullYear();
 };
 
-const getYear = () => {
-  return getDate().getFullYear();
-};
-
-export const getToday = () => {
-  const date = getDay();
-  const month = getMonth();
-  const year = getYear();
-  return month + "/" + date + "/" + year;
+export const getToday = (date: Date) => {
+  console.log("gettoday", date);
+  const day = getDay(date);
+  const month = getMonth(date);
+  const year = getYear(date);
+  return month + "/" + day + "/" + year;
 };

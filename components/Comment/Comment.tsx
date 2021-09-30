@@ -21,6 +21,7 @@ import { BiCommentDetail } from "react-icons/bi";
 import Center from "../../styles/Center";
 //import MaterialButton from "@material-ui/core/Button";
 import { MaterialButton } from "../../styles/Button";
+import { getToday } from "../../util/getDate";
 
 type ReplyProps = {
   handleResponseSubmit: (
@@ -127,12 +128,13 @@ const Reply = ({
 
 const Comment = ({
   comment = "main comment",
-  date = " Posted at 09/02/2021",
+  date,
   userName,
   colorID,
   reply,
   handleResponseSubmit, //fired wher responds to comment
 }: SingleComment): JSX.Element => {
+  console.log("date looks like", date);
   const iconName = getIconName(userName);
   //if reply is truthy, then the comment is a response to another user
   if (reply) {
@@ -146,7 +148,7 @@ const Comment = ({
             <Text weight={500}>{userName}</Text>
             {/* date */}
             <Text color="#495057" size="0.6rem">
-              {date}
+              {getToday(new Date(date))}
             </Text>
           </Row>
           {/* comment */}
@@ -182,7 +184,7 @@ const Comment = ({
           <Text weight={500}>{userName}</Text>
           {/* date */}
           <Text color="#495057" size="0.6rem">
-            {date}
+            {getToday(new Date(date))}
           </Text>
         </Row>
         {/* comment */}

@@ -10,7 +10,7 @@ type Reply = {
 export interface SingleComment {
   id: string;
   comment: string;
-  date: string;
+  date: Date;
   userName: string;
   colorID: number;
   handleResponseSubmit: (

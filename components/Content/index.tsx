@@ -12,12 +12,14 @@ import Text from "../../styles/Text";
 import { SingleComment } from "../Comment/Container";
 import CommentIcon from "@material-ui/icons/Comment";
 import { AiFillRead } from "react-icons/ai";
+import { getToday } from "../../util/getDate";
+
 interface ContentProps {
   title: string;
   content: string;
   creator: string;
   comments: Omit<SingleComment, "handleResponseSubmit">[];
-  createdAt: string;
+  createdAt: Date;
   slug?: string;
   main?: boolean;
 }
@@ -44,7 +46,7 @@ const Content = ({
       </BoxHeader>
       <BoxContent>
         <Text weight={500} color="#656f79" size="0.8rem" align="right">
-          {`Posted by ${creator}`} {new Date(createdAt).toLocaleDateString()}
+          {`Posted by ${creator}`} {getToday(new Date(createdAt))}
         </Text>
         <ReactMarkDown>{content}</ReactMarkDown>
         {/* if main is true, the clicking on 8 comments should navigate user to that post, but if not then only display comment count */}
