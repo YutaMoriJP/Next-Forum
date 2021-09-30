@@ -7,7 +7,6 @@ import Row from "../../styles/RowFlex";
 import Readmore from "../Readmore/Readmore";
 import { getIconName } from "../../util/getIconName";
 import useToggle from "../../useHooks/useToggle";
-import Button from "../Button";
 import Input from "../Form/Input";
 import React from "react";
 import Right from "../../styles/Right";
@@ -16,6 +15,12 @@ import useInput from "../../useHooks/useInput";
 import isStringEmpty from "../../util/isStringEmpty";
 import ReplyContainer from "../../styles/Reply";
 import ReplyButtonContainer from "../../styles/ReplyButtonContainer";
+import { BsReply } from "react-icons/bs";
+import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BiCommentDetail } from "react-icons/bi";
+import Center from "../../styles/Center";
+//import MaterialButton from "@material-ui/core/Button";
+import { MaterialButton } from "../../styles/Button";
 
 type ReplyProps = {
   handleResponseSubmit: (
@@ -68,7 +73,15 @@ const Reply = ({
   return (
     <>
       <ReplyButtonContainer>
-        <Button onClick={toggle}>{open ? "Close" : "Reply"}</Button>
+        <MaterialButton
+          onClick={toggle}
+          startIcon={open ? <AiOutlineCloseCircle /> : <BsReply />}
+          size="small"
+          variant="contained"
+          color="primary"
+        >
+          {open ? "Close" : "Reply"}
+        </MaterialButton>
       </ReplyButtonContainer>
       {open ? (
         <>
@@ -82,22 +95,31 @@ const Reply = ({
             {...responseValue}
           />
           <Right>
-            <Button type="submit" onClick={handleSubmit}>
+            <MaterialButton
+              startIcon={<BiCommentDetail />}
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={handleSubmit}
+              size="small"
+            >
               SUBMIT
-            </Button>
+            </MaterialButton>
           </Right>
         </>
       ) : null}
       {isMessageOpen && (
-        <Message
-          ms={3000}
-          onClose={closeMessage}
-          color="#f03e3e"
-          role="alert"
-          id="alertMessage"
-        >
-          Please ensure your response isn't empty.
-        </Message>
+        <Center>
+          <Message
+            ms={3000}
+            onClose={closeMessage}
+            color="#f03e3e"
+            role="alert"
+            id="alertMessage"
+          >
+            Please ensure your response isn't empty.
+          </Message>
+        </Center>
       )}
     </>
   );

@@ -1,8 +1,7 @@
 import Input from "./Input";
 import { useState } from "react";
 import useToggle from "../../useHooks/useToggle";
-//used for typing
-import Button from "../Button";
+
 import Right from "../../styles/Right";
 import Comments, { SingleComment } from "../Comment/Container";
 import { v4 as uuidv4 } from "uuid";
@@ -14,6 +13,8 @@ import FormStyled from "../../styles/Form";
 import { useAuth } from "../../store/AuthContext";
 import getUsername from "../../util/getUsername";
 import { generateNumber } from "../../util/generateNum";
+import { MaterialButton } from "../../styles/Button";
+import { BiCommentDetail } from "react-icons/bi";
 
 type State = SingleComment[] | [];
 
@@ -130,7 +131,14 @@ const Form = ({
             aria-describedby="comment alertMessage"
           />
           <Right center={center}>
-            <Button type="submit">SUBMIT</Button>
+            <MaterialButton
+              startIcon={<BiCommentDetail />}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              SUBMIT
+            </MaterialButton>
           </Right>
           {/* <Message /> is rendered when user submits without commenting anything */}
           {/* component is unmounted after 2000ms */}

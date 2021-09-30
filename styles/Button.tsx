@@ -2,6 +2,13 @@ import styled from "styled-components";
 import CommentWrapper from "./ColumnFlex";
 import Box from "./Box";
 import ReplyButtonContainer from "./ReplyButtonContainer";
+import MaterialBtn from "@material-ui/core/Button";
+
+export const MaterialButton = styled(MaterialBtn)`
+  && {
+    margin: 8px 0;
+  }
+`;
 
 const Button = styled.button`
   width: fit-content;

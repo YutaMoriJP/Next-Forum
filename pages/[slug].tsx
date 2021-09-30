@@ -13,7 +13,14 @@ const Post = ({ post }): JSX.Element => {
         <title>{title}</title>
       </Head>
       {/* renders the post created by the user, containing the title and content */}
-      <Content title={title} content={content} main={false} creator={creator} />
+      <Content
+        title={title}
+        content={content}
+        main={false}
+        creator={creator}
+        createdAt={createdAt}
+        comments={comments}
+      />
       {/* renders the comment section, allowing users to send a POST request with the comment*/}
       <Form main={true} center={true} comment={comments} id={_id} />
     </>

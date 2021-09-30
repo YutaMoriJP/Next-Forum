@@ -3,7 +3,7 @@ import styled from "styled-components";
 const CommentWrapper = styled.article`
   width: 100vw;
   max-width: 800px;
-  background: #faf0ff;
+  background: #f7f7f7;
   min-height: 100vh;
   padding: 10px;
   display: flex;
