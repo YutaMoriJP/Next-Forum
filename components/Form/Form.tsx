@@ -127,6 +127,7 @@ const Form = ({
             onSubmitted={open}
             placeholder="Comment"
             center={center}
+            aria-label="Type new comment on post"
             //input is connected to comment(label) and alertMessage(<Message>ALERT</Message>)
             aria-describedby="comment alertMessage"
           />

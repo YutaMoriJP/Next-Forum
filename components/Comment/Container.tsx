@@ -40,26 +40,27 @@ const Comments = ({
   comments,
   handleResponseSubmit,
 }: CommentProps): JSX.Element => {
-  console.log(`Comments rendered`, comments);
-  console.log("comments component", comments);
   const [sortBy, setSortBy] = useState("old");
   return (
     <>
       <Row justify="space-between" align="center">
-        <Title as={"h4"} position="left">
+        <Title as={"h5"} position="left">
           {/*add 's' to Comment if comments is 0 or more than 1*/}
           {`${comments.length} Comment${
             comments.length > 1 || comments.length === 0 ? "s" : ""
           }`}
         </Title>
         <Row width="content-width" align="center">
-          <label htmlFor="sortComments">Sort by</label>
+          <label htmlFor="sort Comments">Sort by</label>
           <select
-            id="sortComments"
+            name="sort Comments"
+            id="sort Comments"
+            aria-describedby="sort Comments"
+            aria-label="sort comments by newest or oldest"
             onChange={event => setSortBy(event.currentTarget.value)}
           >
-            <option value="old">OLDEST</option>
-            <option value="new">NEWEST</option>
+            <option value="old">Old</option>
+            <option value="new">New</option>
           </select>
         </Row>
       </Row>
