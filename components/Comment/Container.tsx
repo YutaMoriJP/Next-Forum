@@ -1,18 +1,42 @@
 import Comment from "./Comment";
 import Title from "../../styles/Title";
-export interface CommentProp {
+
+type Reply = {
+  originalUser: string;
+  comment: string;
+  colorID: number;
+};
+
+export interface SingleComment {
   id: string;
   comment: string;
   date: string;
   userName: string;
   colorID: number;
+  handleResponseSubmit: (
+    reply: string,
+    comment: string,
+    originalUser: string,
+    colorID: number
+  ) => Promise<void>;
+  reply?: Reply;
   [data: string]: any;
 }
 export interface CommentProps {
-  comments: CommentProp[];
+  comments: SingleComment[];
+  //fired when user replies to a comment, defined in <Form /> component
+  handleResponseSubmit: (
+    reply: string,
+    comment: string,
+    originalUser: string,
+    colorID: number
+  ) => Promise<void>;
 }
 
-const Comments = ({ comments }): JSX.Element => {
+const Comments = ({
+  comments,
+  handleResponseSubmit,
+}: CommentProps): JSX.Element => {
   console.log(`Comments rendered`, comments);
   console.log("comments component", comments);
   return (
@@ -25,15 +49,17 @@ const Comments = ({ comments }): JSX.Element => {
       </Title>
       {!!comments.length &&
         comments.map(
-          ({ comment, id, date, userName, colorID }): JSX.Element => {
+          ({ comment, id, date, userName, colorID, reply }): JSX.Element => {
             return (
               <Comment
+                reply={reply}
                 comment={comment}
                 id={id}
                 key={id}
                 date={date}
                 userName={userName}
                 colorID={colorID}
+                handleResponseSubmit={handleResponseSubmit}
               />
             );
           }

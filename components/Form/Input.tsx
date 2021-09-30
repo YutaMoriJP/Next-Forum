@@ -1,31 +1,29 @@
-import { useEffect } from "react";
-import useInput from "../../useHooks/useInput";
+import { useEffect, useRef } from "react";
 import TextField from "../../styles/Input";
-import TextArea from "../../styles/TextArea";
 
-interface InputProps {
+interface InputProps extends React.ComponentProps<"input"> {
   id: string;
   name: string;
-  onSubmitted: boolean;
   placeholder: string;
+  onSubmitted?: boolean; //if input state is manated by parent component, then this isn't needed as parent can clear input field
   label?: boolean;
   [data: string]: any;
 }
 const Input = ({
-  id,
-  name,
-  onSubmitted,
+  id, //used for connecting label to input
+  name, //used to fetch input value from <Form/>
+  onSubmitted, //runs if user submits form
   placeholder,
-  label = false,
-  localState = true,
-  ...rest
-}: InputProps) => {
-  const [inputProps, reset] = useInput("");
+  label = false, //sometimes we don't want a label
+  ...rest //used to pass other attributes, like value/onChange to make parent manage Input state
+}: InputProps): JSX.Element => {
+  //if value is not a state managed by React, there needs to be a way to clear input field
+  //ref.current.value = '' takes care of it, which is done in the useEffect hook
+  const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    reset();
-  }, [onSubmitted, reset]);
-
-  const props = localState ? inputProps : rest;
+    //clears input field if there the value state is not managed by the input field
+    inputRef.current.value = "";
+  }, [onSubmitted]);
   return (
     <>
       {label && (
@@ -36,10 +34,11 @@ const Input = ({
       <TextField
         type="text"
         name={name}
-        aria-labelledby={id}
         id={id}
         placeholder={placeholder}
-        {...props}
+        ref={inputRef}
+        //rest usually accepts value&onChange to manage input state, or aria attributes for accessibility
+        {...rest}
       />
     </>
   );

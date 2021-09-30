@@ -8,7 +8,6 @@ interface BackdropProps {
 const Backdrop = ({ children, onClick }: BackdropProps): JSX.Element => {
   return (
     <BackDropMotion
-      BackDropMotion
       onClick={onClick}
       initial={{ opacity: 0 }} //initial state has opacity:0
       animate={{ opacity: 1 }} //animation state has opacity:1

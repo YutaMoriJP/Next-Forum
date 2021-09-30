@@ -4,7 +4,7 @@ import useToggle from "../../useHooks/useToggle";
 //used for typing
 import Button from "../Button";
 import Right from "../../styles/Right";
-import Comments, { CommentProp } from "../Comment/Container";
+import Comments, { SingleComment } from "../Comment/Container";
 import { v4 as uuidv4 } from "uuid";
 import Center from "../../styles/Center";
 import isStringEmpty from "../../util/isStringEmpty";
@@ -15,7 +15,7 @@ import { useAuth } from "../../store/AuthContext";
 import getUsername from "../../util/getUsername";
 import { generateNumber } from "../../util/generateNum";
 
-type State = CommentProp[] | [];
+type State = SingleComment[] | [];
 
 interface FormProps {
   main: boolean;
@@ -43,7 +43,8 @@ const Form = ({
   const { open, toggle } = useToggle();
   //used for error handling when user submits comment without meaningful text
   const { open: isMessageOpen, onOpen, onClose } = useToggle(false);
-  //
+
+  //fired when user submits a new comment
   const handleMainSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -58,10 +59,7 @@ const Form = ({
     //unmounts <Message/> component if it's still mounted
     //it's not needed anymore since user has passed the test
     onClose();
-    console.log(
-      "user?.user_metadata?.color || generateNumber(1, 6)",
-      user?.user_metadata?.color || generateNumber(1, 6)
-    );
+
     const updatedCommnents = [
       ...comments,
       {
@@ -85,6 +83,39 @@ const Form = ({
       });
     toggle();
   };
+
+  //user replies to another user
+  const handleResponseSubmit = async (
+    reply: string,
+    comment: string,
+    originalUser: string,
+    colorID: number
+  ) => {
+    const replyComment = [
+      ...comments,
+      {
+        comment,
+        reply: { comment: reply, originalUser, colorID },
+        id: uuidv4(),
+        userName,
+        date: new Date().toLocaleDateString(),
+        colorID: user?.user_metadata?.color || generateNumber(1, 6),
+      },
+    ];
+
+    //update later
+    fetch(`/.netlify/functions/express/posts?id=${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(replyComment),
+    })
+      .then(res => res.json())
+      .then(({ comments }) => {
+        console.log("fetch updated comments?", comments);
+        setComments(comments);
+      });
+  };
+
   return (
     <CommentsWrapper>
       <FormStyled onSubmit={handleMainSubmit}>
@@ -95,21 +126,34 @@ const Form = ({
             onSubmitted={open}
             placeholder="Comment"
             center={center}
+            //input is connected to comment(label) and alertMessage(<Message>ALERT</Message>)
+            aria-describedby="comment alertMessage"
           />
           <Right center={center}>
-            <Button>SUBMIT</Button>
+            <Button type="submit">SUBMIT</Button>
           </Right>
           {/* <Message /> is rendered when user submits without commenting anything */}
           {/* component is unmounted after 2000ms */}
           {isMessageOpen && (
-            <Message ms={3000} onClose={onClose} color="#f03e3e">
+            <Message
+              ms={3000}
+              onClose={onClose}
+              color="#f03e3e"
+              role="alert"
+              id="alertMessage"
+            >
               Please ensure your comment isn't empty.
             </Message>
           )}
         </Center>
       </FormStyled>
       {/* renders comments */}
-      {main && <Comments comments={comments} />}
+      {main && (
+        <Comments
+          comments={comments}
+          handleResponseSubmit={handleResponseSubmit}
+        />
+      )}
     </CommentsWrapper>
   );
 };

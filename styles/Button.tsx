@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import CommentWrapper from "./ColumnFlex";
 import Box from "./Box";
-import Right from "./Right";
+import ReplyButtonContainer from "./ReplyButtonContainer";
 
 const Button = styled.button`
   width: fit-content;
@@ -21,9 +21,6 @@ const Button = styled.button`
     transform: scale(0.96);
   }
 
-  ${Right} & {
-  }
-
   ${Box} & {
     padding: 15px 30px;
     background-color: #4926b4;
@@ -36,9 +33,11 @@ const Button = styled.button`
     min-width: fit-content;
     max-width: fit-content;
     padding: 5px;
-    margin-top: 5px;
     text-transform: uppercase;
     flex: 0;
+  }
+  ${ReplyButtonContainer} & {
+    margin: 5px 0;
   }
 `;
 

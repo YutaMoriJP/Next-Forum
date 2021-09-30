@@ -27,7 +27,6 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
   //pass user object to getUsername function to get the username from the user object
   const userName = getUsername(user);
 
-  const { open: onSubmitted } = useToggle();
   //used for <Message/> when invalid action happens
   const { open, onClose, onOpen } = useToggle();
   //post title & content
@@ -118,10 +117,8 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
         <Input
           id="Topic Title"
           name="Title"
-          onSubmitted={onSubmitted}
           placeholder="Enter Title"
           label={true}
-          localState={false}
           {...title}
         />
       </BoxContent>
@@ -129,10 +126,8 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
         <Input
           id="Topic Content"
           name="Content"
-          onSubmitted={onSubmitted}
           placeholder="Enter Content"
           label={true}
-          localState={false}
           {...content}
         />
       </BoxContent>
