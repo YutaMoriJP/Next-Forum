@@ -15,6 +15,7 @@ import getUsername from "../../util/getUsername";
 import { generateNumber } from "../../util/generateNum";
 import { MaterialButton } from "../../styles/Button";
 import { BiCommentDetail } from "react-icons/bi";
+import { getToday } from "../../util/getDate";
 
 type State = SingleComment[] | [];
 
@@ -66,7 +67,7 @@ const Form = ({
       {
         comment,
         id: uuidv4(),
-        date: new Date().toLocaleDateString(),
+        date: getToday(),
         userName,
         colorID: user?.user_metadata?.color || generateNumber(1, 6),
       },
@@ -99,7 +100,7 @@ const Form = ({
         reply: { comment: reply, originalUser, colorID },
         id: uuidv4(),
         userName,
-        date: new Date().toLocaleDateString(),
+        date: getToday(),
         colorID: user?.user_metadata?.color || generateNumber(1, 6),
       },
     ];
