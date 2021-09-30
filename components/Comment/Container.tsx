@@ -58,6 +58,7 @@ const Comments = ({
             aria-describedby="sort Comments"
             aria-label="sort comments by newest or oldest"
             onChange={event => setSortBy(event.currentTarget.value)}
+            style={{ fontSize: "100%" }}
           >
             <option value="old">Old</option>
             <option value="new">New</option>
