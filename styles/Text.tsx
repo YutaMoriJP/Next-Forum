@@ -9,7 +9,7 @@ const Text = styled.p`
   font-size: ${props => props.size || "1rem"};
   text-align: ${props => props.align || "left"};
   padding: ${props => props.padding};
-
+  background-color: ${props => props.bg};
   ${RowFlex} & {
     align-self: center;
   }
