@@ -9,6 +9,7 @@ const Input = styled.input`
   display: block;
   border-radius: 5px;
   font-size: 1.1rem;
+
   :not(:focus) {
     background: #f5f5f5;
   }

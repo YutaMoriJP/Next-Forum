@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const CommentWrapper = styled.article`
   width: 100vw;
+  position: relative;
   max-width: 800px;
   background: #f7f7f7;
   min-height: 100vh;
@@ -18,8 +19,22 @@ const CommentWrapper = styled.article`
     0 100px 80px rgba(0, 0, 0, 0.07);
   margin-bottom: 50px;
 
-  //below are styles for react markdown
+  ::before {
+    content: "";
+    background: #091241;
+    width: 100vw;
+    max-width: 800px;
+    height: 21vh;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    transform: translateX(-50%);
+    opacity: 0.9;
+  }
 
+  //below are styles for react markdown
   //helps to correctly position markup list like *One or 1. first
   list-style-position: inside;
   blockquote {
@@ -33,6 +48,10 @@ const CommentWrapper = styled.article`
   }
   code {
     background: #d6d6d6;
+  }
+
+  > * {
+    z-index: 1000;
   }
 `;
 

@@ -2,12 +2,12 @@ import Comment from "./Comment";
 import Title from "../../styles/Title";
 import Row from "../../styles/RowFlex";
 import Column from "../../styles/ColumnFlex";
-
 import { useState } from "react";
-import { sortContent } from "../../util/sortContent";
+import { sortContent } from "../../util/sortContent"; //sorts comments
 import Select from "../Select";
 import { v4 as uuidv4 } from "uuid";
 
+//options array used for sorting comments, comments array is sorted by sortContent
 const sortOptions = [
   { id: uuidv4(), value: "old", name: "Old" },
   { id: uuidv4(), value: "new", name: "New" },

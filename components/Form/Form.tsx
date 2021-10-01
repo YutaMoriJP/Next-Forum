@@ -1,7 +1,6 @@
 import Input from "./Input";
 import { useState } from "react";
 import useToggle from "../../useHooks/useToggle";
-
 import Right from "../../styles/Right";
 import Comments, { SingleComment } from "../Comment/Container";
 import { v4 as uuidv4 } from "uuid";
@@ -156,6 +155,7 @@ const Form = ({
           )}
         </Center>
       </FormStyled>
+
       {/* renders comments */}
       {main && (
         <Comments

@@ -132,7 +132,6 @@ const Comment = ({
   reply,
   handleResponseSubmit, //fired wher responds to comment
 }: SingleComment): JSX.Element => {
-  console.log("date looks like", date);
   const iconName = getIconName(userName);
   //if reply is truthy, then the comment is a response to another user
   if (reply) {
