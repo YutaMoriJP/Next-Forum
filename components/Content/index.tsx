@@ -42,9 +42,19 @@ const Content = ({
   return (
     <Box>
       <BoxHeader>
-        <Title as="h1" position="left">
-          {main ? shortenedTitle : title}
-        </Title>
+        {/* if main is true, then turn title to a link */}
+        {main ? (
+          <Link href={`/${slug}`}>
+            <Title as="h1" position="left" cursor="pointer">
+              {shortenedTitle}
+            </Title>
+          </Link>
+        ) : (
+          //if not, then user is in the slug page, and it should not be a link
+          <Title as="h1" position="left">
+            {title}
+          </Title>
+        )}
       </BoxHeader>
       <BoxContent>
         <Text weight={500} color="#656f79" size="0.8rem" align="right">
@@ -70,6 +80,7 @@ const Content = ({
               color="primary"
               variant="contained"
               startIcon={<AiFillRead />}
+              size="large"
             >{`READ ${shortenedReadMore.toUpperCase()}`}</MaterialButton>
           </Link>
         </section>

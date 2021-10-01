@@ -5,6 +5,7 @@ const Center = styled.div`
   flex-direction: column;
   margin: 5px auto;
   width: 100%;
+  height: ${props => props.height};
   max-width: ${props => props.maxWidth || "1200px"};
   align-items: ${props => props.center || "center"};
   > * {

@@ -50,20 +50,18 @@ const Home = ({
       fetch("/.netlify/functions/express/posts")
         .then(res => res.json())
         .then(data => {
-          console.log("new data", data);
           setPostsState(data);
         });
     }
     return () => {
-      console.log("not called in initial render");
-      //updates to false after first render, so data is updated
+      //updates to false after the first render, so the data is updated
       //after post request is sent
       initialRender.current = false;
     };
   }, [postSubmitted]);
-  console.log("postsState", postsState);
-  console.log("posts", posts);
-  if (!postsState.length) return <Loading />; //IF page is being statically re-generated
+
+  //can be deleted if page is server side rendered
+  if (!postsState.length) return <Loading />; //If page is being statically re-generated
 
   return (
     <>
@@ -71,7 +69,6 @@ const Home = ({
         <title>HOME</title>
       </Head>
       {/*Github link */}
-
       <Source />
       {/* renders Modal component by updating open state*/}
       {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}

@@ -6,6 +6,7 @@ const Title = styled.h1`
   color: #212529;
   text-align: ${props => props.position || "center"};
   align-self: ${props => props.alignSelf || "flex-start"};
+  cursor: ${props => props.cursor};
   padding: 5px;
 `;
 
