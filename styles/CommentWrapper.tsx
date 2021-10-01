@@ -51,7 +51,7 @@ const CommentWrapper = styled.article`
   }
 
   > * {
-    z-index: 1000;
+    z-index: 2;
   }
 `;
 
