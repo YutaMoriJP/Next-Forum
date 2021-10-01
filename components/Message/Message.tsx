@@ -23,7 +23,7 @@ const Message = ({
     };
   }, []);
   return (
-    <Text color={color} weight={400} {...rest}>
+    <Text color={color} weight={400} padding="10px" {...rest}>
       {children}
     </Text>
   );

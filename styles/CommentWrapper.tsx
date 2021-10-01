@@ -24,7 +24,7 @@ const CommentWrapper = styled.article`
     background: #091241;
     width: 100vw;
     max-width: 800px;
-    height: 21vh;
+    height: 160px;
     position: absolute;
     top: 0;
     left: 50%;

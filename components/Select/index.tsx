@@ -24,7 +24,11 @@ const Select = ({
     <>
       <label
         htmlFor={label}
-        style={{ textAlign: "center", fontSize: "0.9rem", color: "#656f79" }}
+        style={{
+          textAlign: "center",
+          fontSize: "0.9rem",
+          color: "#040405",
+        }}
       >
         {labelName}
       </label>

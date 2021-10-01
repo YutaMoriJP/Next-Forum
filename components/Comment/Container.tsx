@@ -56,7 +56,7 @@ const Comments = ({
     setSortBy(event.currentTarget.value);
   return (
     <>
-      <Row justify="space-between" align="center">
+      <Row justify="space-between" align="center" marginTop="1.6rem">
         <Title as={"h5"} position="left" alignSelf="center">
           {/*add 's' to Comment if comments is 0 or more than 1*/}
           {`${comments.length} Comment${

@@ -8,6 +8,8 @@ const Text = styled.p`
   font-weight: ${props => props.weight || 100};
   font-size: ${props => props.size || "1rem"};
   text-align: ${props => props.align || "left"};
+  padding: ${props => props.padding};
+
   ${RowFlex} & {
     align-self: center;
   }
