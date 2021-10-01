@@ -20,6 +20,5 @@ const sortByOldest = contents => {
 export const sortContent = (content, sortBy) => {
   if (/new/.test(sortBy)) return sortByNewest(content);
   if (/old/.test(sortBy)) return sortByOldest(content);
-  console.log("invalid");
   return content;
 };

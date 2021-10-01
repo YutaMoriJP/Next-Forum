@@ -27,10 +27,12 @@ const CommentWrapper = styled.article`
     padding: 15px;
     background: #eee;
     border-radius: 5px;
-
     p {
       padding: 5px;
     }
+  }
+  code {
+    background: #d6d6d6;
   }
 `;
 

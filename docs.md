@@ -8,6 +8,10 @@
 - only logged in users can create/comment on post - maybe
 - down/upvote option - only logged in users
 
+# Currently working on
+
+- sort feature - css should be updated and turned to component
+
 # Completed
 
 - add reply feature ✅

@@ -15,7 +15,7 @@ import useInput from "../../useHooks/useInput";
 import isStringEmpty from "../../util/isStringEmpty";
 import ReplyContainer from "../../styles/Reply";
 import ReplyButtonContainer from "../../styles/ReplyButtonContainer";
-import { BsReply } from "react-icons/bs";
+import { BsFillReplyAllFill } from "react-icons/bs";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import Center from "../../styles/Center";
@@ -76,10 +76,8 @@ const Reply = ({
       <ReplyButtonContainer>
         <MaterialButton
           onClick={toggle}
-          startIcon={open ? <AiOutlineCloseCircle /> : <BsReply />}
+          startIcon={open ? <AiOutlineCloseCircle /> : <BsFillReplyAllFill />}
           size="small"
-          variant="contained"
-          color="primary"
         >
           {open ? "Close" : "Reply"}
         </MaterialButton>
@@ -87,7 +85,7 @@ const Reply = ({
       {open ? (
         <>
           <Input
-            id="User Reply"
+            id="User-Reply"
             name="Reply"
             placeholder={`Reply to ${userName}`}
             label={false}

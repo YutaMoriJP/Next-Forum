@@ -115,7 +115,8 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       </BoxHeader>
       <BoxContent>
         <Input
-          id="Topic Title"
+          id="Topic-Title"
+          labelText="Topic Title"
           name="Title"
           placeholder="Enter Title"
           label={true}
@@ -124,7 +125,8 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       </BoxContent>
       <BoxContent>
         <Input
-          id="Topic Content"
+          id="Topic-Content"
+          labelText="Topic Content"
           name="Content"
           placeholder="Enter Content"
           label={true}

@@ -42,7 +42,9 @@ const Content = ({
   return (
     <Box>
       <BoxHeader>
-        <Title as="h1">{main ? shortenedTitle : title}</Title>
+        <Title as="h1" position="left">
+          {main ? shortenedTitle : title}
+        </Title>
       </BoxHeader>
       <BoxContent>
         <Text weight={500} color="#656f79" size="0.8rem" align="right">

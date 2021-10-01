@@ -1,8 +1,17 @@
 import Comment from "./Comment";
 import Title from "../../styles/Title";
 import Row from "../../styles/RowFlex";
+import Column from "../../styles/ColumnFlex";
+
 import { useState } from "react";
 import { sortContent } from "../../util/sortContent";
+import Select from "../Select";
+import { v4 as uuidv4 } from "uuid";
+
+const sortOptions = [
+  { id: uuidv4(), value: "old", name: "Old" },
+  { id: uuidv4(), value: "new", name: "New" },
+];
 
 type Reply = {
   originalUser: string;
@@ -40,30 +49,31 @@ const Comments = ({
   comments,
   handleResponseSubmit,
 }: CommentProps): JSX.Element => {
+  //state that manages what the sorting order is, for now it's either OLD or NEW
   const [sortBy, setSortBy] = useState("old");
+  //setSortBy is called by HTMLSelectElement's onChange handler
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) =>
+    setSortBy(event.currentTarget.value);
   return (
     <>
       <Row justify="space-between" align="center">
-        <Title as={"h5"} position="left">
+        <Title as={"h5"} position="left" alignSelf="center">
           {/*add 's' to Comment if comments is 0 or more than 1*/}
           {`${comments.length} Comment${
             comments.length > 1 || comments.length === 0 ? "s" : ""
           }`}
         </Title>
-        <Row width="content-width" align="center">
-          <label htmlFor="sort Comments">Sort by</label>
-          <select
-            name="sort Comments"
-            id="sort Comments"
-            aria-describedby="sort Comments"
-            aria-label="sort comments by newest or oldest"
-            onChange={event => setSortBy(event.currentTarget.value)}
-            style={{ fontSize: "100%" }}
-          >
-            <option value="old">Old</option>
-            <option value="new">New</option>
-          </select>
-        </Row>
+        {/* gives users option to sort comments*/}
+        <Column width="content-width">
+          <Select
+            name="Sorted by"
+            label="sort-comments"
+            labelName="Sort By:"
+            aria-label="Sort comments by newest or oldest order"
+            options={sortOptions}
+            handleChange={handleChange}
+          />
+        </Column>
       </Row>
       {!!comments.length &&
         sortContent(comments, sortBy).map(

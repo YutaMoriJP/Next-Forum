@@ -3,6 +3,7 @@ import TextField from "../../styles/Input";
 
 interface InputProps extends React.ComponentProps<"input"> {
   id: string;
+  labelText?: string;
   name: string;
   placeholder: string;
   onSubmitted?: boolean; //if input state is manated by parent component, then this isn't needed as parent can clear input field
@@ -11,6 +12,7 @@ interface InputProps extends React.ComponentProps<"input"> {
 }
 const Input = ({
   id, //used for connecting label to input
+  labelText,
   name, //used to fetch input value from <Form/>
   onSubmitted, //runs if user submits form
   placeholder,
@@ -28,7 +30,7 @@ const Input = ({
     <>
       {label && (
         <label htmlFor={id} style={{ fontWeight: 500, fontSize: "1rem" }}>
-          {id}
+          {labelText}
         </label>
       )}
       <TextField

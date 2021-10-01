@@ -71,6 +71,7 @@ const Home = ({
         <title>HOME</title>
       </Head>
       {/*Github link */}
+
       <Source />
       {/* renders Modal component by updating open state*/}
       {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}

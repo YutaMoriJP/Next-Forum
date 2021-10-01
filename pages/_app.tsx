@@ -31,14 +31,12 @@ const CreateThread = ({ open, toggle, onClose, postToggle }) => {
       {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}
       {open && (
         <AnimatePresence exitBeforeEnter>
-          {open && (
-            <Modal handleClose={onClose}>
-              {/*handleClose will close Modal, can be fired by Close Icon */}
-              {/*postToggle is called after Post request is sent, causing useEffect to be called that updates postState state */}
-              {/* Composition Model avoids passing props from <Modal> => <Post/>, instead passes handleClose & postToggle directly */}
-              <Post handleClose={onClose} postToggle={postToggle} />
-            </Modal>
-          )}
+          <Modal handleClose={onClose}>
+            {/*handleClose will close Modal, can be fired by Close Icon */}
+            {/*postToggle is called after Post request is sent, causing useEffect to be called that updates postState state */}
+            {/* Composition Model avoids passing props from <Modal> => <Post/>, instead passes handleClose & postToggle directly */}
+            <Post handleClose={onClose} postToggle={postToggle} />
+          </Modal>
         </AnimatePresence>
       )}
     </>
