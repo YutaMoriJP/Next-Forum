@@ -1,8 +1,8 @@
 # Main
 
+- delete option for users who are logged in
 - render message when user logs in/out
 - post category
-- edit / delete option for users who are logged in
 - only logged in users can create/comment on post - maybe
 - down/upvote option - only logged in users
 - sorting option for posts on homepage
@@ -17,6 +17,7 @@
 - Content Card: add total comments, add date created/updated, add who created post ✅
 - comment sorting option ✅
 - use localstorage to check if person visited app or not, if so then don't show modal to let them know about the state of the project ✅
+- edit option for logged in users ✅
 
 # Notes:
 
