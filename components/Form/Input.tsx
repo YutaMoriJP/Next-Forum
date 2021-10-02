@@ -23,9 +23,15 @@ const Input = ({
   //ref.current.value = '' takes care of it, which is done in the useEffect hook
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    //clears input field if there the value state is not managed by the input field
-    inputRef.current.value = "";
+    return () => {
+      //this will not run in initial mounting phase, avoids unintentionally clearing up value field
+      //like in the <Update/> component, value has default string, and it should not be cleared when input mounts
+      //clears input field if there the value state is not managed by the input field
+      if (inputRef?.current) inputRef.current.value = "";
+    };
   }, [onSubmitted]);
+
+  console.log("rest", rest);
   return (
     <>
       {label && (

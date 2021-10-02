@@ -54,11 +54,18 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     }
     onClose(); //closes <Message/> if it's still mounted
 
+    //if user is logged in pass user id as postID
+    //user could be null if user is not logged in, use ternary operator to assign postID to an empty object in that case
+    //which means that the post will not contain postID, {title, content, creator, ...postID}
+    const postID = user ? { postID: user.id } : {};
     //body data for post request
     const postData = {
       title: titleVal,
       content: contentVal,
       creator: userName,
+      //if postID exists then postID:1, but if not then a new property is not added
+      //and the created post cannot be updated/deleted by the user
+      ...postID,
     };
 
     //send post request like this?

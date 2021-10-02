@@ -23,6 +23,9 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    postID: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

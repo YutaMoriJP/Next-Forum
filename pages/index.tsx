@@ -77,6 +77,7 @@ const Home = ({
       {postsState.map(post => {
         return (
           <Content
+            {...post}
             key={post._id}
             title={post.title}
             content={post.content}
@@ -84,6 +85,7 @@ const Home = ({
             creator={post.creator}
             createdAt={post.createdAt}
             comments={post.comments}
+            setPostState={setPostsState}
             main={true}
           ></Content>
         );

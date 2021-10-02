@@ -3,7 +3,6 @@ const getMonth = (date: Date) => {
 };
 
 const getDay = (date: Date) => {
-  console.log(date);
   return date.getDate();
 };
 
@@ -12,7 +11,6 @@ const getYear = (date: Date) => {
 };
 
 export const getToday = (date: Date) => {
-  console.log("gettoday", date);
   const day = getDay(date);
   const month = getMonth(date);
   const year = getYear(date);

@@ -2,7 +2,6 @@
 
 - render message when user logs in/out
 - post category
-- sort option - newest etc.
 - edit / delete option for users who are logged in
 - only logged in users can create/comment on post - maybe
 - down/upvote option - only logged in users

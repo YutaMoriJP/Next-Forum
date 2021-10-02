@@ -3,10 +3,16 @@ import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
 import Head from "next/head";
+import { useState } from "react";
 
 const Post = ({ post }): JSX.Element => {
+  //needed to re-render component PUT request is sent
+  const [postState, setPostState] = useState(post);
   console.log("post", post);
-  const { title, content, comments, _id, slug, createdAt, creator } = post;
+  const { title, content, comments, _id, createdAt, creator, ...rest } =
+    postState;
+
+  console.log("postState", postState);
   return (
     <>
       <Head>
@@ -20,6 +26,9 @@ const Post = ({ post }): JSX.Element => {
         creator={creator}
         createdAt={createdAt}
         comments={comments}
+        setPostState={setPostState}
+        _id={_id}
+        {...rest}
       />
       {/* renders the comment section, allowing users to send a POST request with the comment*/}
       <Form main={true} center={true} comment={comments} id={_id} />
@@ -38,6 +47,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
   };
 };
+export default Post;
 /*
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -61,5 +71,3 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   };
 };
  */
-
-export default Post;
