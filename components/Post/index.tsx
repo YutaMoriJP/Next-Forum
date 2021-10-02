@@ -120,6 +120,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
           name="Title"
           placeholder="Enter Title"
           label={true}
+          required={true}
           {...title}
         />
       </BoxContent>
@@ -130,6 +131,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
           name="Content"
           placeholder="Enter Content"
           label={true}
+          required={true}
           {...content}
         />
       </BoxContent>

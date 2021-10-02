@@ -19,6 +19,7 @@ const CommentWrapper = styled.article`
     0 100px 80px rgba(0, 0, 0, 0.07);
   margin-bottom: 50px;
 
+  //applies curvy background to comment
   ::before {
     content: "";
     background: #091241;
@@ -47,9 +48,13 @@ const CommentWrapper = styled.article`
     }
   }
   code {
-    background: #d6d6d6;
+    background: #e9e9e9;
+    font-weight: 400;
   }
-
+  img {
+    width: 80%;
+    max-width: 200px;
+  }
   > * {
     z-index: 2;
   }

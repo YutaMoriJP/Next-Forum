@@ -7,6 +7,7 @@
 - only logged in users can create/comment on post - maybe
 - down/upvote option - only logged in users
 - sorting option for posts on homepage
+- search functionality
 
 # Currently working on
 

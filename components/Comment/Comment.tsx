@@ -35,6 +35,7 @@ type ReplyProps = {
   colorID: number;
 };
 
+//responsible for rendering the ui that allows a user replying to another comment
 const Reply = ({
   handleResponseSubmit,
   userName,
@@ -54,7 +55,7 @@ const Reply = ({
   //manages response input field state
   const [responseValue, clearInput] = useInput("");
 
-  const handleSubmit = () => {
+  const handleSubmit = (): void => {
     //extract value from response input field
     const { value } = responseValue;
     //check if value is empty or not
@@ -155,7 +156,7 @@ const Comment = ({
                 <Icon count={reply.colorID} small={1}>
                   {replyIconName}
                 </Icon>
-                <Text weight={300}>{reply.originalUser} said:</Text>
+                <Text weight={300}>{reply.originalUser} posted:</Text>
               </Row>
               <Readmore>{comment}</Readmore>
             </ReplyContainer>

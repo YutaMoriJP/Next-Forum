@@ -11,7 +11,7 @@ const RowFlex = styled.div`
   > * {
     margin-right: 0.4rem;
     margin-bottom: 3px;
-    z-index: 1000;
+    z-index: 3;
   }
 `;
 
