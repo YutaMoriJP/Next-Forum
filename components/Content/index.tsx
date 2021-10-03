@@ -23,8 +23,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import Input from "../Form/Input";
 import useInput from "../../useHooks/useInput";
 import isStringEmptry from "../../util/isStringEmpty"; //validates whether string is empty or not
-
 import Message from "../Message/Message"; //rendered if invalid action occurs and renders a message
+import Button from "../../styles/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
+import RowFlex from "../../styles/RowFlex";
+import OverlayLoading from "../Loading";
+import { useRouter } from "next/router";
 
 //send id as is
 //server receives id, encrypts it and stores it in database
@@ -60,12 +64,19 @@ const Update = ({
   main,
   _id,
 }: UpdateProps) => {
+  //used to render loading ui
+  const {
+    open: showLoading,
+    onClose: stopLoading,
+    onOpen: startLoading,
+  } = useToggle();
+
   //if user is authorized to update content, then open state is used to open modal to update the content
   const { open, onClose, onOpen } = useToggle();
   //input value for title && content, but it's for updating them, so default value is what <Update/> receives
   const [titleProps, resetTitle] = useInput(title);
   const [contentProps, contentTitle] = useInput(content);
-
+  const router = useRouter();
   //used for <Message/> when invalid action happens
   const {
     open: messageOpen,
@@ -76,6 +87,7 @@ const Update = ({
   //postID gets encrypted by the server, if decrypted userID is equal to userID
   //then the original author is authenticated and allowed to send PUT/DELETE requests
   const isAuthenticated = userID === decrypt(postID ? postID : "");
+
   //if user is not authenticated then PUT/DELETE requests are not allowed, so return null
   if (!isAuthenticated) return null;
 
@@ -88,7 +100,6 @@ const Update = ({
 
     const { value: title } = titleProps;
     const { value: content } = contentProps;
-
     //if either title or content is filled, this block will not run
     //so only EITHER needs to be filled, if title is 'a' then isStringEmpty returns false
     //and false && true is false, or true && false is false
@@ -98,7 +109,9 @@ const Update = ({
       return;
     }
     closeMessage(); //closes <Message/> as user passed test
-    //construct updated data
+    //start loading ui to indicate pending state
+    startLoading();
+    //construct updated data, only pass the updated content
     const body =
       !isStringEmptry(title) && !isStringEmptry(content)
         ? { title, content }
@@ -117,16 +130,56 @@ const Update = ({
       .then(res => res.json())
       .then(posts => {
         console.log("posts", posts);
-        setPostState(posts);
-      })
-      .then(() => onClose());
+        setPostState(posts); //updates posts state - needed as data was updated
+        onClose(); //closes modal
+        stopLoading(); //unmount loading component
+      });
+  };
+
+  //send delete request with post ID and user ID, and delete=true
+  //server encrypts and checks for post id and user id, and calls delete
+  //call setPostState to update app with the updated posts state
+  //if at home page then don't do anything
+  //if at specific post, then router.push
+  const handleDelete = async () => {
+    const confirmDelete = window.confirm(
+      "Do you really want to delete the post?"
+    );
+    if (!confirmDelete) return;
+    alert("time to delete");
+    await fetch(
+      `/.netlify/functions/express/posts?userID=${userID}&_id=${_id}&main=${main}`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then(res => res.json())
+      .then(posts => {
+        console.log("delete response", posts);
+        //if main is true, then user is in home page, and posts state needs to be updated
+        if (main) setPostState(posts);
+        onClose(); //closes modal
+        stopLoading(); //unmount loading component
+        //not at home page, return user to home page
+        if (router.asPath !== "/") {
+          router.push("/");
+        }
+      });
   };
 
   return (
     <>
-      <MaterialButton endIcon={<CreateIcon />} onClick={onOpen}>
-        UPDATE
-      </MaterialButton>
+      {/* used to indicate request is sent and app is being updated */}
+      {showLoading ? <OverlayLoading fixed={true} /> : null}
+      {/*rendered next to title of the post, CreateIcon opens Modal to update post, DeleteIcon will delete the post */}
+      <IconButton onClick={onOpen}>
+        <CreateIcon fontSize="small" style={{ fontSize: "18px" }} />
+      </IconButton>
+      <IconButton onClick={handleDelete}>
+        <DeleteIcon fontSize="small" style={{ fontSize: "18px" }} />
+      </IconButton>
+
       {open ? (
         <Modal handleClose={onClose}>
           <Box>
@@ -160,7 +213,7 @@ const Update = ({
               />
             </BoxContent>
             <BoxContent>
-              <MaterialButton onClick={handleSubmit}>UPDATE</MaterialButton>
+              <Button onClick={handleSubmit}>UPDATE</Button>
             </BoxContent>
             {messageOpen && (
               <Message onClose={closeMessage} ms={3000} color="#f03e3e">
@@ -193,7 +246,6 @@ const Content = (props: ContentProps): JSX.Element => {
   //user object is needed to allow PUT/DELETE actions
   const { user } = useAuth();
 
-  console.log("props", props);
   return (
     <Box>
       <BoxHeader>
@@ -211,7 +263,13 @@ const Content = (props: ContentProps): JSX.Element => {
             {title}
           </Title>
         )}
-        {user ? <Update {...props} userID={user.id} /> : null}
+        {/* first check if user is logged in, if they are not then UPDATE operations are not allowed so return null*/}
+        {/* if user is loggedin, then Update component will check if user is allowed to update the post i.e. author of the post*/}
+        {user ? (
+          <RowFlex align="flex-end" flex={0}>
+            <Update {...props} userID={user.id} />{" "}
+          </RowFlex>
+        ) : null}
       </BoxHeader>
       <BoxContent>
         <Text weight={500} color="#656f79" size="0.8rem" align="right">

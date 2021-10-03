@@ -7,7 +7,7 @@ const RowFlex = styled.div`
   justify-content: ${props => props.justify || "flex-start"};
   align-items: ${props => props.align || "stretch"};
   margin-top: ${props => props.marginTop};
-
+  flex: ${props => props.flex};
   > * {
     margin-right: 0.4rem;
     margin-bottom: 3px;
