@@ -50,7 +50,6 @@ interface ContentProps {
   slug?: string;
   main?: boolean;
 }
-
 interface UpdateProps extends ContentProps {
   userID: string;
 }
@@ -146,7 +145,6 @@ const Update = ({
       "Do you really want to delete the post?"
     );
     if (!confirmDelete) return;
-    alert("time to delete");
     await fetch(
       `/.netlify/functions/express/posts?userID=${userID}&_id=${_id}&main=${main}`,
       {
@@ -174,9 +172,9 @@ const Update = ({
       {showLoading ? <OverlayLoading fixed={true} /> : null}
       {/*rendered next to title of the post, CreateIcon opens Modal to update post, DeleteIcon will delete the post */}
       <IconButton onClick={onOpen}>
-        <CreateIcon fontSize="small" style={{ fontSize: "18px" }} />
+        <CreateIcon aria-label="Update Post" style={{ fontSize: "18px" }} />
       </IconButton>
-      <IconButton onClick={handleDelete}>
+      <IconButton aria-label="Delete Post" onClick={handleDelete}>
         <DeleteIcon fontSize="small" style={{ fontSize: "18px" }} />
       </IconButton>
 
@@ -227,6 +225,18 @@ const Update = ({
   );
 };
 
+type LinkWrapperProps = {
+  children: React.ReactNode;
+  href: string;
+  onClick: () => void;
+};
+
+const LinkWrapper = ({ href, onClick, children }: LinkWrapperProps) => (
+  <Link href={href}>
+    <span onClick={onClick}>{children}</span>
+  </Link>
+);
+
 const Content = (props: ContentProps): JSX.Element => {
   const {
     title,
@@ -237,6 +247,13 @@ const Content = (props: ContentProps): JSX.Element => {
     creator = "Annonymous",
     comments = [],
   } = props;
+  //used to render loading ui
+  const {
+    open: showLoading,
+    onClose: stopLoading,
+    onOpen: startLoading,
+  } = useToggle();
+
   //the shortened title will only be used on the Home Page
   //controlled with the main prop, so if main points at true, then the shortedTitle is used
   //if not, like on the specific page of that post, the title prop is used as is
@@ -247,60 +264,63 @@ const Content = (props: ContentProps): JSX.Element => {
   const { user } = useAuth();
 
   return (
-    <Box>
-      <BoxHeader>
-        {/* only render if user is logged in */}
-        {/* if main is true, then turn title to a link */}
-        {main ? (
-          <Link href={`/${slug}`}>
-            <Title as="h1" position="left" cursor="pointer">
-              {shortenedTitle}
+    <>
+      {showLoading ? <OverlayLoading fixed={true} /> : null}
+      <Box>
+        <BoxHeader>
+          {/* only render if user is logged in */}
+          {/* if main is true, then turn title to a link */}
+          {main ? (
+            <LinkWrapper onClick={startLoading} href={`/${slug}`}>
+              <Title as="h1" position="left" cursor="pointer">
+                {shortenedTitle}
+              </Title>
+            </LinkWrapper>
+          ) : (
+            //if not, then user is in the slug page, and it should not be a link
+            <Title as="h1" position="left">
+              {title}
             </Title>
-          </Link>
-        ) : (
-          //if not, then user is in the slug page, and it should not be a link
-          <Title as="h1" position="left">
-            {title}
-          </Title>
-        )}
-        {/* first check if user is logged in, if they are not then UPDATE operations are not allowed so return null*/}
-        {/* if user is loggedin, then Update component will check if user is allowed to update the post i.e. author of the post*/}
-        {user ? (
-          <RowFlex align="flex-end" flex={0}>
-            <Update {...props} userID={user.id} />{" "}
-          </RowFlex>
-        ) : null}
-      </BoxHeader>
-      <BoxContent>
-        <Text weight={500} color="#656f79" size="0.8rem" align="right">
-          {`Posted by ${creator}`} {getToday(new Date(createdAt))}
-        </Text>
-        <ReactMarkDown>{content}</ReactMarkDown>
-        {/* if main is true, the clicking on 8 comments should navigate user to that post, but if not then only display comment count */}
+          )}
+          {/* first check if user is logged in, if they are not then UPDATE operations are not allowed so return null*/}
+          {/* if user is loggedin, then Update component will check if user is allowed to update the post i.e. author of the post*/}
+          {user ? (
+            <RowFlex align="flex-end" flex={0}>
+              <Update {...props} userID={user.id} />{" "}
+            </RowFlex>
+          ) : null}
+        </BoxHeader>
+        <BoxContent>
+          <Text weight={500} color="#656f79" size="0.8rem" align="right">
+            {`Posted by ${creator}`} {getToday(new Date(createdAt))}
+          </Text>
+          <ReactMarkDown>{content}</ReactMarkDown>
+          {/* if main is true, the clicking on 8 comments should navigate user to that post, but if not then only display comment count */}
+          {main ? (
+            <section>
+              <LinkWrapper onClick={startLoading} href={`/${slug}`}>
+                <MaterialButton startIcon={<CommentIcon />}>
+                  {comments.length} comment{totalComments}
+                </MaterialButton>
+              </LinkWrapper>
+            </section>
+          ) : null}
+        </BoxContent>
+        {/* if main points at true, then <Content/> is rendered on the home page, if not, then it's the [slug].tsx page, and 'Read...' is not rendered */}
         {main ? (
           <section>
-            <Link href={`/${slug}`}>
-              <MaterialButton startIcon={<CommentIcon />}>
-                {comments.length} comment{totalComments}
-              </MaterialButton>
-            </Link>
+            <LinkWrapper onClick={startLoading} href={`/${slug}`}>
+              <MaterialButton
+                color="primary"
+                variant="contained"
+                startIcon={<AiFillRead />}
+                size="large"
+              >{`READ ${shortenedReadMore.toUpperCase()}`}</MaterialButton>
+            </LinkWrapper>
           </section>
         ) : null}
-      </BoxContent>
-      {/* if main points at true, then <Content/> is rendered on the home page, if not, then it's the [slug].tsx page, and 'Read...' is not rendered */}
-      {main ? (
-        <section>
-          <Link href={`/${slug}`}>
-            <MaterialButton
-              color="primary"
-              variant="contained"
-              startIcon={<AiFillRead />}
-              size="large"
-            >{`READ ${shortenedReadMore.toUpperCase()}`}</MaterialButton>
-          </Link>
-        </section>
-      ) : null}
-    </Box>
+      </Box>
+    </>
   );
 };
 
