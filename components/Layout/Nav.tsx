@@ -54,7 +54,7 @@ const Nav = ({
       {/* loading animation when user navigates back to homepage */}
       {showLoading ? <OverlayLoading fixed={true} /> : null}
       <Navbar>
-        {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav/}
+        {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav */}
         {CreateThread}
         {/* allows user to navigate back to homepage*/}
         <IconComponent
