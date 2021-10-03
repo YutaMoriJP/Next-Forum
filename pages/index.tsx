@@ -21,6 +21,7 @@ interface HomeProps {
   postsState: any;
   setPostsState: any;
   postSubmitted: boolean;
+  stopLoading: () => void;
 }
 
 const Home = ({
@@ -28,6 +29,7 @@ const Home = ({
   postsState = [],
   setPostsState,
   postSubmitted,
+  stopLoading,
 }: HomeProps): JSX.Element => {
   //if Home is mounted, setPostsState shouldn't be called, so it blocks data fetching in initial mounting phase
   const initialRender = useRef(true);
@@ -35,6 +37,8 @@ const Home = ({
   useEffect(() => {
     //postsState is managed by _app component, so the posts data is set here
     setPostsState(posts);
+    //stops loading animation when navigated from slug.tsx->index.tsx
+    stopLoading();
   }, []);
 
   //called when a new post submission happens, and fetches the updated data from the database

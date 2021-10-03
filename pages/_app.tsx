@@ -44,6 +44,13 @@ const CreateThread = ({ open, toggle, onClose, postToggle }) => {
 };
 
 function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
+  //used to render loading ui
+  const {
+    open: showLoading,
+    onClose: stopLoading,
+    onOpen: startLoading,
+  } = useToggle();
+
   const { open, toggle, onClose } = useToggle();
   const { open: postSubmitted, toggle: postToggle } = useToggle();
   const [postsState, setPostsState] = useState([]);
@@ -52,11 +59,14 @@ function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
     postsState,
     setPostsState,
     postSubmitted,
+    stopLoading,
   };
   return (
     <>
       <AuthContext>
         <Layout
+          showLoading={showLoading}
+          startLoading={startLoading}
           CreateThread={
             <CreateThread
               open={open}

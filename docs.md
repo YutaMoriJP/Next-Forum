@@ -24,5 +24,6 @@
 
 - <Post /> (sends POST request) to create a new post and <Form> (sends PUT request) will update the forum data, like the comments field.
 - <Content /> allows authenciated users to update/delete their posts.
+- <Nav> and <Content> navigate users, like '/'->'/post' or '/post' -> '/'
 
 # Implementation Considertion

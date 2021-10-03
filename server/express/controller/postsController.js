@@ -1,17 +1,20 @@
 const Posts = require("../model/index");
 const { v4 } = require("uuid");
-const CryptoJS = require("crypto-js");
+const encrypt = require("../util/encrypt");
 
-const encrypt = postID => {
-  return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(postID));
-};
+//finds all posts data and sorts it by given arguments
+//which essentially runs this - await getPostsAllSorted("updatedAt", "desc");
+const getPostsAllSorted = async (field, sortBy) =>
+  await Posts.find({}).sort({ [field]: sortBy });
 
 //GET - controller called to fetch ALL posts
 const postGetController = async (req, res) => {
   try {
     //find ALL stored data in DB
     //sort({updated:'desc'}) sorts data by desc order by the updatedAt property
-    const existsData = await Posts.find({}).sort({ updatedAt: "desc" });
+    const existsData = await getPostsAllSorted("updatedAt", "desc");
+    //await Posts.find({}).sort({ updatedAt: "desc" });
+
     //if data already exists, then return existing data
     if (existsData.length) {
       return res.json(existsData);
@@ -82,7 +85,7 @@ const postPutController = async (req, res) => {
       }
       //if this block runs, then main page sent the put request
       //and all the content is needed
-      const updatedPosts = await Posts.find({}).sort({ updatedAt: "desc" });
+      const updatedPosts = await getPostsAllSorted("updatedAt", "desc");
       res.json(updatedPosts);
       return;
     } catch (error) {
@@ -121,8 +124,7 @@ const postDeleteController = async (req, res) => {
       return;
     }
     //used a couple times, so maybe turn it to a function, like getAllSorted('updatedAt','desc')
-
-    const posts = await Posts.find({}).sort({ updatedAt: "desc" });
+    const posts = await getPostsAllSorted("updatedAt", "desc");
     res.json(posts);
   } catch (error) {
     res.json({ error: error.message });

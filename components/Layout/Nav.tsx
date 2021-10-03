@@ -3,13 +3,14 @@ import Navbar from "../../styles/Navbar";
 import Text from "../../styles/Text";
 import IconWrapper from "@material-ui/core/IconButton";
 import Home from "@material-ui/icons/Home";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockCloseIcon from "@material-ui/icons/Lock";
 import { IconComponent } from "../Icon";
 import getUsername from "../../util/getUsername";
+import LinkWrapper from "../LinkWrapper";
+import OverlayLoading from "../Loading";
 
 const IconButton = styled(IconWrapper)`
   pointer-events: ${(props: { pointerEvent: string }) =>
@@ -21,9 +22,15 @@ const HomeIcon = styled(Home)`
 
 interface NavProps {
   CreateThread: React.ReactNode;
+  showLoading: boolean;
+  startLoading: () => void;
 }
 
-const Nav = ({ CreateThread }: NavProps): JSX.Element => {
+const Nav = ({
+  CreateThread,
+  showLoading,
+  startLoading,
+}: NavProps): JSX.Element => {
   const { login, logout, authReady, user } = useAuth();
   const { asPath } = useRouter(); //used to check the current route
   console.log("user", user);
@@ -41,42 +48,46 @@ const Nav = ({ CreateThread }: NavProps): JSX.Element => {
       login();
     }
   };
+
   return (
     <>
-      <>
-        <Navbar>
-          {CreateThread}
-          {/* allows user to navigate back to homepage*/}
-          <IconComponent
-            txt="HOME"
-            Icon={
-              <Link href="/">
-                <IconButton pointerEvent={disableIconButton}>
-                  <HomeIcon color={disableHomeButton} aria-label="Home Icon" />
-                </IconButton>
-              </Link>
-            }
-          />
-          <IconComponent
-            txt={user ? "LOGOUT" : "LOGIN"}
-            Icon={
-              <IconWrapper onClick={handleClick}>
-                {user ? (
-                  <LockCloseIcon style={{ color: "#4926b4" }} />
-                ) : (
-                  <LockOpenIcon style={{ color: "#4926b4" }} />
-                )}
-              </IconWrapper>
-            }
-          />
-          {user && (
-            <>
-              {/* the getUsername function receives the user object and returns the formatted username */}
-              <Text weight={600}>Hi, {getUsername(user)}</Text>
-            </>
-          )}
-        </Navbar>
-      </>
+      {/* loading animation when user navigates back to homepage */}
+      {showLoading ? <OverlayLoading fixed={true} /> : null}
+      <Navbar>
+        {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav/}
+        {CreateThread}
+        {/* allows user to navigate back to homepage*/}
+        <IconComponent
+          txt="HOME"
+          Icon={
+            <LinkWrapper onClick={startLoading} href="/">
+              <IconButton pointerEvent={disableIconButton}>
+                <HomeIcon color={disableHomeButton} aria-label="Home Icon" />
+              </IconButton>
+            </LinkWrapper>
+          }
+        />
+        {/*login/logout option*/}
+        <IconComponent
+          txt={user ? "LOGOUT" : "LOGIN"}
+          Icon={
+            <IconWrapper onClick={handleClick}>
+              {user ? (
+                <LockCloseIcon style={{ color: "#4926b4" }} />
+              ) : (
+                <LockOpenIcon style={{ color: "#4926b4" }} />
+              )}
+            </IconWrapper>
+          }
+        />
+        {/* only logged in users will receive greeting */}
+        {user && (
+          <>
+            {/* the getUsername function receives the user object and returns the formatted username */}
+            <Text weight={600}>Hi, {getUsername(user)}</Text>
+          </>
+        )}
+      </Navbar>
     </>
   );
 };

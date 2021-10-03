@@ -12,7 +12,6 @@ const Post = ({ post }): JSX.Element => {
   const { title, content, comments, _id, createdAt, creator, ...rest } =
     postState;
 
-  console.log("postState", postState);
   return (
     <>
       <Head>

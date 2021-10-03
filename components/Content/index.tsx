@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import Box from "../../styles/Box";
 import Title from "../../styles/Title";
 import BoxHeader from "../../styles/BoxHeader";
@@ -29,6 +28,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import RowFlex from "../../styles/RowFlex";
 import OverlayLoading from "../Loading";
 import { useRouter } from "next/router";
+import LinkWrapper from "../LinkWrapper";
 
 //send id as is
 //server receives id, encrypts it and stores it in database
@@ -172,10 +172,10 @@ const Update = ({
       {showLoading ? <OverlayLoading fixed={true} /> : null}
       {/*rendered next to title of the post, CreateIcon opens Modal to update post, DeleteIcon will delete the post */}
       <IconButton onClick={onOpen}>
-        <CreateIcon aria-label="Update Post" style={{ fontSize: "18px" }} />
+        <CreateIcon aria-label="Update Post" style={{ fontSize: "1rem" }} />
       </IconButton>
       <IconButton aria-label="Delete Post" onClick={handleDelete}>
-        <DeleteIcon fontSize="small" style={{ fontSize: "18px" }} />
+        <DeleteIcon fontSize="small" style={{ fontSize: "1rem" }} />
       </IconButton>
 
       {open ? (
@@ -225,18 +225,6 @@ const Update = ({
   );
 };
 
-type LinkWrapperProps = {
-  children: React.ReactNode;
-  href: string;
-  onClick: () => void;
-};
-
-const LinkWrapper = ({ href, onClick, children }: LinkWrapperProps) => (
-  <Link href={href}>
-    <span onClick={onClick}>{children}</span>
-  </Link>
-);
-
 const Content = (props: ContentProps): JSX.Element => {
   const {
     title,
@@ -272,20 +260,30 @@ const Content = (props: ContentProps): JSX.Element => {
           {/* if main is true, then turn title to a link */}
           {main ? (
             <LinkWrapper onClick={startLoading} href={`/${slug}`}>
-              <Title as="h1" position="left" cursor="pointer">
+              <Title
+                as="h3"
+                alignSelf="center"
+                position="left"
+                cursor="pointer"
+              >
                 {shortenedTitle}
               </Title>
             </LinkWrapper>
           ) : (
             //if not, then user is in the slug page, and it should not be a link
-            <Title as="h1" position="left">
+            <Title as="h4" position="left" alignSelf="center">
               {title}
             </Title>
           )}
           {/* first check if user is logged in, if they are not then UPDATE operations are not allowed so return null*/}
           {/* if user is loggedin, then Update component will check if user is allowed to update the post i.e. author of the post*/}
           {user ? (
-            <RowFlex align="flex-end" flex={0}>
+            <RowFlex
+              align="center"
+              flex="0 1 120px"
+              wrap="wrap"
+              justify="flex-end"
+            >
               <Update {...props} userID={user.id} />{" "}
             </RowFlex>
           ) : null}

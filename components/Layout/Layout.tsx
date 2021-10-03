@@ -10,16 +10,23 @@ import BoxHeader from "../../styles/BoxHeader";
 import BoxContent from "../../styles/BoxContent";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "../../store/AuthContext";
-
 import { setItem, getItem } from "../../util/localStorage";
 
 //import Loading from "../Loading/index";
 interface LayoutProps {
   children: React.ReactNode;
   CreateThread: React.ReactNode;
+
+  showLoading: boolean;
+  startLoading: () => void;
 }
 
-const Layout = ({ children, CreateThread }: LayoutProps): JSX.Element => {
+const Layout = ({
+  children,
+  CreateThread,
+  showLoading,
+  startLoading,
+}: LayoutProps): JSX.Element => {
   //only render children and navbar if user is authorized
   const { authReady } = useAuth();
   const { open, onClose, onOpen } = useToggle();
@@ -63,7 +70,11 @@ const Layout = ({ children, CreateThread }: LayoutProps): JSX.Element => {
       {/* using authReady avoids using it in other places like Nav, or other nested children */}
       {authReady ? (
         <>
-          <Nav CreateThread={CreateThread} />
+          <Nav
+            CreateThread={CreateThread}
+            showLoading={showLoading}
+            startLoading={startLoading}
+          />
           {children}
         </>
       ) : null}
