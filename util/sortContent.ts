@@ -1,4 +1,4 @@
-const sortByNewest = contents => {
+const sortByNewest = <T extends { date: Date }>(contents: T[]) => {
   const sorted = [...contents].sort((a, b) => {
     const bDate = new Date(b.date).getTime();
     const aDate = new Date(a.date).getTime();
@@ -7,7 +7,7 @@ const sortByNewest = contents => {
   return sorted;
 };
 
-const sortByOldest = contents => {
+const sortByOldest = <T extends { date: Date }>(contents: T[]) => {
   const sorted = [...contents].sort((a, b) => {
     const bDate = new Date(b.date).getTime();
     const aDate = new Date(a.date).getTime();
@@ -17,7 +17,10 @@ const sortByOldest = contents => {
   return sorted;
 };
 
-export const sortContent = (content, sortBy) => {
+export const sortContent = <T extends { date: Date }>(
+  content: T[],
+  sortBy: string
+) => {
   if (/new/.test(sortBy)) return sortByNewest(content);
   if (/old/.test(sortBy)) return sortByOldest(content);
   return content;

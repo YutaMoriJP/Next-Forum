@@ -60,7 +60,10 @@ const Nav = ({
         <IconComponent
           txt="HOME"
           Icon={
-            <LinkWrapper onClick={startLoading} href="/">
+            <LinkWrapper
+              onClick={asPath === "/" ? () => null : startLoading}
+              href="/"
+            >
               <IconButton pointerEvent={disableIconButton}>
                 <HomeIcon color={disableHomeButton} aria-label="Home Icon" />
               </IconButton>

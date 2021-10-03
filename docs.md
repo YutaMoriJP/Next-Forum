@@ -8,7 +8,7 @@
 - sorting option for posts on homepage
 - search functionality
 
-# Currently working on
+# Currently working on / Planned next feature
 
 # Completed
 
@@ -18,7 +18,8 @@
 - comment sorting option ✅
 - use localstorage to check if person visited app or not, if so then don't show modal to let them know about the state of the project ✅
 - edit option for logged in users ✅
-- delete optionf for logged in users ✅
+- delete option for logged in users ✅
+- animation between page transitions
 
 # Notes:
 
