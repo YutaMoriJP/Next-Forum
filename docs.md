@@ -7,6 +7,7 @@
 - down/upvote option - only logged in users
 - sorting option for posts on homepage
 - search functionality
+- replace netlify identity to allow user profiles or extend netlify identity to allow such features
 
 # Currently working on / Planned next feature
 
@@ -19,7 +20,7 @@
 - use localstorage to check if person visited app or not, if so then don't show modal to let them know about the state of the project ✅
 - edit option for logged in users ✅
 - delete option for logged in users ✅
-- animation between page transitions
+- animation between page transitions ✅
 
 # Notes:
 

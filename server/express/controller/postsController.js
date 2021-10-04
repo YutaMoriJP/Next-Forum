@@ -49,7 +49,7 @@ const postPostController = async (req, res) => {
     //and the userID is encrypted
     const postID = userID ? { postID: encrypt(userID) } : {};
     //remove ? from slug, or else it becomes a query string if title ends with ?
-    const slug = `${title.replace(/\?/g, "")}-${v4()}`;
+    const slug = `${title.replace(/\?|\//g, "")}-${v4()}`;
     //post object looks like {title:string, content:string, creator:string, comment:[],postID?:string}
     const newData = { ...body, ...postID, slug, comments: [] };
     const data = await Posts(newData).save();
