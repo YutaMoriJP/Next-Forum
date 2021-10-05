@@ -11,6 +11,7 @@ import { IconComponent } from "../Icon";
 import getUsername from "../../util/getUsername";
 import LinkWrapper from "../LinkWrapper";
 import OverlayLoading from "../Loading";
+import { Message } from "kantan-components";
 
 const IconButton = styled(IconWrapper)`
   pointer-events: ${(props: { pointerEvent: string }) =>
@@ -31,7 +32,7 @@ const Nav = ({
   showLoading,
   startLoading,
 }: NavProps): JSX.Element => {
-  const { login, logout, authReady, user } = useAuth();
+  const { login, logout, authReady, user, open, onClose, message } = useAuth();
   const { asPath } = useRouter(); //used to check the current route
   console.log("user", user);
   console.log("authReady", authReady);
@@ -39,6 +40,7 @@ const Nav = ({
   const disableIconButton = asPath === "/" ? "none" : "auto";
   //changes icon color to grey if button is disabled
   const disableHomeButton = asPath === "/" ? "grey" : "#4926b4";
+
   const handleClick = (): void => {
     if (user) {
       //if user is logged in, then logout should be called
@@ -54,7 +56,7 @@ const Nav = ({
       {/* loading animation when user navigates back to homepage */}
       {showLoading ? <OverlayLoading fixed={true} /> : null}
       <Navbar>
-        {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav */}
+         {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav */}
         {CreateThread}
         {/* allows user to navigate back to homepage*/}
         <IconComponent
@@ -74,11 +76,35 @@ const Nav = ({
         <IconComponent
           txt={user ? "LOGOUT" : "LOGIN"}
           Icon={
-            <IconWrapper onClick={handleClick}>
+            <IconWrapper onClick={handleClick} style={{ position: "relative" }}>
               {user ? (
-                <LockCloseIcon style={{ color: "#4926b4" }} />
+                <>
+                  <LockCloseIcon style={{ color: "#4926b4" }} />
+                  {open ? (
+                    <Message
+                      ms={1000}
+                      onClose={onClose}
+                      fixed={true}
+                      color="#5f3dc4"
+                    >
+                      {message}
+                    </Message>
+                  ) : null}
+                </>
               ) : (
-                <LockOpenIcon style={{ color: "#4926b4" }} />
+                <>
+                  <LockOpenIcon style={{ color: "#4926b4" }} />
+                  {open ? (
+                    <Message
+                      ms={1000}
+                      onClose={onClose}
+                      fixed={true}
+                      color="#5f3dc4"
+                    >
+                      {message}
+                    </Message>
+                  ) : null}
+                </>
               )}
             </IconWrapper>
           }

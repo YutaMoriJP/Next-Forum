@@ -16,6 +16,9 @@ const Post = ({ post }): JSX.Element => {
     <>
       <Head>
         <title>{title}</title>
+        <meta name="description" content={title} />
+        <meta name="author" content={creator} />
+        meta
       </Head>
       {/* renders the post created by the user, containing the title and content */}
       <Content

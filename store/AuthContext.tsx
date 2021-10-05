@@ -1,13 +1,16 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import netlifyIdentity, { User } from "netlify-identity-widget";
-
 import { generateNumber } from "../util/generateNum";
+import { useToggle } from "kantan-hooks";
 
 const initialContextValue = {
   login: () => {},
   logout: () => {},
   user: null,
   authReady: false,
+  message: "",
+  open: false,
+  onClose: () => {},
 };
 
 type AuthContextValue =
@@ -17,6 +20,9 @@ type AuthContextValue =
       logout: () => void;
       user: User;
       authReady: boolean;
+      message: string;
+      onClose: () => void;
+      open: boolean;
     };
 
 const AuthContext = createContext<AuthContextValue>(initialContextValue);
@@ -36,17 +42,22 @@ const AuthContextComponent = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   //used to check if user was already logged in or not
   const [authReady, setAuthoReady] = useState(false);
+  //controls message component when user logs in/out
+  const { bool: open, onClose, onOpen } = useToggle(false);
+  //sets message to 'Logged in' and 'Logged out'
+  const [message, setMessage] = useState<string>("");
+  //prevents 'logged in' message from appearing in the initial page load when user is already logged in
+  const initialLoginRef = useRef(true);
 
   const contextValues = {
     user,
     login,
     logout,
     authReady,
+    open,
+    onClose,
+    message,
   };
-
-  //STILL NEEDS TO BE IMPLEMENTED
-  //prevents 'logged in' message from appearing in the initial page load when user is already logged in
-  const initialLoginRef = useRef(true);
 
   useEffect((): (() => void) => {
     //called when user logs in, callback receives user object
@@ -56,17 +67,20 @@ const AuthContextComponent = ({ children }) => {
       //closes login modal
       netlifyIdentity.close();
       //state update for <Message/>
-
-      initialLoginRef.current = false;
-      console.log("logged in");
-    });
+      //prevents login message to appear on initial page mount
+         onOpen();
+        setMessage("LOGGED IN");
+     });
     //called when user logs out, and user must be set to null again
     netlifyIdentity.on("logout", () => {
       setUser(null);
       //state update for <Message/>
+      onOpen();
+      setMessage("LOGGED OUT");
       console.log("logged out");
     });
     netlifyIdentity.on("init", user => {
+       initialLoginRef.current = false;
       console.log("user", user);
       setUser(user);
       setAuthoReady(true);
@@ -94,7 +108,7 @@ const AuthContextComponent = ({ children }) => {
     return () => {
       netlifyIdentity.off("login");
       netlifyIdentity.off("logout");
-    };
+     };
   }, []);
 
   console.log("user", user);

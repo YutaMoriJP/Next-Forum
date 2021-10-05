@@ -71,6 +71,14 @@ const Home = ({
     <>
       <Head>
         <title>HOME</title>
+        <meta
+          name="description"
+          content="Modern Forum Applications for fun discussions"
+        />
+        <meta
+          name="keywords"
+          content="Forum, Discussions, NextJS Forum, React Forum"
+        />
       </Head>
       {/*Github link */}
       <Source />

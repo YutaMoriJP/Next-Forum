@@ -8,6 +8,7 @@
 - sorting option for posts on homepage
 - search functionality
 - replace netlify identity to allow user profiles or extend netlify identity to allow such features
+- allow image uploads on comments
 
 # Currently working on / Planned next feature
 
