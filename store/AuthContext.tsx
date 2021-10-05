@@ -58,7 +58,6 @@ const AuthContextComponent = ({ children }) => {
     onClose,
     message,
   };
-
   useEffect((): (() => void) => {
     //called when user logs in, callback receives user object
     //which is set to the user state
@@ -67,21 +66,24 @@ const AuthContextComponent = ({ children }) => {
       //closes login modal
       netlifyIdentity.close();
       //state update for <Message/>
-      //prevents login message to appear on initial page mount
-         onOpen();
-        setMessage("LOGGED IN");
-     });
+
+      //prevents message component from rendering in initial render(s)
+      if (!initialLoginRef.current) {
+        onOpen();
+        setMessage("Logged in");
+      }
+      initialLoginRef.current = false;
+      console.log("logged in");
+    });
     //called when user logs out, and user must be set to null again
     netlifyIdentity.on("logout", () => {
       setUser(null);
       //state update for <Message/>
       onOpen();
-      setMessage("LOGGED OUT");
+      setMessage("Logged out");
       console.log("logged out");
     });
     netlifyIdentity.on("init", user => {
-       initialLoginRef.current = false;
-      console.log("user", user);
       setUser(user);
       setAuthoReady(true);
       console.log("init event");
@@ -103,12 +105,11 @@ const AuthContextComponent = ({ children }) => {
       await netlifyIdentity.gotrue.currentUser().update(userSetting);
     };
     save();
-
     //cleanup
     return () => {
       netlifyIdentity.off("login");
       netlifyIdentity.off("logout");
-     };
+    };
   }, []);
 
   console.log("user", user);

@@ -25,8 +25,7 @@
     "react-markdown": "^7.0.1",
     "serverless-http": "^2.7.0",
     "styled-components": "^5.3.1",
-    "uuid": "^8.3.2",
-    "yutahooks": "^1.0.3"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/node": "^16.9.1",
