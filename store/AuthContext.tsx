@@ -72,8 +72,7 @@ const AuthContextComponent = ({ children }) => {
         onOpen();
         setMessage("Logged in");
       }
-      initialLoginRef.current = false;
-      console.log("logged in");
+      //      console.log("logged in");
     });
     //called when user logs out, and user must be set to null again
     netlifyIdentity.on("logout", () => {
@@ -112,6 +111,10 @@ const AuthContextComponent = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    //needed to correctly render message logged in/out
+    initialLoginRef.current = false;
+  }, []);
   console.log("user", user);
   console.log("netlifyIdentity", netlifyIdentity);
   return (
