@@ -241,7 +241,8 @@ const Content = (props: ContentProps): JSX.Element => {
   //the shortened title will only be used on the Home Page
   //controlled with the main prop, so if main points at true, then the shortedTitle is used
   //if not, like on the specific page of that post, the title prop is used as is
-  const shortenedTitle = shortenText(title, 5);
+  const shortenedTitle = shortenText(title, 8);
+  //used for read more button, which shouldn't be too long
   const shortenedReadMore = shortenText(title, 5);
   const totalComments = comments.length === 0 || comments.length > 1 ? "s" : "";
   //user object is needed to allow PUT/DELETE actions
