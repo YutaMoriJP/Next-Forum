@@ -74,6 +74,7 @@ const Reply = ({
   };
   return (
     <>
+      {/*opens/closes reply input field */}
       <ReplyButtonContainer>
         <MaterialButton
           onClick={toggle}
@@ -83,6 +84,7 @@ const Reply = ({
           {open ? "Close" : "Reply"}
         </MaterialButton>
       </ReplyButtonContainer>
+      {/* if open is true, then reply input field is rendered*/}
       {open ? (
         <>
           <Input
@@ -108,6 +110,7 @@ const Reply = ({
           </Right>
         </>
       ) : null}
+      {/* if invalid action happens, render message below */}
       {isMessageOpen && (
         <Center>
           <Message
@@ -143,9 +146,17 @@ const Comment = ({
         <Column>
           <Row>
             {/* username, added later when intergrated with netlify identity */}
-            <Text weight={500}>{userName}</Text>
+            <Text as="span" weight={500}>
+              {userName}
+            </Text>
             {/* date */}
-            <Text color="#495057" size="0.6rem">
+            <Text
+              as="time"
+              color="#495057"
+              size="0.6rem"
+              aria-label={getToday(new Date(date))}
+              datetime={date}
+            >
               {getToday(new Date(date))}
             </Text>
           </Row>
@@ -179,9 +190,17 @@ const Comment = ({
       <Column>
         <Row>
           {/* username, added later when intergrated with netlify identity */}
-          <Text weight={500}>{userName}</Text>
+          <Text as="span" weight={500}>
+            {userName}
+          </Text>
           {/* date */}
-          <Text color="#495057" size="0.6rem">
+          <Text
+            as="time"
+            color="#495057"
+            size="0.6rem"
+            aria-label={getToday(new Date(date))}
+            datetime={date}
+          >
             {getToday(new Date(date))}
           </Text>
         </Row>

@@ -1,19 +1,18 @@
 # Main
 
-- convert content <input> to <textarea>
-- render message when user logs in/out
+- convert content <input> to <textarea> for <Post/> (content creation) and <Form> (comment submission)
 - post category
 - only logged in users can create/comment on post - maybe
 - down/upvote option - only logged in users
 - sorting option for posts on homepage
 - search functionality
 - replace netlify identity to allow user profiles or extend netlify identity to allow such features
-- allow image uploads on comments
 
 # Currently working on / Planned next feature
 
 # Completed
 
+- logged in/out notification ✅
 - add reply feature ✅
 - color icon ✅
 - Content Card: add total comments, add date created/updated, add who created post ✅

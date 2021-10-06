@@ -54,6 +54,7 @@ interface UpdateProps extends ContentProps {
   userID: string;
 }
 
+//used for sending PUT REQUEST to update the title/content of the post
 const Update = ({
   setPostState,
   postID,
@@ -96,7 +97,6 @@ const Update = ({
   ): Promise<void> => {
     event.preventDefault();
     event.stopPropagation();
-
     const { value: title } = titleProps;
     const { value: content } = contentProps;
     //if either title or content is filled, this block will not run
@@ -236,11 +236,7 @@ const Content = (props: ContentProps): JSX.Element => {
     comments = [],
   } = props;
   //used to render loading ui
-  const {
-    open: showLoading,
-    onClose: stopLoading,
-    onOpen: startLoading,
-  } = useToggle();
+  const { open: showLoading, onOpen: startLoading } = useToggle();
 
   //the shortened title will only be used on the Home Page
   //controlled with the main prop, so if main points at true, then the shortedTitle is used
@@ -290,7 +286,17 @@ const Content = (props: ContentProps): JSX.Element => {
         </BoxHeader>
         <BoxContent>
           <Text weight={500} color="#656f79" size="0.8rem" align="right">
-            {`Posted by ${creator}`} {getToday(new Date(createdAt))}
+            {`Posted by ${creator}`}{" "}
+            <Text
+              as="time"
+              weight={500}
+              color="#656f79"
+              size="0.8rem"
+              aria-label={getToday(new Date(createdAt))}
+              datetime={createdAt}
+            >
+              {getToday(new Date(createdAt))}
+            </Text>
           </Text>
           <ReactMarkDown>{content}</ReactMarkDown>
           {/* if main is true, the clicking on 8 comments should navigate user to that post, but if not then only display comment count */}
