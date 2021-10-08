@@ -133,6 +133,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       </BoxContent>
       <BoxContent>
         <Input
+          as="textarea"
           id="Topic-Content"
           labelText="Topic Content"
           name="Content"
@@ -140,6 +141,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
           label={true}
           required={true}
           {...content}
+          style={{ resize: "vertical", fontFamily: "arial" }}
         />
       </BoxContent>
       <BoxContent>

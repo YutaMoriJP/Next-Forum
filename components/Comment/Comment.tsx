@@ -94,6 +94,8 @@ const Reply = ({
             label={false}
             aria-describedby="alertMessage"
             aria-label="Type in response to comment above"
+            as="textarea"
+            style={{ resize: "vertical", fontFamily: "arial" }}
             {...responseValue}
           />
           <Right>

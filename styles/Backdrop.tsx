@@ -13,6 +13,7 @@ const BackDrop = styled(motion.div)`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow-y: scroll;
 `;
 
 export default BackDrop;

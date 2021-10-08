@@ -207,6 +207,8 @@ const Update = ({
                 placeholder="Update Content"
                 label={true}
                 required={true}
+                as="textarea"
+                style={{ resize: "vertical", fontFamily: "arial" }}
                 {...contentProps}
               />
             </BoxContent>

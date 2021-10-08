@@ -7,7 +7,7 @@ const Modal = styled(motion.div)`
     600px,
     100%
   ); /* attempts to set 700px, but if screen too large than 50%, too small 90%, which avoids setting media queries*/
-  height: min(50%, 400px);
+  height: fit-content;
   margin: auto; /* centers element */
   padding: 0 2rem;
   border-radius: 12px;

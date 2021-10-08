@@ -129,6 +129,8 @@ const Form = ({
             aria-label="Type new comment on post"
             //input is connected to comment(label) and alertMessage(<Message>ALERT</Message>)
             aria-describedby="comment alertMessage"
+            as="textarea"
+            style={{ resize: "vertical", fontFamily: "arial" }}
           />
           <Right center={center}>
             <MaterialButton

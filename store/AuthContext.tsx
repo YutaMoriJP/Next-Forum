@@ -43,7 +43,7 @@ const AuthContextComponent = ({ children }) => {
   //used to check if user was already logged in or not
   const [authReady, setAuthoReady] = useState(false);
   //controls message component when user logs in/out
-  const { bool: open, onClose, onOpen } = useToggle(false);
+  const { open, onClose, onOpen } = useToggle(false);
   //sets message to 'Logged in' and 'Logged out'
   const [message, setMessage] = useState<string>("");
   //prevents 'logged in' message from appearing in the initial page load when user is already logged in

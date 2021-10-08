@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "framer-motion": "^4.1.17",
     "kantan-components": "^1.0.1",
-    "kantan-hooks": "^1.0.2",
+    "kantan-hooks": "^1.0.3",
     "mongoose": "^6.0.6",
     "netlify-identity-widget": "^1.9.2",
     "next": "11.1.2",
