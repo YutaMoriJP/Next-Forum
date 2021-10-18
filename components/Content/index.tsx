@@ -6,7 +6,6 @@ import BoxContent from "../../styles/BoxContent";
 import MaterialButton from "@material-ui/core/Button";
 //used to shorten title like 'BAYERN WINS AGAIN BY LARGE MARGIN' -> 'BAYERN WINS AGAIN...'
 import shortenText from "../../util/shortenText";
-import ReactMarkDown from "react-markdown";
 import Text from "../../styles/Text";
 import { SingleComment } from "../Comment/Container";
 import CommentIcon from "@material-ui/icons/Comment";
@@ -29,6 +28,7 @@ import RowFlex from "../../styles/RowFlex";
 import OverlayLoading from "../Loading";
 import { useRouter } from "next/router";
 import LinkWrapper from "../LinkWrapper";
+import Markdown from "../Markdown";
 
 //send id as is
 //server receives id, encrypts it and stores it in database
@@ -301,7 +301,7 @@ const Content = (props: ContentProps): JSX.Element => {
               {getToday(new Date(createdAt))}
             </Text>
           </Text>
-          <ReactMarkDown>{content}</ReactMarkDown>
+          <Markdown>{content}</Markdown>
           {/* if main is true, the clicking on 8 comments should navigate user to that post, but if not then only display comment count */}
           {main ? (
             <section>

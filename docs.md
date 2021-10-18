@@ -1,6 +1,5 @@
 # Main
 
-- convert content <input> to <textarea> for <Post/> (content creation) and <Form> (comment submission)
 - post category
 - only logged in users can create/comment on post - maybe
 - down/upvote option - only logged in users
@@ -21,6 +20,7 @@
 - edit option for logged in users ✅
 - delete option for logged in users ✅
 - animation between page transitions ✅
+- converted content <input> to <textarea> for <Post/> (content creation) and <Form> (comment submission)
 
 # Notes:
 

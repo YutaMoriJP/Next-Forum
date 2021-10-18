@@ -1,7 +1,7 @@
 //index.ts
 import Head from "next/head";
 //import Editor from "../components/Editor/Editor"; //used for richer editor experience, might be implemented later
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Content from "../components/Content"; //renders post content
 import Post from "../components/Post"; //component used for creating & submitting new post
 import { useEffect, useRef } from "react";
@@ -114,5 +114,17 @@ export const getServerSideProps: GetServerSideProps = async () => {
     },
   };
 };
-
+/*
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { slug } = params;
+  const res = await getAllPosts();
+  const post = res.find(post => post.slug === slug);
+  return {
+    props: {
+      post,
+    },
+    revalidate: 60,
+  };
+};
+*/
 export default Home;

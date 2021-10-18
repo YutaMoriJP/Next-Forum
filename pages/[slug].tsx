@@ -1,9 +1,10 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
 import Head from "next/head";
 import { useState } from "react";
+import Loading from "../components/Loading/";
 
 const Post = ({ post }): JSX.Element => {
   //needed to re-render component PUT request is sent
@@ -11,7 +12,7 @@ const Post = ({ post }): JSX.Element => {
   console.log("post", post);
   const { title, content, comments, _id, createdAt, creator, ...rest } =
     postState;
-
+  if (!post) return <Loading />;
   return (
     <>
       <Head>
@@ -49,9 +50,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
   };
 };
-export default Post;
 /*
-
 export const getStaticPaths: GetStaticPaths = async () => {
   const res = await getAllPosts();
   const paths = res.map(({ slug }) => ({ params: { slug } }));
@@ -69,7 +68,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       post,
     },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
- */
+*/
+export default Post;

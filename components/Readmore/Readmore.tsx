@@ -1,6 +1,6 @@
 import useToggle from "../../useHooks/useToggle";
 import ReadMore from "../../styles/Readmore";
-import ReactMarkDown from "react-markdown";
+import Markdown from "../Markdown";
 
 interface MoreProps {
   open: boolean;
@@ -41,9 +41,9 @@ const Readmore = ({ children }: ReadmoreProps): JSX.Element => {
   return (
     <>
       {/* rest.length checks that comment is large, and if open is also true, then rest will be rendered*/}
-      <ReactMarkDown>
+      <Markdown>
         {visibleComment + " " + (rest.length > 0 && open ? rest : "")}
-      </ReactMarkDown>
+      </Markdown>
       {/*if rest is an empty string then <More/> will NOT be rendered*/}
       {/*<More/> will toggle the open state, with a Read More... and Hide text*/}
       {rest && <More open={open} onOpen={onOpen} onClose={onClose} />}

@@ -35,26 +35,6 @@ const CommentWrapper = styled.article`
     opacity: 0.9;
   }
 
-  //below are styles for react markdown
-  //helps to correctly position markup list like *One or 1. first
-  list-style-position: inside;
-  blockquote {
-    border-left: 3px solid grey;
-    padding: 15px;
-    background: #eee;
-    border-radius: 5px;
-    p {
-      padding: 5px;
-    }
-  }
-  code {
-    background: #e9e9e9;
-    font-weight: 400;
-  }
-  img {
-    width: 80%;
-    max-width: 200px;
-  }
   > * {
     z-index: 2;
   }

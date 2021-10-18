@@ -59,7 +59,11 @@ const Layout = ({
                 Please note that this project is not fully done yet and is still
                 under construction. Please checkout the [GitHub
                 repo](https://github.com/YutaMoriJP/next-forum) if you are
-                curious about the development. More features will be added 😊
+                curious about the development. More features will be added 😊.
+                You are welcome to make posts and submit comments. But only
+                logged in users can delete/update their posts. I will likely
+                delete your post after a couple of days to keep things
+                organized. Please don't take it personally.
               </ReactMarkdown>
             </BoxContent>
           </Box>
