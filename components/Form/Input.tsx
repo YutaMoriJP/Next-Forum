@@ -31,7 +31,6 @@ const Input = ({
     };
   }, [onSubmitted]);
 
-  console.log("rest", rest);
   return (
     <>
       {label && (

@@ -13,6 +13,7 @@ const shortenText = (sentence: string, length: number) => {
     sentenceArr.length > length
       ? sentenceArr.slice(0, length).join(" ") + "..."
       : sentenceArr.join(" ");
+  if (sentence.length > 40) return sentence.slice(0, 30);
   return shorterSentence;
 };
 

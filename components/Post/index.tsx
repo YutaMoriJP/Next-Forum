@@ -42,7 +42,6 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
 
   //used to re-direct user to the newly created post
   const router = useRouter();
-  console.log("router", router);
   //called when user submits comment, transform to async fn
   const handleClick = async () => {
     const { value: titleVal } = title;

@@ -8,6 +8,7 @@ const Title = styled.h1`
   align-self: ${props => props.alignSelf || "flex-start"};
   cursor: ${props => props.cursor};
   padding: 5px;
+  overflow-x: scroll;
 `;
 
 export default Title;
