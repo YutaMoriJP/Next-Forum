@@ -10,6 +10,7 @@ const Text = styled.p`
   text-align: ${props => props.align || "left"};
   padding: ${props => props.padding};
   background-color: ${props => props.bg};
+
   ${RowFlex} & {
     align-self: center;
   }

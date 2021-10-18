@@ -3,6 +3,9 @@ import ReactMarkDown from "react-markdown";
 import styled from "styled-components";
 
 const StyledMarkdown = styled(ReactMarkDown)`
+  > * {
+    overflow-x: scroll;
+  }
   h1,
   h2,
   h3,
@@ -40,7 +43,9 @@ const StyledMarkdown = styled(ReactMarkDown)`
   }
 `;
 
-const Markdown = ({ children }) => {
+type MarkdownProps = { children: React.ReactNode | string; main?: boolean };
+
+const Markdown = ({ children }: MarkdownProps) => {
   return (
     <>
       <StyledMarkdown>{children}</StyledMarkdown>

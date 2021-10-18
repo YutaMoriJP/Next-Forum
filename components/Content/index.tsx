@@ -226,6 +226,7 @@ const Update = ({
     </>
   );
 };
+//renders post content in / and /slug
 
 const Content = (props: ContentProps): JSX.Element => {
   const {
@@ -243,9 +244,11 @@ const Content = (props: ContentProps): JSX.Element => {
   //the shortened title will only be used on the Home Page
   //controlled with the main prop, so if main points at true, then the shortedTitle is used
   //if not, like on the specific page of that post, the title prop is used as is
-  const shortenedTitle = shortenText(title, 8);
+  const shortenedTitle = shortenText(title, 10, 45);
   //used for read more button, which shouldn't be too long
-  const shortenedReadMore = shortenText(title, 5);
+  const shortenedReadMore = shortenText(title, 5, 44);
+  //shorten content
+  const shortenContent = shortenText(content, 25, 180);
   const totalComments = comments.length === 0 || comments.length > 1 ? "s" : "";
   //user object is needed to allow PUT/DELETE actions
   const { user } = useAuth();
@@ -265,7 +268,9 @@ const Content = (props: ContentProps): JSX.Element => {
                 position="left"
                 cursor="pointer"
               >
-                {shortenedTitle}
+                {/* if title was shortened, then add '...'*/}
+                {shortenedTitle +
+                  (title.length > shortenedTitle.length ? "..." : "")}
               </Title>
             </LinkWrapper>
           ) : (
@@ -288,6 +293,7 @@ const Content = (props: ContentProps): JSX.Element => {
           ) : null}
         </BoxHeader>
         <BoxContent>
+          {/* DATE section */}
           <Text weight={500} color="#656f79" size="0.8rem" align="right">
             {`Posted by ${creator}`}{" "}
             <Text
@@ -301,7 +307,14 @@ const Content = (props: ContentProps): JSX.Element => {
               {getToday(new Date(createdAt))}
             </Text>
           </Text>
-          <Markdown>{content}</Markdown>
+          {/* POST CONTENT SECTION */}
+          <Markdown>
+            {main
+              ? //this checks if content was shortened, if so add '...', if not then leave as is
+                shortenContent +
+                (content.length > shortenContent.length ? "..." : "")
+              : content}
+          </Markdown>
           {/* if main is true, the clicking on 8 comments should navigate user to that post, but if not then only display comment count */}
           {main ? (
             <section>
@@ -322,7 +335,10 @@ const Content = (props: ContentProps): JSX.Element => {
                 variant="contained"
                 startIcon={<AiFillRead />}
                 size="large"
-              >{`READ ${shortenedReadMore.toUpperCase()}`}</MaterialButton>
+              >
+                {`READ ${shortenedReadMore.toUpperCase()}` +
+                  (title.length > shortenedTitle.length ? "..." : "")}
+              </MaterialButton>
             </LinkWrapper>
           </section>
         ) : null}
