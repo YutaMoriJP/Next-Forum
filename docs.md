@@ -21,6 +21,7 @@
 - delete option for logged in users ✅
 - animation between page transitions ✅
 - converted content <input> to <textarea> for <Post/> (content creation) and <Form> (comment submission)
+- title/content/readmore shorten function updated (home page only) ✅
 
 # Notes:
 

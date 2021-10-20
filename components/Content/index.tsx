@@ -248,7 +248,7 @@ const Content = (props: ContentProps): JSX.Element => {
   //used for read more button, which shouldn't be too long
   const shortenedReadMore = shortenText(title, 5, 44);
   //shorten content
-  const shortenContent = shortenText(content, 25, 180);
+  const shortenContent = shortenText(content, 70, 700);
   const totalComments = comments.length === 0 || comments.length > 1 ? "s" : "";
   //user object is needed to allow PUT/DELETE actions
   const { user } = useAuth();
