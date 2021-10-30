@@ -3,9 +3,6 @@ import ReactMarkDown from "react-markdown";
 import styled from "styled-components";
 
 const StyledMarkdown = styled(ReactMarkDown)`
-  > * {
-    overflow-x: scroll;
-  }
   h1,
   h2,
   h3,
@@ -36,6 +33,7 @@ const StyledMarkdown = styled(ReactMarkDown)`
     padding: 2px;
     font-size: 0.8rem;
     line-height: 0;
+    overflow: scroll;
   }
   img {
     width: 80%;
