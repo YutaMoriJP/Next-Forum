@@ -5,8 +5,6 @@ const BoxContent = styled.div`
   padding: 10px 0;
   flex-direction: column;
   line-height: 30px;
-  overflow-x: scroll;
-
   > * {
     margin: 5px;
   }
