@@ -13,9 +13,11 @@ const Input = styled.input`
   :not(:focus) {
     background: #f5f5f5;
   }
+
   :hover {
     background: white;
   }
+  s
   ${Box} & {
     width: 100%;
   }

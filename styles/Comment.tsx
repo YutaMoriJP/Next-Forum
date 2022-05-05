@@ -7,6 +7,7 @@ const Comment = styled.div`
   border-radius: 5px;
   align-self: flex-start;
   display: flex;
+  
   > * {
     margin: 5px;
   }

@@ -7,6 +7,7 @@ const Navbar = styled.nav`
   justify-content: flex-end;
   align-items: center;
   //creates small space for last element in navbar icons
+
   > *:nth-last-child(1) {
     margin-right: 0.5rem;
   }

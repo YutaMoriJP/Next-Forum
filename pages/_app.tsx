@@ -6,10 +6,10 @@ import { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Add from "@material-ui/icons/Add";
 import Close from "@material-ui/icons/Close";
-import useToggle from "../useHooks/useToggle"; //manages opening/closing modal, and fetching updated data from server
-import { AnimatePresence } from "framer-motion"; //used for modal animation
-import Modal from "../components/Modal"; //used for submitting new post
-import Post from "../components/Post"; //component used for creating & submitting new post
+import useToggle from "../useHooks/useToggle"; // manages opening/closing modal, and fetching updated data from server
+import { AnimatePresence } from "framer-motion"; // used for modal animation
+import Modal from "../components/Modal"; // used for submitting new post
+import Post from "../components/Post"; // component used for creating & submitting new post
 import { IconComponent } from "../components/Icon";
 
 const CreateThread = ({ open, toggle, onClose, postToggle }) => {
@@ -28,6 +28,7 @@ const CreateThread = ({ open, toggle, onClose, postToggle }) => {
           </IconButton>
         }
       />
+
       {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}
       {open && (
         <AnimatePresence exitBeforeEnter>
@@ -44,37 +45,31 @@ const CreateThread = ({ open, toggle, onClose, postToggle }) => {
 };
 
 function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
-  //used to render loading ui
-  const {
-    open: showLoading,
-    onClose: stopLoading,
-    onOpen: startLoading,
-  } = useToggle();
+  // used to render loading ui
+  const { open: showLoading, onClose: stopLoading, onOpen: startLoading } = useToggle();
 
   const { open, toggle, onClose } = useToggle();
   const { open: postSubmitted, toggle: postToggle } = useToggle();
+
   const [postsState, setPostsState] = useState([]);
+
   const pageProps = {
     ...props,
     postsState,
     setPostsState,
     postSubmitted,
-    stopLoading,
+    stopLoading
   };
+
+  console.log("page renders...", pageProps);
+
   return (
     <>
       <AuthContext>
         <Layout
           showLoading={showLoading}
           startLoading={startLoading}
-          CreateThread={
-            <CreateThread
-              open={open}
-              toggle={toggle}
-              onClose={onClose}
-              postToggle={postToggle}
-            />
-          }
+          CreateThread={<CreateThread open={open} toggle={toggle} onClose={onClose} postToggle={postToggle} />}
         >
           <Component {...pageProps} />
         </Layout>

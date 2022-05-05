@@ -21,15 +21,12 @@ interface LayoutProps {
   startLoading: () => void;
 }
 
-const Layout = ({
-  children,
-  CreateThread,
-  showLoading,
-  startLoading,
-}: LayoutProps): JSX.Element => {
+const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutProps): JSX.Element => {
   //only render children and navbar if user is authorized
   const { authReady } = useAuth();
+
   const { open, onClose, onOpen } = useToggle();
+
   //removed, when project is done
   useEffect((): void => {
     //checks if user has already visited the page, if hasVisitedPage is true, then return and do not call onOpen, which opens message modal
@@ -42,6 +39,7 @@ const Layout = ({
     onOpen();
     setItem("hasVisitedPage", true);
   }, []);
+
   return (
     <>
       {/* can be removed when project is done */}
@@ -54,15 +52,13 @@ const Layout = ({
                 <CloseIcon />
               </IconButton>
             </BoxHeader>
+
             <BoxContent>
               <ReactMarkdown>
-                Please note that this project is not fully done yet and is still
-                under construction. Please checkout the [GitHub
-                repo](https://github.com/YutaMoriJP/next-forum) if you are
-                curious about the development. More features will be added 😊.
-                You are welcome to make posts and submit comments. But only
-                logged in users can delete/update their posts. I will likely
-                delete your post after a couple of days to keep things
+                Please note that this project is not fully done yet and is still under construction. Please checkout the
+                [GitHub repo](https://github.com/YutaMoriJP/next-forum) if you are curious about the development. More
+                features will be added 😊. You are welcome to make posts and submit comments. But only logged in users
+                can delete/update their posts. I will likely delete your post after a couple of days to keep things
                 organized. Please don't take it personally.
               </ReactMarkdown>
             </BoxContent>
@@ -74,11 +70,7 @@ const Layout = ({
       {/* using authReady avoids using it in other places like Nav, or other nested children */}
       {authReady ? (
         <>
-          <Nav
-            CreateThread={CreateThread}
-            showLoading={showLoading}
-            startLoading={startLoading}
-          />
+          <Nav CreateThread={CreateThread} showLoading={showLoading} startLoading={startLoading} />
           {children}
         </>
       ) : null}

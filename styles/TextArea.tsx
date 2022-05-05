@@ -10,12 +10,15 @@ const Input = styled.textarea`
   font-size: 1.1rem;
   font-family: sans-serif;
   width: 100%;
+
   :not(:focus) {
     background: #f5f5f5;
   }
+
   :hover {
     background: white;
   }
+
   ${Box} & {
     min-width: 100%;
   }
