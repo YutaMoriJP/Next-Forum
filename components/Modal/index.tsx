@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import Backdrop from "../Backdrop";
 import ModalMotion from "../../styles/Modal";
 
@@ -23,20 +24,46 @@ const dropIn = {
   }
 };
 
-interface Modalprops {
+interface ModalProps {
   handleClose: () => void;
   children: React.ReactNode;
 }
 
-const Modal = ({ handleClose, children }: Modalprops): JSX.Element => {
+const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     // event will NOT bubble up to parent element
     event.stopPropagation();
   };
 
+  // Allow closing modal with esc keypress
+  useEffect(() => {
+    const isSupported = "addEventListener" in document?.body;
+    if (!isSupported) return;
+
+    const handleEscClose = (e: KeyboardEvent) => e.key === "Escape" && handleClose();
+    document.body.addEventListener("keydown", handleEscClose);
+
+    return () => document.body.removeEventListener("keydown", handleEscClose);
+  }, []);
+
+  useEffect(() => {
+    // For Accessibility modal should be focused, tabIndex={1} is necessary since it's a div element
+    ref.current.focus();
+  }, []);
+
   return (
     <Backdrop onClick={handleClose}>
-      <ModalMotion onClick={handleClick} variants={dropIn} initial="hidden" animate="visible" exit="exit">
+      <ModalMotion
+        onClick={handleClick}
+        variants={dropIn}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        tabIndex={0}
+        ref={ref}
+      >
         {children}
       </ModalMotion>
     </Backdrop>
