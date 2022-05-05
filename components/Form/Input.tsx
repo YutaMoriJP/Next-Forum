@@ -22,6 +22,7 @@ const Input = ({
   //if value is not a state managed by React, there needs to be a way to clear input field
   //ref.current.value = '' takes care of it, which is done in the useEffect hook
   const inputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     return () => {
       //this will not run in initial mounting phase, avoids unintentionally clearing up value field
@@ -38,6 +39,7 @@ const Input = ({
           {labelText}
         </label>
       )}
+
       <TextField
         type="text"
         name={name}

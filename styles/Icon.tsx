@@ -12,6 +12,7 @@ const Icon = styled.section`
   justify-content: center;
   align-items: center;
   color: white;
+  
   //only applies to reply icon, to create some space
   ${props =>
     props.small &&

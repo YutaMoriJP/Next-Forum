@@ -1,4 +1,4 @@
-import SelectStyled from "../../styles/Select";
+import SelectStyled, { Label } from "../../styles/Select";
 
 type OptionsProps = {
   value: string;
@@ -13,25 +13,11 @@ type SelectProps = {
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 } & React.ComponentProps<"select">;
 
-const Select = ({
-  label,
-  options,
-  labelName,
-  handleChange,
-  ...rest
-}: SelectProps): JSX.Element => {
+const Select = ({ label, options, labelName, handleChange, ...rest }: SelectProps): JSX.Element => {
   return (
     <>
-      <label
-        htmlFor={label}
-        style={{
-          textAlign: "center",
-          fontSize: "0.9rem",
-          color: "#040405",
-        }}
-      >
-        {labelName}
-      </label>
+      <Label htmlFor={label}>{labelName}</Label>
+
       <SelectStyled id={label} onChange={handleChange} {...rest}>
         {options.map(
           ({ value, name, id }): JSX.Element => (

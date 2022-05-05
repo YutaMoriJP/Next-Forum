@@ -10,18 +10,14 @@ interface InputProps {
 }
 const Input = ({ id, name, onSubmitted, placeholder }: InputProps) => {
   const [inputProps, reset] = useInput("");
+
   useEffect(() => {
     reset();
   }, [onSubmitted, reset]);
+
   return (
     <>
-      <TextField
-        type="text"
-        name={name}
-        aria-labelledby={id}
-        placeholder={placeholder}
-        {...inputProps}
-      />
+      <TextField type="text" name={name} aria-labelledby={id} placeholder={placeholder} {...inputProps} />
     </>
   );
 };

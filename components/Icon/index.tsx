@@ -5,9 +5,10 @@ import styled from "styled-components";
 
 const IconComponentWrapper = styled.article`
   text-decoration: 0;
-  color: ${props => props.color || "white"};
+  color: ${(props) => props.color || "white"};
   position: relative;
   margin: 0;
+
   .tooltiptext {
     visibility: hidden;
     background-color: #212529;
@@ -23,6 +24,7 @@ const IconComponentWrapper = styled.article`
     left: 50%;
     transform: translateX(-50%);
   }
+
   :hover .tooltiptext {
     visibility: visible;
   }
@@ -37,10 +39,7 @@ interface IoncLinkComponent extends IconComponentProps {
   href: string;
 }
 
-export const IconComponent = ({
-  Icon,
-  txt,
-}: IconComponentProps): JSX.Element => {
+export const IconComponent = ({ Icon, txt }: IconComponentProps): JSX.Element => {
   return (
     <IconComponentWrapper>
       {Icon}
@@ -49,11 +48,7 @@ export const IconComponent = ({
   );
 };
 
-const IconLinkComponent = ({
-  href,
-  txt,
-  Icon,
-}: IoncLinkComponent): JSX.Element => {
+const IconLinkComponent = ({ href, txt, Icon }: IoncLinkComponent): JSX.Element => {
   return (
     <IconWrapper>
       <Link href={href} target="_blank" rel="noreferrer">

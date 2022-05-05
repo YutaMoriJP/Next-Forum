@@ -12,6 +12,7 @@ const FixedCenter = styled.aside`
   justify-content: center;
   align-items: center;
   z-index: 9999;
+
   ::before {
     content: "";
     position: fixed;
@@ -38,6 +39,7 @@ const Loading = ({ fixed = false, ...rest }: LoadingProps): JSX.Element => {
         <Spinner {...rest} size="5rem" />
       </FixedCenter>
     );
+
   return (
     <Center>
       <Spinner {...rest} />

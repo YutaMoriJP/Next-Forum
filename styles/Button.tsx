@@ -20,10 +20,12 @@ const Button = styled.button`
   margin: 2px 0;
   cursor: pointer !important;
   transition: all 0.6s ease-in-out;
+
   :active {
     background: transparent !important;
     color: black;
   }
+
   :hover {
     transform: scale(0.96);
   }
@@ -43,6 +45,7 @@ const Button = styled.button`
     text-transform: uppercase;
     flex: 0;
   }
+
   ${ReplyButtonContainer} & {
     margin: 5px 0;
   }

@@ -8,20 +8,17 @@ interface MessageProps extends Omit<React.ComponentProps<"p">, "children"> {
   color: string;
 }
 
-const Message = ({
-  children,
-  onClose,
-  ms = 2000,
-  color = "black",
-  ...rest
-}: MessageProps): JSX.Element => {
+const Message = ({ children, onClose, ms = 2000, color = "black", ...rest }: MessageProps): JSX.Element => {
   const timerRef = useRef<NodeJS.Timeout>(null!);
+
   useEffect(() => {
     timerRef.current = setTimeout(onClose, ms);
+
     return () => {
       clearTimeout(timerRef.current);
     };
   }, []);
+
   return (
     <Text color={color} weight={600} padding="38px 0px 0px 0px" {...rest}>
       {children}

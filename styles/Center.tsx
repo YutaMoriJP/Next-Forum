@@ -8,6 +8,7 @@ const Center = styled.div`
   height: ${props => props.height};
   max-width: ${props => props.maxWidth || "1200px"};
   align-items: ${props => props.center || "center"};
+  
   > * {
     margin: 0 5px;
   }

@@ -5,6 +5,7 @@ const Column = styled.div`
   flex-direction: column;
   align-items: ${props => props.align || "stretch"};
   width: ${props => props.width || "100%"};
+  
   > * {
     margin: 0 5px;
   }

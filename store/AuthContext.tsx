@@ -10,7 +10,7 @@ const initialContextValue = {
   authReady: false,
   message: "",
   open: false,
-  onClose: () => {},
+  onClose: () => {}
 };
 
 type AuthContextValue =
@@ -27,26 +27,31 @@ type AuthContextValue =
 
 const AuthContext = createContext<AuthContextValue>(initialContextValue);
 
-//custom useAuth hook, which allows for easier use of the Auth context
+//  Custom useAuth hook, which allows for easier use of the Auth context
 export const useAuth = () => useContext(AuthContext);
 
 const login = (): void => {
   netlifyIdentity.open();
 };
+
 const logout = (): void => {
   netlifyIdentity.logout();
 };
 
 const AuthContextComponent = ({ children }) => {
-  //stores user data when logged in
+  // stores user data when logged in
   const [user, setUser] = useState<User | null>(null);
-  //used to check if user was already logged in or not
-  const [authReady, setAuthoReady] = useState(false);
-  //controls message component when user logs in/out
+
+  // used to check if user was already logged in or not
+  const [authReady, setAuthReady] = useState(false);
+
+  // controls message component when user logs in/out
   const { open, onClose, onOpen } = useToggle(false);
-  //sets message to 'Logged in' and 'Logged out'
+
+  // sets message to 'Logged in' and 'Logged out'
   const [message, setMessage] = useState<string>("");
-  //prevents 'logged in' message from appearing in the initial page load when user is already logged in
+  // prevents 'logged in' message from appearing in the initial page load when user is already logged in
+
   const initialLoginRef = useRef(true);
 
   const contextValues = {
@@ -56,55 +61,63 @@ const AuthContextComponent = ({ children }) => {
     authReady,
     open,
     onClose,
-    message,
+    message
   };
-  useEffect((): (() => void) => {
-    //called when user logs in, callback receives user object
-    //which is set to the user state
-    netlifyIdentity.on("login", user => {
-      setUser(user);
-      //closes login modal
-      netlifyIdentity.close();
-      //state update for <Message/>
 
-      //prevents message component from rendering in initial render(s)
+  useEffect((): (() => void) => {
+    // called when user logs in, callback receives user object
+    // which is set to the user state
+    netlifyIdentity.on("login", (user) => {
+      setUser(user);
+      // closes login modal
+      netlifyIdentity.close();
+      // state update for <Message/>
+
+      // prevents message component from rendering in initial render(s)
       if (!initialLoginRef.current) {
         onOpen();
         setMessage("Logged in");
       }
-      //      console.log("logged in");
     });
-    //called when user logs out, and user must be set to null again
+
+    // called when user logs out, and user must be set to null again
     netlifyIdentity.on("logout", () => {
       setUser(null);
-      //state update for <Message/>
+      // state update for <Message/>
       onOpen();
       setMessage("Logged out");
       console.log("logged out");
     });
-    netlifyIdentity.on("init", user => {
+
+    netlifyIdentity.on("init", (user) => {
       setUser(user);
-      setAuthoReady(true);
+      setAuthReady(true);
       console.log("init event");
     });
-    //initializes netlify identity when component is mounted
+    // initializes netlify identity when component is mounted
     netlifyIdentity.init();
 
-    //save data - might need to be re-factored to consider first time login, when does this function run ? after user signs up?
+    // TODO might need to be re-factored to consider first time login, when does this function run ? after user signs up?
+    // save data
     const save = async () => {
-      //if user is not logged in return
+      // if user is not logged in return
       if (!user) return;
-      //used to check if user has already color id stored, if so return
+
+      // used to check if user has already color id stored, if so return
       const currentUser = await netlifyIdentity.gotrue.currentUser();
+
       if (currentUser?.user_metadata?.color) {
         console.log("color stored so return");
         return;
       }
+
       const userSetting = { data: { color: generateNumber(1, 6) } };
       await netlifyIdentity.gotrue.currentUser().update(userSetting);
     };
+
     save();
-    //cleanup
+
+    // Cleanup to avoid side-effects
     return () => {
       netlifyIdentity.off("login");
       netlifyIdentity.off("logout");
@@ -112,16 +125,14 @@ const AuthContextComponent = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    //needed to correctly render message logged in/out
+    //  Needed to correctly render message logged in/out
     initialLoginRef.current = false;
   }, []);
+
   console.log("user", user);
   console.log("netlifyIdentity", netlifyIdentity);
-  return (
-    <AuthContext.Provider value={contextValues}>
-      {children}
-    </AuthContext.Provider>
-  );
+
+  return <AuthContext.Provider value={contextValues}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContextComponent;

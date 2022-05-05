@@ -4,8 +4,10 @@ import IconWrapper from "./IconWrapper";
 const Link = styled.a`
   text-decoration: 0;
   color: ${props => props.color || "white"};
+
   ${IconWrapper} & {
     position: relative;
+    
     .tooltiptext {
       visibility: hidden;
       width: 200px;

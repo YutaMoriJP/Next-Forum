@@ -8,6 +8,7 @@ const Center = styled.aside`
   left: 50%;
   transform: translate(-50%);
   z-index: 1000000;
+  
   > * {
     color: white;
   }
