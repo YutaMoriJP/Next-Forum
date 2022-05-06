@@ -40,8 +40,13 @@ export default function useCreatePixel(
   return useMutation(mutatePosts, {
     ...options,
     onSuccess: () => {
+      /**
+       * Keeps Query in sync with mutation
+       * @see https://tkdodo.eu/blog/mastering-mutations-in-react-query
+       */
       queryClient.invalidateQueries(QUERY_KEY);
 
+      // Takes care of clean up in the component using the hook - should be improved (see tkdodo)
       typeof cleanUp === "function" && cleanUp();
     }
   });
