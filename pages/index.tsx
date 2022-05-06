@@ -11,13 +11,12 @@ import useGetPosts, { getPosts } from "../hooks/queries/useGetPosts";
 
 import { dehydrate, QueryClient, useQuery } from "react-query";
 
-import type { Posts } from "../typings/posts";
-
 interface HomeProps {
   setPostsState: any;
   postSubmitted: boolean;
   stopLoading: () => void;
 }
+// TODO remove unnecessary stuff
 
 /**
  * @note posts is pre-fetched by getServerSideProps
@@ -86,6 +85,12 @@ const Home = ({ setPostsState, postSubmitted, stopLoading }: HomeProps): JSX.Ele
   );
 };
 
+// TODO look more into this
+/**
+ *
+ * @see https://react-query.tanstack.com/guides/ssr#using-hydration
+ * @see https://prateeksurana.me/blog/mastering-data-fetching-with-react-query-and-next-js/#fetching-data-on-the-server
+ */
 export const getServerSideProps: GetServerSideProps = async () => {
   const queryClient = new QueryClient();
 
