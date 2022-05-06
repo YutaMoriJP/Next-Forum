@@ -1,4 +1,3 @@
-import { SingleComment } from "./Container";
 import CommentWrapper from "../../styles/Comment";
 import Text from "../../styles/Text";
 import Icon from "../../styles/Icon";
@@ -22,6 +21,9 @@ import Center from "../../styles/Center";
 // import MaterialButton from "@material-ui/core/Button";
 import { MaterialButton } from "../../styles/Button";
 import { getToday } from "../../util/getDate";
+
+import type { HandleResponseSubmit } from "./Container";
+import type { Comment as TComment } from "@/typings/comments";
 
 type ReplyProps = {
   handleResponseSubmit: (reply: string, comment: string, originalUser: string, colorID: number) => Promise<void>;
@@ -119,8 +121,8 @@ const Comment = ({
   userName,
   colorID,
   reply,
-  handleResponseSubmit // fired wher responds to comment
-}: SingleComment): JSX.Element => {
+  handleResponseSubmit // fired where responds to comment
+}: TComment & { handleResponseSubmit: HandleResponseSubmit }): JSX.Element => {
   const iconName = getIconName(userName);
 
   // if reply is truthy, then the comment is a response to another user

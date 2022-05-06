@@ -15,10 +15,17 @@ const sortOptions = [
   { id: uuidv4(), value: "new", name: "New" }
 ];
 
+export type HandleResponseSubmit = (
+  reply: string,
+  comment: string,
+  originalUser: string,
+  colorID: number
+) => Promise<void>;
+
 export interface CommentProps {
   comments: TComments;
   // fired when user replies to a comment, defined in <Form /> component
-  handleResponseSubmit: (reply: string, comment: string, originalUser: string, colorID: number) => Promise<void>;
+  handleResponseSubmit: HandleResponseSubmit;
 }
 
 const Comments = ({ comments, handleResponseSubmit }: CommentProps): JSX.Element => {
