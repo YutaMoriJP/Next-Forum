@@ -9,7 +9,7 @@ import Loading from "../components/Loading"; // removed if static reg. isn't use
 import Source from "../components/Source"; // used for linking to github
 import useGetPosts, { getPosts } from "../hooks/queries/useGetPosts";
 
-import { dehydrate, QueryClient, useQuery } from "react-query";
+import { dehydrate, QueryClient } from "react-query";
 
 interface HomeProps {
   setPostsState: any;
@@ -76,7 +76,6 @@ const Home = ({ setPostsState, postSubmitted, stopLoading }: HomeProps): JSX.Ele
             creator={post.creator}
             createdAt={post.createdAt}
             comments={post.comments}
-            setPostState={setPostsState}
             main={true}
           ></Content>
         );

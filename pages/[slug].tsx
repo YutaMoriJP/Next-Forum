@@ -5,6 +5,9 @@ import { getAllPosts } from "../util/getAllPosts";
 import Head from "next/head";
 import { useState } from "react";
 import Loading from "../components/Loading/";
+import { getPosts } from "../hooks/queries/useGetPosts";
+
+import { dehydrate, QueryClient } from "react-query";
 
 const Post = ({ post }): JSX.Element => {
   // needed to re-render component PUT request is sent
@@ -44,6 +47,10 @@ const Post = ({ post }): JSX.Element => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery("posts", getPosts);
+
   // { slug: 'title-c8fc3155-497b-48c2-99f7-240a9407eea6' }
   const { slug } = params;
   const res = await getAllPosts();
@@ -52,6 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   return {
     props: {
+      dehydratedState: dehydrate(queryClient),
       post
     }
   };

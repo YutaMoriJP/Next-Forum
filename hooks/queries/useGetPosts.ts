@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import errorHandler from "../../util/errorHandler";
+import errorHandler from "@/util/errorHandler";
 
 import type { Posts } from "../../typings/posts";
 import type { UseQueryOptions } from "react-query";
