@@ -1,36 +1,36 @@
-import React from "react";
-import Box from "../../styles/Box";
-import Title from "../../styles/Title";
-import BoxHeader from "../../styles/BoxHeader";
-import BoxContent from "../../styles/BoxContent";
+import Box from "@/styles/Box";
+import Title from "@/styles/Title";
+import BoxHeader from "@/styles/BoxHeader";
+import BoxContent from "@/styles/BoxContent";
 import MaterialButton from "@material-ui/core/Button";
 // used to shorten title like 'BAYERN WINS AGAIN BY LARGE MARGIN' -> 'BAYERN WINS AGAIN...'
-import shortenText from "../../util/shortenText";
-import Text from "../../styles/Text";
-import { SingleComment } from "../Comment/Container";
+import shortenText from "@/util/shortenText";
+import Text from "@/styles/Text";
 import CommentIcon from "@material-ui/icons/Comment";
 import CreateIcon from "@material-ui/icons/Create";
 import { AiFillRead } from "react-icons/ai";
-import { getToday } from "../../util/getDate";
-import { useAuth } from "../../store/AuthContext";
-import { decrypt } from "../../util/encrypt";
-import useToggle from "../../hooks/useToggle";
+import { getToday } from "@/util/getDate";
+import { useAuth } from "@/store/AuthContext";
+import { decrypt } from "@/util/encrypt";
+import useToggle from "@/hooks/useToggle";
 import Modal from "../Modal";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Input from "../Form/Input";
-import useInput from "../../hooks/useInput";
-import isStringEmpty from "../../util/isStringEmpty"; // validates whether string is empty or not
+import useInput from "@/hooks/useInput";
+import isStringEmpty from "@/util/isStringEmpty"; // validates whether string is empty or not
 import Message from "../Message/Message"; // rendered if invalid action occurs and renders a message
-import Button from "../../styles/Button";
+import Button from "@/styles/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
-import RowFlex from "../../styles/RowFlex";
+import RowFlex from "@/styles/RowFlex";
 import OverlayLoading from "../Loading";
 import { useRouter } from "next/router";
 import LinkWrapper from "../LinkWrapper";
 import Markdown from "../Markdown";
 
-import useUpdatePosts from "../../hooks/mutations/useUpdatePosts";
+import useUpdatePosts from "@/hooks/mutations/useUpdatePosts";
+
+import type { Comments as TComments } from "@/typings/comments";
 
 // send id as is
 // server receives id, encrypts it and stores it in database
@@ -44,10 +44,9 @@ interface ContentProps {
   title: string;
   content: string;
   creator: string;
-  comments: Omit<SingleComment, "handleResponseSubmit">[];
+  comments: TComments;
   createdAt: Date;
   _id: string;
-  setPostState: React.Dispatch<any>;
   postID?: string;
   slug?: string;
   main?: boolean;
@@ -57,7 +56,7 @@ interface UpdateProps extends ContentProps {
 }
 
 // used for sending PUT REQUEST to update the title/content of the post
-const Update = ({ setPostState, postID, userID, title, content, main, _id }: UpdateProps) => {
+const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
   // used to render loading ui
   const { open: showLoading, onClose: stopLoading, onOpen: startLoading } = useToggle();
 
@@ -69,7 +68,7 @@ const Update = ({ setPostState, postID, userID, title, content, main, _id }: Upd
     stopLoading(); // unmount loading component
   };
 
-  const { mutate: updatePosts } = useUpdatePosts(cleanUpAfterMutate);
+  const { mutate: updatePosts, data } = useUpdatePosts(cleanUpAfterMutate);
 
   // input value for title && content, but it's for updating them, so default value is what <Update/> receives
   const [titleProps] = useInput(title);
@@ -118,7 +117,7 @@ const Update = ({ setPostState, postID, userID, title, content, main, _id }: Upd
     updatePosts({
       method: "PUT",
       body,
-      params: new URLSearchParams({ userID, _id, postUpdated: "true", main: "true" })
+      params: new URLSearchParams({ userID, _id, postUpdated: "true", main: JSON.stringify(main) })
     });
   };
 
@@ -129,23 +128,14 @@ const Update = ({ setPostState, postID, userID, title, content, main, _id }: Upd
   // if at specific post, then router.push
   const handleDelete = async () => {
     const confirmDelete = window.confirm("Do you really want to delete the post?");
+
     if (!confirmDelete) return;
-    await fetch(`/.netlify/functions/express/posts?userID=${userID}&_id=${_id}&main=${main}`, {
+
+    updatePosts({
       method: "DELETE",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then((res) => res.json())
-      .then((posts) => {
-        console.log("delete response", posts);
-        // if main is true, then user is in home page, and posts state needs to be updated
-        if (main) setPostState(posts);
-        onClose(); // closes modal
-        stopLoading(); // unmount loading component
-        // not at home page, return user to home page
-        if (router.asPath !== "/") {
-          router.push("/");
-        }
-      });
+      params: new URLSearchParams({ userID, _id, main: JSON.stringify(main) }),
+      deleteHandler: () => router.asPath !== "/" && router.push("/")
+    });
   };
 
   return (

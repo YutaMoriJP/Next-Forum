@@ -5,7 +5,7 @@ import type { Posts } from "../../typings/posts";
 import type { UseQueryOptions } from "react-query";
 import type { IError } from "../../typings/reactQuery";
 
-export const QUERY_KEY = "getPostList";
+export const POST_QUERY_KEY = "getPostList";
 
 export const getPosts = async (): Promise<Posts> => {
   try {
@@ -22,7 +22,7 @@ export const getPosts = async (): Promise<Posts> => {
 };
 
 export default function useGetPosts(options?: UseQueryOptions<Posts, IError>) {
-  return useQuery<Posts, IError>(QUERY_KEY, getPosts, {
+  return useQuery<Posts, IError>(POST_QUERY_KEY, getPosts, {
     ...options
   });
 }

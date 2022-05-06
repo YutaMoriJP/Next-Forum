@@ -7,30 +7,16 @@ import { sortContent } from "../../util/sortContent"; // sorts comments
 import Select from "../Select";
 import { v4 as uuidv4 } from "uuid";
 
+import type { Comments as TComments } from "@/typings/comments";
+
 // options array used for sorting comments, comments array is sorted by sortContent
 const sortOptions = [
   { id: uuidv4(), value: "old", name: "Old" },
   { id: uuidv4(), value: "new", name: "New" }
 ];
 
-type Reply = {
-  originalUser: string;
-  comment: string;
-  colorID: number;
-};
-
-export interface SingleComment {
-  id: string;
-  comment: string;
-  date: Date;
-  userName: string;
-  colorID: number;
-  handleResponseSubmit: (reply: string, comment: string, originalUser: string, colorID: number) => Promise<void>;
-  reply?: Reply;
-  [data: string]: any;
-}
 export interface CommentProps {
-  comments: SingleComment[];
+  comments: TComments;
   // fired when user replies to a comment, defined in <Form /> component
   handleResponseSubmit: (reply: string, comment: string, originalUser: string, colorID: number) => Promise<void>;
 }

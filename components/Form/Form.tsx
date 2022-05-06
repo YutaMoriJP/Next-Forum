@@ -1,21 +1,22 @@
 import Input from "./Input";
 import { useState } from "react";
-import useToggle from "../../hooks/useToggle";
-import Right from "../../styles/Right";
-import Comments, { SingleComment } from "../Comment/Container";
+import Comments from "../Comment/Container";
 import { v4 as uuidv4 } from "uuid";
-import Center from "../../styles/Center";
-import isStringEmpty from "../../util/isStringEmpty";
 import Message from "../Message/Message";
-import CommentsWrapper from "../../styles/CommentWrapper";
-import FormStyled from "../../styles/Form";
-import { useAuth } from "../../store/AuthContext";
-import getUsername from "../../util/getUsername";
-import { generateNumber } from "../../util/generateNum";
-import { MaterialButton } from "../../styles/Button";
+import CommentsWrapper from "@/styles/CommentWrapper";
+import Center from "@/styles/Center";
+import Right from "@/styles/Right";
+import FormStyled from "@/styles/Form";
+import { useAuth } from "@/store/AuthContext";
+import { MaterialButton } from "@/styles/Button";
 import { BiCommentDetail } from "react-icons/bi";
+import getUsername from "@/util/getUsername";
+import { generateNumber } from "@/util/generateNum";
+import isStringEmpty from "@/util/isStringEmpty";
+import useToggle from "@/hooks/useToggle";
+import useUpdateComments from "@/hooks/mutations/useUpdateComments";
 
-type State = SingleComment[] | [];
+import type { Comments as TComments } from "@/typings/comments";
 
 interface FormProps {
   main: boolean;
@@ -25,36 +26,42 @@ interface FormProps {
 }
 
 const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Element => {
-  const [comments, setComments] = useState<State>(comment);
+  const [comments, setComments] = useState<TComments>(comment);
   console.log("comments", comments);
-  //used to store the name of the one who commented
+
+  // used to store the name of the one who commented
   const { user } = useAuth();
-  //getUsername gets the username from the user object and formats it
-  const userName = getUsername(user || { user_metadata: { full_name: "Annonymous" } });
+
+  // getUsername gets the username from the user object and formats it
+  const userName = getUsername(user || { user_metadata: { full_name: "Anonymous" } });
   console.log("username", userName);
-  //used for clearing input field, after submit event is fired
+
+  // used for clearing input field, after submit event is fired
   const { open, toggle } = useToggle();
-  //used for error handling when user submits comment without meaningful text
+  // used for error handling when user submits comment without meaningful text
   const { open: isMessageOpen, onOpen, onClose } = useToggle(false);
 
-  //fired when user submits a new comment
+  const { mutate: updateComments } = useUpdateComments((comments: TComments) => setComments(comments));
+
+  // fired when user submits a new comment
   const handleMainSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
-    //extract input value as { comment: string }
+    // extract input value as { comment: string }
     const { comment } = Object.fromEntries(new FormData(event.currentTarget));
 
     const isEmpty = isStringEmpty(comment as string);
 
     if (isEmpty) {
       onOpen();
+
       return;
     }
-    //unmounts <Message/> component if it's still mounted
-    //it's not needed anymore since user has passed the test
+    // unmounts <Message/> component if it's still mounted
+    // it's not needed anymore since user has passed the test
     onClose();
 
-    const updatedCommnents = [
+    const updatedComments = [
       ...comments,
       {
         comment,
@@ -63,24 +70,14 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
         userName,
         colorID: user?.user_metadata?.color || generateNumber(1, 6)
       }
-    ];
+    ] as unknown as TComments;
 
-    //update later
-    fetch(`/.netlify/functions/express/posts?id=${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedCommnents)
-    })
-      .then((res) => res.json())
-      .then(({ comments }) => {
-        console.log("fetch updated comments?", comments);
-        setComments(comments);
-      });
+    updateComments({ method: "PUT", body: updatedComments, params: new URLSearchParams({ id }) });
 
     toggle();
   };
 
-  //user replies to another user
+  // user replies to another user
   const handleResponseSubmit = async (reply: string, comment: string, originalUser: string, colorID: number) => {
     const replyComment = [
       ...comments,
@@ -94,17 +91,7 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
       }
     ];
 
-    //update later
-    fetch(`/.netlify/functions/express/posts?id=${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(replyComment)
-    })
-      .then((res) => res.json())
-      .then(({ comments }) => {
-        console.log("fetch updated comments?", comments);
-        setComments(comments);
-      });
+    updateComments({ method: "PUT", body: replyComment, params: new URLSearchParams({ id }) });
   };
 
   return (
@@ -118,7 +105,7 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
             placeholder="Comment"
             center={center}
             aria-label="Type new comment on post"
-            //input is connected to comment(label) and alertMessage(<Message>ALERT</Message>)
+            // input is connected to comment(label) and alertMessage(<Message>ALERT</Message>)
             aria-describedby="comment alertMessage"
             as="textarea"
             style={{ resize: "vertical", fontFamily: "arial" }}
@@ -131,7 +118,6 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
           </Right>
 
           {/* <Message /> is rendered when user submits without commenting anything */}
-          {/* component is unmounted after 2000ms */}
           {isMessageOpen && (
             <Message ms={3000} onClose={onClose} color="#f03e3e" role="alert" id="alertMessage">
               Please ensure your comment isn't empty.

@@ -1,17 +1,20 @@
-const sortByNewest = <T extends { date: Date }>(contents: T[]) => {
+import type { Comments as TComments } from "@/typings/comments";
+
+const getTime = (date: string) => new Date(date).getTime();
+
+const sortByNewest = (contents: TComments) => {
   const sorted = [...contents].sort((a, b) => {
-    const bDate = new Date(b.date).getTime();
-    const aDate = new Date(a.date).getTime();
+    const [aDate, bDate] = [a.date, b.date].map(getTime);
+
     return bDate - aDate;
   });
 
   return sorted;
 };
 
-const sortByOldest = <T extends { date: Date }>(contents: T[]) => {
+const sortByOldest = (contents: TComments) => {
   const sorted = [...contents].sort((a, b) => {
-    const bDate = new Date(b.date).getTime();
-    const aDate = new Date(a.date).getTime();
+    const [aDate, bDate] = [a.date, b.date].map(getTime);
 
     return aDate - bDate;
   });
@@ -19,7 +22,7 @@ const sortByOldest = <T extends { date: Date }>(contents: T[]) => {
   return sorted;
 };
 
-export const sortContent = <T extends { date: Date }>(content: T[], sortBy: string) => {
+export const sortContent = (content: TComments, sortBy: string) => {
   if (/new/.test(sortBy)) return sortByNewest(content);
   if (/old/.test(sortBy)) return sortByOldest(content);
 
