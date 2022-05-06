@@ -4,12 +4,12 @@ import Box from "../../styles/Box";
 import Title from "../../styles/Title";
 import BoxHeader from "../../styles/BoxHeader";
 import Input from "../Form/Input";
-import useToggle from "../../useHooks/useToggle";
+import useToggle from "../../hooks/useToggle";
 import BoxContent from "../../styles/BoxContent";
 import Button from "../../styles/Button";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import useInput from "../../useHooks/useInput";
+import useInput from "../../hooks/useInput";
 import Message from "../Message/Message"; // rendered if invalid action occurs and renders a message
 import isStringEmptry from "../../util/isStringEmpty"; // validates whether string is empty or not
 import { useAuth } from "../../store/AuthContext";

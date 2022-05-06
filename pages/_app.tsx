@@ -6,11 +6,13 @@ import { useState } from "react";
 import IconButton from "@material-ui/core/IconButton";
 import Add from "@material-ui/icons/Add";
 import Close from "@material-ui/icons/Close";
-import useToggle from "../useHooks/useToggle"; // manages opening/closing modal, and fetching updated data from server
+import useToggle from "../hooks/useToggle"; // manages opening/closing modal, and fetching updated data from server
 import { AnimatePresence } from "framer-motion"; // used for modal animation
 import Modal from "../components/Modal"; // used for submitting new post
 import Post from "../components/Post"; // component used for creating & submitting new post
 import { IconComponent } from "../components/Icon";
+import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const CreateThread = ({ open, toggle, onClose, postToggle }) => {
   return (
@@ -45,6 +47,8 @@ const CreateThread = ({ open, toggle, onClose, postToggle }) => {
 };
 
 function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
+  const [queryClient] = useState(() => new QueryClient());
+
   // used to render loading ui
   const { open: showLoading, onClose: stopLoading, onOpen: startLoading } = useToggle();
 
@@ -65,15 +69,21 @@ function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
 
   return (
     <>
-      <AuthContext>
-        <Layout
-          showLoading={showLoading}
-          startLoading={startLoading}
-          CreateThread={<CreateThread open={open} toggle={toggle} onClose={onClose} postToggle={postToggle} />}
-        >
-          <Component {...pageProps} />
-        </Layout>
-      </AuthContext>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <AuthContext>
+            <Layout
+              showLoading={showLoading}
+              startLoading={startLoading}
+              CreateThread={<CreateThread open={open} toggle={toggle} onClose={onClose} postToggle={postToggle} />}
+            >
+              <Component {...pageProps} />
+            </Layout>
+          </AuthContext>
+        </Hydrate>
+
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }

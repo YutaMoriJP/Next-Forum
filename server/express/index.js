@@ -20,18 +20,20 @@ app.get("/.netlify/functions/express", (req, res) => {
 //options passed to mongoose.connect
 const options = {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 };
 //connect to MongoDB
 const res = mongoose
   .connect(process.env.DB_URI, options)
-  .then(mongoose => mongoose)
-  .catch(error => console.log(error.message));
+  .then((mongoose) => mongoose)
+  .catch((error) => console.log(error.message));
 
 const handler = serverless(app);
 
 module.exports.handler = async (event, context) => {
   await res;
+
   const result = await handler(event, context);
+
   return result;
 };

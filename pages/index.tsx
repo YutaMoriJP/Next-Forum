@@ -7,29 +7,28 @@ import { useEffect, useRef } from "react";
 import { getAllPosts } from "../util/getAllPosts"; // fetches data from backend in serversideprops
 import Loading from "../components/Loading"; // removed if static reg. isn't used
 import Source from "../components/Source"; // used for linking to github
+import useGetPosts, { getPosts } from "../hooks/queries/useGetPosts";
 
-interface Post {
-  title: string;
-  content: string;
-  comment: [];
-  slug: string;
-  _id: string;
-}
+import { dehydrate, QueryClient, useQuery } from "react-query";
+
+import type { Posts } from "../typings/posts";
+
 interface HomeProps {
-  posts: Post[];
-  postsState: any;
   setPostsState: any;
   postSubmitted: boolean;
   stopLoading: () => void;
 }
 
-const Home = ({ posts, postsState = [], setPostsState, postSubmitted, stopLoading }: HomeProps): JSX.Element => {
+/**
+ * @note posts is pre-fetched by getServerSideProps
+ */
+const Home = ({ setPostsState, postSubmitted, stopLoading }: HomeProps): JSX.Element => {
+  const { data, refetch, status } = useGetPosts();
+
   // if Home is mounted, setPostsState shouldn't be called, so it blocks data fetching in initial mounting phase
   const initialRender = useRef(true);
 
   useEffect(() => {
-    // postsState is managed by _app component, so the posts data is set here
-    setPostsState(posts);
     // stops loading animation when navigated from slug.tsx->index.tsx
     stopLoading();
   }, []);
@@ -38,18 +37,9 @@ const Home = ({ posts, postsState = [], setPostsState, postSubmitted, stopLoadin
   useEffect(() => {
     // effect is only called when postSubmitted updates (POST request is sent)
     // prevents effect from running in initial mounting
-    if (initialRender.current) {
-      console.log("initial render");
-      // don't fetch data in initial render, as data is only statically obtained
-    } else {
-      // TODO rewrite later
-      console.log("not initial render");
-      fetch("/.netlify/functions/express/posts")
-        .then((res) => res.json())
-        .then((data) => {
-          setPostsState(data);
-        });
-    }
+
+    // don't fetch data in initial render, as data is only statically obtained
+    if (!initialRender.current) refetch();
 
     return () => {
       // updates to false after the first render, so the data is updated
@@ -59,7 +49,7 @@ const Home = ({ posts, postsState = [], setPostsState, postSubmitted, stopLoadin
   }, [postSubmitted]);
 
   // can be deleted if page is server side rendered
-  if (!postsState.length) return <Loading />; // If page is being statically re-generated
+  if (status === "loading") return <Loading />; // If page is being statically re-generated
 
   return (
     <>
@@ -76,7 +66,7 @@ const Home = ({ posts, postsState = [], setPostsState, postSubmitted, stopLoadin
       {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}
 
       {/* posts content is fetched, and renders a posts list */}
-      {postsState.map((post) => {
+      {data.map((post) => {
         return (
           <Content
             {...post}
@@ -97,11 +87,13 @@ const Home = ({ posts, postsState = [], setPostsState, postSubmitted, stopLoadin
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const posts = await getAllPosts();
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery("posts", getPosts);
 
   return {
     props: {
-      posts
+      dehydratedState: dehydrate(queryClient)
     }
   };
 };

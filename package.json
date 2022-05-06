@@ -23,6 +23,7 @@
     "react-dom": "17.0.2",
     "react-icons": "^4.2.0",
     "react-markdown": "^7.0.1",
+    "react-query": "^3.38.1",
     "serverless-http": "^2.7.0",
     "styled-components": "^5.3.1",
     "uuid": "^8.3.2"

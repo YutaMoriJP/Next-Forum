@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useInput from "../../useHooks/useInput";
+import useInput from "../../hooks/useInput";
 import TextField from "../../styles/Input";
 interface InputProps {
   id: string;

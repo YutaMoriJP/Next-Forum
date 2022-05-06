@@ -14,13 +14,13 @@ import { AiFillRead } from "react-icons/ai";
 import { getToday } from "../../util/getDate";
 import { useAuth } from "../../store/AuthContext";
 import { decrypt } from "../../util/encrypt";
-import useToggle from "../../useHooks/useToggle";
+import useToggle from "../../hooks/useToggle";
 import Modal from "../Modal";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Input from "../Form/Input";
-import useInput from "../../useHooks/useInput";
-import isStringEmptry from "../../util/isStringEmpty"; // validates whether string is empty or not
+import useInput from "../../hooks/useInput";
+import isStringEmpty from "../../util/isStringEmpty"; // validates whether string is empty or not
 import Message from "../Message/Message"; // rendered if invalid action occurs and renders a message
 import Button from "../../styles/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -29,6 +29,8 @@ import OverlayLoading from "../Loading";
 import { useRouter } from "next/router";
 import LinkWrapper from "../LinkWrapper";
 import Markdown from "../Markdown";
+
+import useUpdatePosts from "../../hooks/mutations/useUpdatePosts";
 
 // send id as is
 // server receives id, encrypts it and stores it in database
@@ -62,9 +64,16 @@ const Update = ({ setPostState, postID, userID, title, content, main, _id }: Upd
   // if user is authorized to update content, then open state is used to open modal to update the content
   const { open, onClose, onOpen } = useToggle();
 
+  const cleanUpAfterMutate = () => {
+    onClose(); // closes modal
+    stopLoading(); // unmount loading component
+  };
+
+  const { mutate: updatePosts } = useUpdatePosts(cleanUpAfterMutate);
+
   // input value for title && content, but it's for updating them, so default value is what <Update/> receives
-  const [titleProps, resetTitle] = useInput(title);
-  const [contentProps, contentTitle] = useInput(content);
+  const [titleProps] = useInput(title);
+  const [contentProps] = useInput(content);
 
   const router = useRouter();
 
@@ -89,7 +98,7 @@ const Update = ({ setPostState, postID, userID, title, content, main, _id }: Upd
     // so only EITHER needs to be filled, if title is 'a' then isStringEmpty returns false
     // and false && true is false, or true && false is false
     // which ensures that only either title or content needs to be filled
-    if (isStringEmptry(title) && isStringEmptry(content)) {
+    if (isStringEmpty(title) && isStringEmpty(content)) {
       openMessage(); // tell user what went wrong
       return;
     }
@@ -100,25 +109,17 @@ const Update = ({ setPostState, postID, userID, title, content, main, _id }: Upd
 
     // construct updated data, only pass the updated content
     const body =
-      !isStringEmptry(title) && !isStringEmptry(content)
+      !isStringEmpty(title) && !isStringEmpty(content)
         ? { title, content }
-        : !isStringEmptry(title)
+        : !isStringEmpty(title)
         ? { title }
         : { content };
 
-    // send put request, and then update posts state
-    await fetch(`/.netlify/functions/express/posts?postUpdated=true&userID=${userID}&_id=${_id}&main=${main}`, {
+    updatePosts({
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    })
-      .then((res) => res.json())
-      .then((posts) => {
-        console.log("posts", posts);
-        setPostState(posts); // updates posts state - needed as data was updated
-        onClose(); // closes modal
-        stopLoading(); // unmount loading component
-      });
+      body,
+      params: new URLSearchParams({ userID, _id, postUpdated: "true", main: "true" })
+    });
   };
 
   // send delete request with post ID and user ID, and delete=true
@@ -281,12 +282,8 @@ const Content = (props: ContentProps): JSX.Element => {
           </Text>
 
           {/* POST CONTENT SECTION */}
-          <Markdown>
-            {main
-              ? // this checks if content was shortened, if so add '...', if not then leave as is
-                shortenContent + (content.length > shortenContent.length ? "..." : "")
-              : content}
-          </Markdown>
+          {/* this checks if content was shortened, if so add '...', if not then leave as is */}
+          <Markdown>{main ? shortenContent + (content.length > shortenContent.length ? "..." : "") : content}</Markdown>
 
           {/* if main is true, the clicking on 8 comments should navigate user to that post, but if not then only display comment count */}
           {main ? (
