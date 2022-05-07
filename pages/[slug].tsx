@@ -1,19 +1,24 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import { getAllPosts } from "../util/getAllPosts";
 import Head from "next/head";
-import { useState } from "react";
 import Loading from "../components/Loading/";
+import useGetPosts, { usePreFetchPostsQuery } from "../hooks/queries/useGetPosts";
 
-const Post = ({ post }): JSX.Element => {
+import type { Post as TPost } from "@/typings/posts";
+
+const Post = ({ post, id }): JSX.Element => {
   // needed to re-render component PUT request is sent
-  const [postState, setPostState] = useState(post);
+  // const [postState, setPostState] = useState(post);
 
-  console.log("post", post);
-  const { title, content, comments, _id, createdAt, creator, ...rest } = postState;
+  const { data: posts, status } = useGetPosts({ initialData: post });
 
-  if (!post) return <Loading />;
+  const pagePost = (posts.find((post) => post._id === id) || {}) as TPost;
+
+  const { title, content, comments, _id, createdAt, creator, ...rest } = pagePost;
+
+  if (status === "loading") return <Loading />;
 
   return (
     <>
@@ -21,7 +26,6 @@ const Post = ({ post }): JSX.Element => {
         <title>{title}</title>
         <meta name="description" content={title} />
         <meta name="author" content={creator} />
-        meta
       </Head>
 
       {/* renders the post created by the user, containing the title and content */}
@@ -32,7 +36,6 @@ const Post = ({ post }): JSX.Element => {
         creator={creator}
         createdAt={createdAt}
         comments={comments}
-        setPostState={setPostState}
         _id={_id}
         {...rest}
       />
@@ -42,8 +45,14 @@ const Post = ({ post }): JSX.Element => {
     </>
   );
 };
+/**
+ * TODO re-usable func for queryclient
+ * @see https://swizec.com/blog/prefetch-data-with-react-query-and-nextjs-codewithswiz-8-9/#add-react-query-to-the-mix
+ */
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const dehydratedState = await usePreFetchPostsQuery();
+
   // { slug: 'title-c8fc3155-497b-48c2-99f7-240a9407eea6' }
   const { slug } = params;
   const res = await getAllPosts();
@@ -52,7 +61,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   return {
     props: {
-      post
+      dehydratedState,
+      post,
+      id: post._id
     }
   };
 };

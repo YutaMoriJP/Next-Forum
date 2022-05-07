@@ -1,4 +1,3 @@
-import { SingleComment } from "./Container";
 import CommentWrapper from "../../styles/Comment";
 import Text from "../../styles/Text";
 import Icon from "../../styles/Icon";
@@ -6,12 +5,12 @@ import Column from "../../styles/ColumnFlex";
 import Row from "../../styles/RowFlex";
 import Readmore from "../Readmore/Readmore";
 import { getIconName } from "../../util/getIconName";
-import useToggle from "../../useHooks/useToggle";
+import useToggle from "../../hooks/useToggle";
 import Input from "../Form/Input";
 import React from "react";
 import Right from "../../styles/Right";
 import Message from "../Message/Message";
-import useInput from "../../useHooks/useInput";
+import useInput from "../../hooks/useInput";
 import isStringEmpty from "../../util/isStringEmpty";
 import ReplyContainer from "../../styles/Reply";
 import ReplyButtonContainer from "../../styles/ReplyButtonContainer";
@@ -22,6 +21,9 @@ import Center from "../../styles/Center";
 // import MaterialButton from "@material-ui/core/Button";
 import { MaterialButton } from "../../styles/Button";
 import { getToday } from "../../util/getDate";
+
+import type { HandleResponseSubmit } from "./Container";
+import type { Comment as TComment } from "@/typings/comments";
 
 type ReplyProps = {
   handleResponseSubmit: (reply: string, comment: string, originalUser: string, colorID: number) => Promise<void>;
@@ -119,8 +121,8 @@ const Comment = ({
   userName,
   colorID,
   reply,
-  handleResponseSubmit // fired wher responds to comment
-}: SingleComment): JSX.Element => {
+  handleResponseSubmit // fired where responds to comment
+}: TComment & { handleResponseSubmit: HandleResponseSubmit }): JSX.Element => {
   const iconName = getIconName(userName);
 
   // if reply is truthy, then the comment is a response to another user

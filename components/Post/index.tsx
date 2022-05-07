@@ -1,19 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/router";
-import Box from "../../styles/Box";
-import Title from "../../styles/Title";
-import BoxHeader from "../../styles/BoxHeader";
+import Box from "@/styles/Box";
+import Title from "@/styles/Title";
+import BoxHeader from "@/styles/BoxHeader";
 import Input from "../Form/Input";
-import useToggle from "../../useHooks/useToggle";
-import BoxContent from "../../styles/BoxContent";
-import Button from "../../styles/Button";
+import useToggle from "@/hooks/useToggle";
+import BoxContent from "@/styles/BoxContent";
+import Button from "@/styles/Button";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import useInput from "../../useHooks/useInput";
+import useInput from "@/hooks/useInput";
 import Message from "../Message/Message"; // rendered if invalid action occurs and renders a message
-import isStringEmptry from "../../util/isStringEmpty"; // validates whether string is empty or not
-import { useAuth } from "../../store/AuthContext";
-import getUsername from "../../util/getUsername";
+import isStringEmpty from "util/isStringEmpty"; // validates whether string is empty or not
+import { useAuth } from "@/store/AuthContext";
+import getUsername from "util/getUsername";
+import useUpdatePosts from "@/hooks/mutations/useUpdatePosts";
+
+import type { Post } from "@/typings/posts";
 
 interface MockProps {
   handleClose: () => void;
@@ -34,7 +37,6 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
   // post title & content
   const [title, resetTitle] = useInput("");
   const [content, resetContent] = useInput("");
-  // helper function to reset input fields
 
   const resetInput = () => {
     resetTitle();
@@ -42,6 +44,19 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
   };
 
   const pageSlug = useRef(null);
+
+  const cleanUp = (data: Post) => {
+    // update <Home/> to render the newly created data
+    postToggle();
+    // clean up input
+    resetInput();
+    // close modal
+    handleClose();
+
+    pageSlug.current = data.slug;
+  };
+
+  const { mutate: createPost } = useUpdatePosts(cleanUp);
 
   // used to re-direct user to the newly created post
   const router = useRouter();
@@ -52,7 +67,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     const { value: contentVal } = content;
 
     // validation - if title or content are empty, then POST request is not sent
-    if (isStringEmptry(titleVal) || isStringEmptry(contentVal)) {
+    if (isStringEmpty(titleVal) || isStringEmpty(contentVal)) {
       onOpen();
       return;
     }
@@ -63,41 +78,18 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     // if user is logged in pass user id as postID
     // user could be null if user is not logged in, use ternary operator to assign postID to an empty object in that case
     // which means that the post will not contain postID, {title, content, creator, ...postID}
-    const postID = user ? { postID: user.id } : {};
+    const postID = (user ? { postID: user.id } : {}) as { [key: string]: string };
 
-    // body data for post request
-    const postData = {
+    // if postID exists then postID:1, but if not then a new property is not added
+    // and the created post cannot be updated/deleted by the use
+    const body = {
       title: titleVal,
       content: contentVal,
       creator: userName,
-      // if postID exists then postID:1, but if not then a new property is not added
-      // and the created post cannot be updated/deleted by the user
       ...postID
     };
 
-    // send post request like this?
-    await fetch("/.netlify/functions/express/posts", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postData)
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // stores a reference of the newly created post's slug
-        pageSlug.current = data.slug;
-        return data;
-      })
-      .catch((e) => {
-        console.log("e", e.message);
-        return e;
-      });
-
-    // update <Home/> to render the newly created data
-    postToggle();
-    // clean up input
-    resetInput();
-    // close modal
-    handleClose();
+    createPost({ method: "POST", body, params: "" });
 
     // if at home then user does not need to be re-directed to home page
     router.asPath !== "/" && router.push("/");

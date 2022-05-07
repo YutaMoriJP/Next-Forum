@@ -1,4 +1,4 @@
-import useToggle from "../../useHooks/useToggle";
+import useToggle from "../../hooks/useToggle";
 import ReadMore from "../../styles/Readmore";
 import Markdown from "../Markdown";
 
