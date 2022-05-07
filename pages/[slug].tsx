@@ -8,17 +8,17 @@ import useGetPosts, { usePreFetchPostsQuery } from "../hooks/queries/useGetPosts
 
 import type { Post as TPost } from "@/typings/posts";
 
-const Post = ({ post, id }): JSX.Element => {
+const Post = ({ slug }): JSX.Element => {
   // needed to re-render component PUT request is sent
   // const [postState, setPostState] = useState(post);
 
-  const { data: posts, status } = useGetPosts({ initialData: post });
-
-  const pagePost = (posts.find((post) => post._id === id) || {}) as TPost;
-
-  const { title, content, comments, _id, createdAt, creator, ...rest } = pagePost;
+  const { data: posts, status } = useGetPosts();
 
   if (status === "loading") return <Loading />;
+
+  const pagePost = (posts.find((post) => post.slug === slug) || {}) as TPost;
+
+  const { title, content, comments, _id, createdAt, creator, ...rest } = pagePost;
 
   return (
     <>
@@ -55,15 +55,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   // { slug: 'title-c8fc3155-497b-48c2-99f7-240a9407eea6' }
   const { slug } = params;
-  const res = await getAllPosts();
-
-  const post = res.find((post) => post.slug === slug);
 
   return {
     props: {
       dehydratedState,
-      post,
-      id: post._id
+      slug
     }
   };
 };
