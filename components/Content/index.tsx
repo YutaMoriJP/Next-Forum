@@ -207,6 +207,7 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
 
 const Content = (props: ContentProps): JSX.Element => {
   const { title, content, slug = "", main = false, createdAt, creator = "Anonymous", comments = [] } = props;
+
   // used to render loading ui
   const { open: showLoading, onOpen: startLoading } = useToggle();
 

@@ -2,14 +2,10 @@
 import Head from "next/head";
 import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import Content from "../components/Content"; // renders post content
-import Post from "../components/Post"; // component used for creating & submitting new post
 import { useEffect, useRef } from "react";
-import { getAllPosts } from "../util/getAllPosts"; // fetches data from backend in serversideprops
 import Loading from "../components/Loading"; // removed if static reg. isn't used
 import Source from "../components/Source"; // used for linking to github
-import useGetPosts, { getPosts } from "../hooks/queries/useGetPosts";
-
-import { dehydrate, QueryClient } from "react-query";
+import useGetPosts, { usePreFetchPostsQuery } from "../hooks/queries/useGetPosts";
 
 interface HomeProps {
   setPostsState: any;
@@ -21,7 +17,7 @@ interface HomeProps {
 /**
  * @note posts is pre-fetched by getServerSideProps
  */
-const Home = ({ setPostsState, postSubmitted, stopLoading }: HomeProps): JSX.Element => {
+const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
   const { data, refetch, status } = useGetPosts();
 
   // if Home is mounted, setPostsState shouldn't be called, so it blocks data fetching in initial mounting phase
@@ -91,13 +87,11 @@ const Home = ({ setPostsState, postSubmitted, stopLoading }: HomeProps): JSX.Ele
  * @see https://prateeksurana.me/blog/mastering-data-fetching-with-react-query-and-next-js/#fetching-data-on-the-server
  */
 export const getServerSideProps: GetServerSideProps = async () => {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery("posts", getPosts);
+  const dehydratedState = await usePreFetchPostsQuery();
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient)
+      dehydratedState
     }
   };
 };

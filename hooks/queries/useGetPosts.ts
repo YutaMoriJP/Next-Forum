@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, QueryClient, dehydrate } from "react-query";
 import errorHandler from "@/util/errorHandler";
 
 import type { Posts } from "../../typings/posts";
@@ -19,6 +19,14 @@ export const getPosts = async (): Promise<Posts> => {
   } catch (error) {
     throw error;
   }
+};
+
+export const usePreFetchPostsQuery = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery(POST_QUERY_KEY, getPosts);
+
+  return dehydrate(queryClient);
 };
 
 export default function useGetPosts(options?: UseQueryOptions<Posts, IError>) {
