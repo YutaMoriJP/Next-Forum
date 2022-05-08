@@ -43,7 +43,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     resetContent();
   };
 
-  const pageSlug = useRef(null);
+  const pageSlug = useRef<string>("");
 
   const cleanUp = (data: Post) => {
     // update <Home/> to render the newly created data
@@ -78,7 +78,9 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     // if user is logged in pass user id as postID
     // user could be null if user is not logged in, use ternary operator to assign postID to an empty object in that case
     // which means that the post will not contain postID, {title, content, creator, ...postID}
-    const postID = (user ? { postID: user.id } : {}) as { [key: string]: string };
+    const postID = (user ? { postID: user.id } : {}) as {
+      [key: string]: string;
+    };
 
     // if postID exists then postID:1, but if not then a new property is not added
     // and the created post cannot be updated/deleted by the use
@@ -86,7 +88,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       title: titleVal,
       content: contentVal,
       creator: userName,
-      ...postID
+      ...postID,
     };
 
     createPost({ method: "POST", body, params: "" });
@@ -109,7 +111,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       // after 800ms seconds
       if (pageSlug.current) {
         setTimeout(() => {
-          router.push(pageSlug.current);
+          pageSlug.current && router.push(pageSlug.current);
         }, 800);
       }
     };

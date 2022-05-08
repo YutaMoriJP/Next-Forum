@@ -40,15 +40,7 @@ const Nav = ({ CreateThread, showLoading, startLoading }: NavProps): JSX.Element
   //changes icon color to grey if button is disabled
   const disableHomeButton = isHome ? "grey" : "#4926b4";
 
-  const handleClick = (): void => {
-    if (user) {
-      //if user is logged in, then logout should be called
-      logout();
-    } else {
-      //if user is not logged in, then login should be called
-      login();
-    }
-  };
+  const handleClick = () => (user ? logout() : login());
 
   return (
     <>

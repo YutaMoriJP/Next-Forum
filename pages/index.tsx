@@ -1,11 +1,12 @@
-// index.ts
 import Head from "next/head";
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps } from "next";
 import Content from "../components/Content"; // renders post content
 import { useEffect, useRef } from "react";
 import Loading from "../components/Loading"; // removed if static reg. isn't used
 import Source from "../components/Source"; // used for linking to github
-import useGetPosts, { usePreFetchPostsQuery } from "../hooks/queries/useGetPosts";
+import useGetPosts, {
+  usePreFetchPostsQuery,
+} from "../hooks/queries/useGetPosts";
 
 interface HomeProps {
   setPostsState: any;
@@ -16,7 +17,10 @@ interface HomeProps {
 
 /**
  * @note posts is pre-fetched by getServerSideProps
+ *
+ * @returns {JSX.Element} The home page of the app.
  */
+
 const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
   const { data, refetch, status } = useGetPosts();
 
@@ -50,32 +54,39 @@ const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
     <>
       <Head>
         <title>HOME</title>
-        <meta name="description" content="Modern Forum Applications for fun discussions" />
-        <meta name="keywords" content="Forum, Discussions, NextJS Forum, React Forum" />
+        <meta
+          name="description"
+          content="Modern Forum Applications for fun discussions"
+        />
+        <meta
+          name="keywords"
+          content="Forum, Discussions, NextJS Forum, React Forum"
+        />
       </Head>
 
-      {/*Github link */}
+      {/* Github link */}
       <Source />
 
       {/* renders Modal component by updating open state*/}
       {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}
 
       {/* posts content is fetched, and renders a posts list */}
-      {data.map((post) => {
-        return (
-          <Content
-            {...post}
-            key={post._id}
-            title={post.title}
-            content={post.content}
-            slug={post.slug}
-            creator={post.creator}
-            createdAt={post.createdAt}
-            comments={post.comments}
-            main={true}
-          ></Content>
-        );
-      })}
+      {status === "success" &&
+        data.map((post) => {
+          return (
+            <Content
+              {...post}
+              key={post._id}
+              title={post.title}
+              content={post.content}
+              slug={post.slug}
+              creator={post.creator}
+              createdAt={post.createdAt}
+              comments={post.comments}
+              main={true}
+            ></Content>
+          );
+        })}
     </>
   );
 };
@@ -91,8 +102,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: {
-      dehydratedState
-    }
+      dehydratedState,
+    },
   };
 };
 

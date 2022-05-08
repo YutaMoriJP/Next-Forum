@@ -32,7 +32,7 @@ const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutPro
     const hasVisitedPage: boolean = getItem("hasVisitedPage");
     if (hasVisitedPage) return;
 
-    //if the code block below runs, then it means the user is visting the page for the first time
+    //if the code block below runs, then it means the user is visiting the page for the first time
     //so open modal with onOpen(), and then set localStorage item to true, so in the next page visit, hasVisitedPage points at true, and modal isn't shown
     //opens modal AFTER initial mounting
     onOpen();
@@ -47,6 +47,7 @@ const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutPro
           <Box>
             <BoxHeader>
               <Title>Hi! Thank you for visiting.</Title>
+
               <IconButton onClick={onClose}>
                 <CloseIcon />
               </IconButton>
@@ -65,12 +66,12 @@ const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutPro
         </Modal>
       )}
 
-      {/* user needs to be authroized first to see UI */}
+      {/* user needs to be authorized first to see UI */}
       {/* using authReady avoids using it in other places like Nav, or other nested children */}
       {authReady ? (
         <>
           <Nav CreateThread={CreateThread} showLoading={showLoading} startLoading={startLoading} />
-          
+
           {children}
         </>
       ) : null}

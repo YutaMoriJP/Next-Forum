@@ -8,8 +8,8 @@ import Loading from "../components/Loading";
 // custom Error Page  next/Error
 
 const Error = (): JSX.Element => {
-  const timerRef = useRef<NodeJS.Timeout>(null);
-  const counterRef = useRef<NodeJS.Timeout>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const counterRef = useRef<NodeJS.Timeout | null>(null);
 
   const [counter, setCount] = useState(5);
 
@@ -28,10 +28,11 @@ const Error = (): JSX.Element => {
 
     return (): void => {
       // when component unmounts, clean up side-effects
-      clearTimeout(timerRef.current);
-      clearInterval(counterRef.current);
+      timerRef.current && clearTimeout(timerRef.current);
+      counterRef.current && clearInterval(counterRef.current);
     };
   }, []);
+
   return (
     <>
       <Center>
@@ -41,7 +42,9 @@ const Error = (): JSX.Element => {
           {counter === 0 ? (
             <Loading style={{ color: "white" }} />
           ) : (
-            `You will be redirected in ${counter} second${counter === 1 ? "" : "s"}.`
+            `You will be redirected in ${counter} second${
+              counter === 1 ? "" : "s"
+            }.`
           )}{" "}
         </Text>
       </Center>

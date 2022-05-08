@@ -6,7 +6,7 @@ import ModalMotion from "../../styles/Modal";
 const dropIn = {
   hidden: {
     y: "-100vh",
-    opacity: 0
+    opacity: 0,
   },
   visible: {
     y: "0",
@@ -15,13 +15,13 @@ const dropIn = {
       duration: 0.1,
       type: "spring",
       damping: 25,
-      stiffness: 500
-    }
+      stiffness: 500,
+    },
   },
   exit: {
     y: "100vh",
-    opacity: 0
-  }
+    opacity: 0,
+  },
 };
 
 interface ModalProps {
@@ -42,7 +42,8 @@ const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
     const isSupported = "addEventListener" in document?.body;
     if (!isSupported) return;
 
-    const handleEscClose = (e: KeyboardEvent) => e.key === "Escape" && handleClose();
+    const handleEscClose = (e: KeyboardEvent) =>
+      e.key === "Escape" && handleClose();
     document.body.addEventListener("keydown", handleEscClose);
 
     return () => document.body.removeEventListener("keydown", handleEscClose);
@@ -50,7 +51,7 @@ const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
 
   useEffect(() => {
     // For Accessibility modal should be focused, tabIndex={1} is necessary since it's a div element
-    ref.current.focus();
+    ref.current && ref.current.focus();
   }, []);
 
   return (
