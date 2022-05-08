@@ -1,5 +1,4 @@
 import "../styles/globals.css";
-import { AppProps } from "next/app";
 import Layout from "../components/Layout/Layout";
 import AuthContext from "../store/AuthContext";
 import { useState } from "react";
@@ -14,19 +13,17 @@ import { IconComponent } from "../components/Icon";
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
+import type { AppProps } from "next/app";
+
 const CreateThread = ({ open, toggle, onClose, postToggle }) => {
   return (
     <>
       <IconComponent
         txt={!open ? "CREATE THREAD" : "CLOSE THREAD"}
         Icon={
-          <IconButton onClick={toggle}>
+          <IconButton onClick={toggle} aria-label={open ? "Close Thread" : "Open Thread"}>
             {/*if open is false, then + open icon will be rendered, if not then - close icon will be rendered*/}
-            {!open ? (
-              <Add color="primary" aria-label="Open Thread" />
-            ) : (
-              <Close color="primary" aria-label="Close Thread" />
-            )}
+            {!open ? <Add color="primary" /> : <Close color="primary" />}
           </IconButton>
         }
       />

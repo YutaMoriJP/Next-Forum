@@ -144,8 +144,8 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
       {showLoading ? <OverlayLoading fixed={true} /> : null}
 
       {/*rendered next to title of the post, CreateIcon opens Modal to update post, DeleteIcon will delete the post */}
-      <IconButton onClick={onOpen}>
-        <CreateIcon aria-label="Update Post" style={{ fontSize: "1rem" }} />
+      <IconButton onClick={onOpen} aria-label="Update Post">
+        <CreateIcon style={{ fontSize: "1rem" }} />
       </IconButton>
 
       <IconButton aria-label="Delete Post" onClick={handleDelete}>
@@ -157,8 +157,8 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
           <Box>
             <BoxHeader>
               <Title alignSelf="center">Update Post</Title>
-              <IconButton onClick={onClose}>
-                <CloseIcon aria-label="Close Thread" />
+              <IconButton onClick={onClose} aria-label="Close Thread">
+                <CloseIcon />
               </IconButton>
             </BoxHeader>
 

@@ -51,7 +51,7 @@ export const IconComponent = ({ Icon, txt }: IconComponentProps): JSX.Element =>
 const IconLinkComponent = ({ href, txt, Icon }: IoncLinkComponent): JSX.Element => {
   return (
     <IconWrapper>
-      <Link href={href} target="_blank" rel="noreferrer">
+      <Link href={href} target="_blank" rel="noreferrer" alt="Github repository">
         <span className="tooltiptext">{txt}</span>
         {Icon}
       </Link>

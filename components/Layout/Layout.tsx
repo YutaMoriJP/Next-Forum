@@ -12,11 +12,9 @@ import ReactMarkdown from "react-markdown";
 import { useAuth } from "../../store/AuthContext";
 import { setItem, getItem } from "../../util/localStorage";
 
-//import Loading from "../Loading/index";
 interface LayoutProps {
   children: React.ReactNode;
   CreateThread: React.ReactNode;
-
   showLoading: boolean;
   startLoading: () => void;
 }
@@ -33,6 +31,7 @@ const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutPro
     //the message modal should only be shown to users that visit the page for the first time and not for every page visit
     const hasVisitedPage: boolean = getItem("hasVisitedPage");
     if (hasVisitedPage) return;
+
     //if the code block below runs, then it means the user is visting the page for the first time
     //so open modal with onOpen(), and then set localStorage item to true, so in the next page visit, hasVisitedPage points at true, and modal isn't shown
     //opens modal AFTER initial mounting
@@ -71,6 +70,7 @@ const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutPro
       {authReady ? (
         <>
           <Nav CreateThread={CreateThread} showLoading={showLoading} startLoading={startLoading} />
+          
           {children}
         </>
       ) : null}

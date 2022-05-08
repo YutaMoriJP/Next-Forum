@@ -14,8 +14,7 @@ import OverlayLoading from "../Loading";
 import { Message } from "kantan-components";
 
 const IconButton = styled(IconWrapper)`
-  pointer-events: ${(props: { pointerEvent: string }) =>
-    props.pointerEvent || "auto"};
+  pointer-events: ${(props: { pointerEvent: string }) => props.pointerEvent || "auto"};
 `;
 const HomeIcon = styled(Home)`
   color: ${(props: { color: string }) => props.color || "purple"};
@@ -27,19 +26,19 @@ interface NavProps {
   startLoading: () => void;
 }
 
-const Nav = ({
-  CreateThread,
-  showLoading,
-  startLoading,
-}: NavProps): JSX.Element => {
+const Nav = ({ CreateThread, showLoading, startLoading }: NavProps): JSX.Element => {
   const { login, logout, authReady, user, open, onClose, message } = useAuth();
+
   const { asPath } = useRouter(); //used to check the current route
   console.log("user", user);
   console.log("authReady", authReady);
+
+  const isHome = asPath === "/";
+
   //used to disable <Link/> when already at '/' route, so that <Home/> isn't unnecessarily rendered
-  const disableIconButton = asPath === "/" ? "none" : "auto";
+  const disableIconButton = isHome ? "none" : "auto";
   //changes icon color to grey if button is disabled
-  const disableHomeButton = asPath === "/" ? "grey" : "#4926b4";
+  const disableHomeButton = isHome ? "grey" : "#4926b4";
 
   const handleClick = (): void => {
     if (user) {
@@ -56,18 +55,16 @@ const Nav = ({
       {/* loading animation when user navigates back to homepage */}
       {showLoading ? <OverlayLoading fixed={true} /> : null}
       <Navbar>
-         {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav */}
+        {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav */}
         {CreateThread}
+
         {/* allows user to navigate back to homepage*/}
         <IconComponent
           txt="HOME"
           Icon={
-            <LinkWrapper
-              onClick={asPath === "/" ? () => null : startLoading}
-              href="/"
-            >
-              <IconButton pointerEvent={disableIconButton}>
-                <HomeIcon color={disableHomeButton} aria-label="Home Icon" />
+            <LinkWrapper onClick={asPath === "/" ? () => null : startLoading} href="/">
+              <IconButton pointerEvent={disableIconButton} aria-label="Home Icon">
+                <HomeIcon color={disableHomeButton} />
               </IconButton>
             </LinkWrapper>
           }
@@ -76,17 +73,16 @@ const Nav = ({
         <IconComponent
           txt={user ? "LOGOUT" : "LOGIN"}
           Icon={
-            <IconWrapper onClick={handleClick} style={{ position: "relative" }}>
+            <IconWrapper
+              onClick={handleClick}
+              style={{ position: "relative" }}
+              aria-label={user ? "Log out" : "Log in"}
+            >
               {user ? (
                 <>
                   <LockCloseIcon style={{ color: "#4926b4" }} />
                   {open ? (
-                    <Message
-                      ms={1000}
-                      onClose={onClose}
-                      fixed={true}
-                      color="#5f3dc4"
-                    >
+                    <Message ms={1000} onClose={onClose} fixed={true} color="#5f3dc4">
                       {message}
                     </Message>
                   ) : null}
@@ -95,12 +91,7 @@ const Nav = ({
                 <>
                   <LockOpenIcon style={{ color: "#4926b4" }} />
                   {open ? (
-                    <Message
-                      ms={1000}
-                      onClose={onClose}
-                      fixed={true}
-                      color="#5f3dc4"
-                    >
+                    <Message ms={1000} onClose={onClose} fixed={true} color="#5f3dc4">
                       {message}
                     </Message>
                   ) : null}
