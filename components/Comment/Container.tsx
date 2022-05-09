@@ -37,14 +37,14 @@ const Comments = ({ comments, handleResponseSubmit }: CommentProps): JSX.Element
 
   return (
     <>
-      <Row justify="space-between" align="center" marginTop="1.6rem">
-        <Title as={"h5"} position="left" alignSelf="center">
-          {/*add 's' to Comment if comments is 0 or more than 1*/}
+      <Row $justify="space-between" $align="center" $marginTop="1.6rem">
+        <Title as={"h5"} $position="left" $align="center">
+          {/* add 's' to Comment if comments is 0 or more than 1 */}
           {`${comments.length} Comment${comments.length > 1 || comments.length === 0 ? "s" : ""}`}
         </Title>
 
         {/* gives users option to sort comments*/}
-        <Column width="content-width">
+        <Column $width="content-width">
           <Select
             name="Sorted by"
             label="sort-comments"

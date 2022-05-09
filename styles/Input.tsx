@@ -1,7 +1,9 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Box from "./Box";
 
-const Input = styled.input`
+import type { ComponentProps } from "react";
+
+const Input = styled.input<ComponentProps<"input">>`
   width: 100%;
   max-width: 600px;
   padding: 20px;
@@ -17,7 +19,6 @@ const Input = styled.input`
   :hover {
     background: white;
   }
-  s
   ${Box} & {
     width: 100%;
   }

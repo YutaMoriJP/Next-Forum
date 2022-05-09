@@ -22,21 +22,13 @@ interface CreateThreadProps {
   postToggle: () => void;
 }
 
-const CreateThread = ({
-  open,
-  toggle,
-  onClose,
-  postToggle,
-}: CreateThreadProps) => {
+const CreateThread = ({ open, toggle, onClose, postToggle }: CreateThreadProps) => {
   return (
     <>
       <IconComponent
         txt={!open ? "CREATE THREAD" : "CLOSE THREAD"}
         Icon={
-          <IconButton
-            onClick={toggle}
-            aria-label={open ? "Close Thread" : "Open Thread"}
-          >
+          <IconButton onClick={toggle} aria-label={open ? "Close Thread" : "Open Thread"}>
             {/* if open is false, then + open icon will be rendered, if not then - close icon will be rendered */}
             {!open ? <Add color="primary" /> : <Close color="primary" />}
           </IconButton>
@@ -62,11 +54,7 @@ function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
   const [queryClient] = useState(() => new QueryClient());
 
   // used to render loading ui
-  const {
-    open: showLoading,
-    onClose: stopLoading,
-    onOpen: startLoading,
-  } = useToggle();
+  const { open: showLoading, onClose: stopLoading, onOpen: startLoading } = useToggle();
 
   const { open, toggle, onClose } = useToggle();
   const { open: postSubmitted, toggle: postToggle } = useToggle();
@@ -78,7 +66,7 @@ function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
     postsState,
     setPostsState,
     postSubmitted,
-    stopLoading,
+    stopLoading
   };
 
   console.log("page renders...", pageProps);
@@ -91,14 +79,7 @@ function MyApp({ Component, pageProps: props }: AppProps): JSX.Element {
             <Layout
               showLoading={showLoading}
               startLoading={startLoading}
-              CreateThread={
-                <CreateThread
-                  open={open}
-                  toggle={toggle}
-                  onClose={onClose}
-                  postToggle={postToggle}
-                />
-              }
+              CreateThread={<CreateThread open={open} toggle={toggle} onClose={onClose} postToggle={postToggle} />}
             >
               <Component {...pageProps} />
             </Layout>

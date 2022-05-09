@@ -5,7 +5,7 @@ const BoxContent = styled.div`
   padding: 10px 0;
   flex-direction: column;
   line-height: 30px;
-  
+
   > * {
     margin: 5px;
   }

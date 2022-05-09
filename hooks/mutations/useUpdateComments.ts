@@ -15,7 +15,7 @@ type MutatePostsArgs = {
   params?: URLSearchParams;
 };
 
-const mutatePosts = async ({ method, body, params }): Promise<Post> => {
+const mutatePosts = async ({ method, body, params }: MutatePostsArgs): Promise<Post> => {
   try {
     const res = await fetch(`/.netlify/functions/express/posts?${params ?? ""}`, {
       method,

@@ -3,6 +3,8 @@ import netlifyIdentity, { User } from "netlify-identity-widget";
 import { generateNumber } from "../util/generateNum";
 import { useToggle } from "kantan-hooks";
 
+import type { ReactNode } from "react";
+
 const initialContextValue = {
   login: () => {},
   logout: () => {},
@@ -38,7 +40,7 @@ const logout = (): void => {
   netlifyIdentity.logout();
 };
 
-const AuthContextComponent = ({ children }) => {
+const AuthContextComponent = ({ children }: { children: ReactNode }) => {
   // stores user data when logged in
   const [user, setUser] = useState<User | null>(null);
 
@@ -104,14 +106,17 @@ const AuthContextComponent = ({ children }) => {
       if (!user) return;
 
       // used to check if user has already color id stored, if so return
+      // @ts-ignore
       const currentUser = await netlifyIdentity.gotrue.currentUser();
 
       if (currentUser?.user_metadata?.color) {
         console.log("color stored so return");
+
         return;
       }
 
       const userSetting = { data: { color: generateNumber(1, 6) } };
+      // @ts-ignore
       await netlifyIdentity.gotrue.currentUser().update(userSetting);
     };
 
@@ -122,7 +127,7 @@ const AuthContextComponent = ({ children }) => {
       netlifyIdentity.off("login");
       netlifyIdentity.off("logout");
     };
-  }, []);
+  }, [onOpen, user]);
 
   useEffect(() => {
     //  Needed to correctly render message logged in/out

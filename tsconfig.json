@@ -2,12 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/hooks/*":["hooks/*"],
-      "@/components/*":["components/*"],
+      "@/hooks/*": ["hooks/*"],
+      "@/components/*": ["components/*"],
       "@/util/*": ["util/*"],
-      "@/styles/*":["styles/*"],
-      "@/store/*":["store/*"],
-      "@/typings/*":["typings/*"]
+      "@/styles/*": ["styles/*"],
+      "@/store/*": ["store/*"],
+      "@/typings/*": ["typings/*"]
     },
     "allowJs": true,
     "allowUnreachableCode": false,

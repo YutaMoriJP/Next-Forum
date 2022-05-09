@@ -69,6 +69,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     // validation - if title or content are empty, then POST request is not sent
     if (isStringEmpty(titleVal) || isStringEmpty(contentVal)) {
       onOpen();
+
       return;
     }
 
@@ -88,7 +89,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       title: titleVal,
       content: contentVal,
       creator: userName,
-      ...postID,
+      ...postID
     };
 
     createPost({ method: "POST", body, params: "" });
@@ -115,12 +116,12 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
         }, 800);
       }
     };
-  }, []);
+  }, [router]);
 
   return (
     <Box>
       <BoxHeader>
-        <Title alignSelf="center">New Topic</Title>
+        <Title $align="center">New Topic</Title>
         <IconButton onClick={handleClose}>
           <CloseIcon aria-label="Close Thread" />
         </IconButton>

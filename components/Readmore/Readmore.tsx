@@ -13,7 +13,7 @@ interface ReadMoreProps {
 }
 
 const More = ({ open, onOpen, onClose }: MoreProps) => (
-  <StyledReadMore onClick={open ? onClose : onOpen} size="0.8rem">
+  <StyledReadMore onClick={open ? onClose : onOpen} $size="0.8rem">
     {open ? "Hide." : "read more"}
   </StyledReadMore>
 );
@@ -29,9 +29,7 @@ const ReadMore = ({ children }: ReadMoreProps): JSX.Element => {
   return (
     <>
       {/*  rest.length checks that comment is large, and if open is also true, then rest will be rendered */}
-      <Markdown>
-        {visibleComment + " " + (rest.length > 0 && open ? rest : "")}
-      </Markdown>
+      <Markdown>{visibleComment + " " + (rest.length > 0 && open ? rest : "")}</Markdown>
 
       {/* if rest is an empty string then <More/> will NOT be rendered */}
       {/* <More/> will toggle the open state, with a Read More... and Hide text */}

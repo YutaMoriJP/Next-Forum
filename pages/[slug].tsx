@@ -4,9 +4,7 @@ import Form from "../components/Form/Form";
 import Content from "../components/Content";
 import Head from "next/head";
 import Loading from "../components/Loading/";
-import useGetPosts, {
-  usePreFetchPostsQuery,
-} from "../hooks/queries/useGetPosts";
+import useGetPosts, { preFetchPostsQuery } from "../hooks/queries/useGetPosts";
 
 import type { Post as TPost } from "@/typings/posts";
 
@@ -24,8 +22,7 @@ const Post = ({ slug }: PostProps): JSX.Element => {
 
   const pagePost = (posts.find((post) => post.slug === slug) || {}) as TPost;
 
-  const { title, content, comments, _id, createdAt, creator, ...rest } =
-    pagePost;
+  const { title, content, comments, _id, createdAt, creator, ...rest } = pagePost;
 
   return (
     <>
@@ -58,7 +55,7 @@ const Post = ({ slug }: PostProps): JSX.Element => {
  */
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const dehydratedState = await usePreFetchPostsQuery();
+  const dehydratedState = await preFetchPostsQuery();
 
   // { slug: 'title-c8fc3155-497b-48c2-99f7-240a9407eea6' }
   const { slug } = context.params as { slug: string };
@@ -66,8 +63,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       dehydratedState,
-      slug,
-    },
+      slug
+    }
   };
 };
 

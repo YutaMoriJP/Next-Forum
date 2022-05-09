@@ -46,8 +46,6 @@ interface MarkdownProps {
   main?: boolean;
 }
 
-const Markdown = ({ children }: MarkdownProps) => (
-  <StyledMarkdown>{children}</StyledMarkdown>
-);
+const Markdown = ({ children }: MarkdownProps) => <StyledMarkdown>{children}</StyledMarkdown>;
 
 export default Markdown;

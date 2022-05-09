@@ -20,7 +20,7 @@ export const getItem = (key: string) => {
   if (storedItem === null) return null;
 
   try {
-    //Try to call JSON.parse on the storedItem, string primitive will throw an error
+    // Try to call JSON.parse on the storedItem, string primitive will throw an error
     const deserializedItem = JSON.parse(storedItem);
 
     // If it doesn't throw an error, value is 1, [1,2], {a:1} etc., then return value
@@ -28,7 +28,7 @@ export const getItem = (key: string) => {
   } catch (error) {
     // JSON.parse(storedItem) threw a SyntaxError, check if it's a SyntaxError
     // If error is a SyntaxError, then simply return storedItem, which returns the stored string
-    if (error.name === "SyntaxError") return storedItem;
+    if ((error as unknown as Error).name === "SyntaxError") return storedItem;
 
     // If it's something else, then return the error, so we are aware of the error
     return error;

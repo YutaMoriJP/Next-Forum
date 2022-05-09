@@ -52,6 +52,7 @@ const Reply = ({ handleResponseSubmit, userName, comment, colorID }: ReplyProps)
     // if empty, alert the user and return from function
     if (isEmpty) {
       openMessage(); // mounts <Message/>
+
       return;
     }
 
@@ -61,9 +62,10 @@ const Reply = ({ handleResponseSubmit, userName, comment, colorID }: ReplyProps)
     // unmounts input field as reply is already submitted
     toggle();
   };
+
   return (
     <>
-      {/*opens/closes reply input field */}
+      {/* opens/closes reply input field */}
       <ReplyButtonContainer>
         <MaterialButton
           onClick={toggle}
@@ -107,7 +109,7 @@ const Reply = ({ handleResponseSubmit, userName, comment, colorID }: ReplyProps)
       {isMessageOpen && (
         <Center>
           <Message ms={3000} onClose={closeMessage} color="#f03e3e" role="alert" id="alertMessage">
-            Please ensure your response isn't empty.
+            Please ensure your response isn&apos;t empty.
           </Message>
         </Center>
       )}
@@ -131,29 +133,29 @@ const Comment = ({
 
     return (
       <CommentWrapper>
-        <Icon count={colorID}>{iconName}</Icon>
+        <Icon $count={colorID}>{iconName}</Icon>
         <Column>
           <Row>
             {/* username, added later when intergrated with netlify identity */}
-            <Text as="span" weight={500}>
+            <Text as="span" $weight={500}>
               {userName}
             </Text>
 
             {/* date */}
-            <Text as="time" color="#495057" size="0.6rem" aria-label={getToday(new Date(date))} datetime={date}>
+            <Text as="time" $color="#495057" $size="0.6rem" aria-label="Comment Date">
               {getToday(new Date(date))}
             </Text>
           </Row>
 
           {/* comment */}
-          <Text weight={200}>
+          <Text $weight={200}>
             <ReplyContainer>
               <Row>
-                <Icon count={reply.colorID} small={1}>
+                <Icon $count={reply.colorID} $small={true}>
                   {replyIconName}
                 </Icon>
 
-                <Text weight={300}>{reply.originalUser} posted:</Text>
+                <Text $weight={300}>{reply.originalUser} posted:</Text>
               </Row>
 
               <Readmore>{comment}</Readmore>
@@ -172,26 +174,27 @@ const Comment = ({
       </CommentWrapper>
     );
   }
+
   // if reply is falsy, then the rendered comment is a new comment and not a reply
   return (
     <CommentWrapper>
-      <Icon count={colorID}>{iconName}</Icon>
+      <Icon $count={colorID}>{iconName}</Icon>
 
       <Column>
         <Row>
-          {/* username, added later when intergrated with netlify identity */}
-          <Text as="span" weight={500}>
+          {/* username, added later when integrated with netlify identity */}
+          <Text as="span" $weight={500}>
             {userName}
           </Text>
 
           {/* date */}
-          <Text as="time" color="#495057" size="0.6rem" aria-label={getToday(new Date(date))} datetime={date}>
+          <Text as="time" $color="#495057" $size="0.6rem" aria-label="Comment Date">
             {getToday(new Date(date))}
           </Text>
         </Row>
 
         {/* comment */}
-        <Text weight={200}>
+        <Text $weight={200}>
           <Readmore>{comment}</Readmore>
         </Text>
 

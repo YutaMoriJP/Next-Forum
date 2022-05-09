@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import IconWrapper from "./IconWrapper";
 
-const Link = styled.a`
+interface LinkProps {
+  $color: string;
+}
+
+const Link = styled.a<Partial<LinkProps>>`
   text-decoration: 0;
-  color: ${props => props.color || "white"};
+  color: ${(props) => props.color || "white"};
 
   ${IconWrapper} & {
     position: relative;
-    
+
     .tooltiptext {
       visibility: hidden;
       width: 200px;
@@ -28,4 +32,5 @@ const Link = styled.a`
     }
   }
 `;
+
 export default Link;

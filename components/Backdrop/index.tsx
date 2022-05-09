@@ -9,9 +9,12 @@ const Backdrop = ({ children, onClick }: BackdropProps): JSX.Element => {
   return (
     <BackDropMotion
       onClick={onClick}
-      initial={{ opacity: 0 }} //initial state has opacity:0
-      animate={{ opacity: 1 }} //animation state has opacity:1
-      exit={{ opacity: 0 }} //exit state has opacity: 0
+      // initial state has opacity
+      initial={{ opacity: 0 }}
+      // animation state has opacity:1
+      animate={{ opacity: 1 }}
+      // exit state has opacity: 0
+      exit={{ opacity: 0 }}
     >
       {children}
     </BackDropMotion>

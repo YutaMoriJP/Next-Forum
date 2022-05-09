@@ -10,8 +10,9 @@ type SelectProps = {
   label: string;
   labelName: string;
   options: OptionsProps[];
+  name?: string;
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-} & React.ComponentProps<"select">;
+};
 
 const Select = ({ label, options, labelName, handleChange, ...rest }: SelectProps): JSX.Element => {
   return (

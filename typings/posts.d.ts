@@ -1,4 +1,6 @@
-export type Comment = Record<"comment" | "date" | "id" | "userName", string> & { colorID: number };
+export type Comment = Record<"comment" | "date" | "id" | "userName", string> & {
+  colorID: number;
+};
 
 export interface Comments {
   comments: Comment[];

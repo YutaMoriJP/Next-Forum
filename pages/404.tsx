@@ -32,7 +32,7 @@ const Error = (): JSX.Element => {
       timerRef.current && clearTimeout(timerRef.current);
       counterRef.current && clearInterval(counterRef.current);
     };
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -41,15 +41,13 @@ const Error = (): JSX.Element => {
       </Head>
 
       <Center>
-        <Title align="center">Page not found...</Title>
+        <Title $align="center">Page not found...</Title>
 
-        <Text align="center">
+        <Text $align="center">
           {counter === 0 ? (
             <Loading style={{ color: "white" }} />
           ) : (
-            `You will be redirected in ${counter} second${
-              counter === 1 ? "" : "s"
-            }.`
+            `You will be redirected in ${counter} second${counter === 1 ? "" : "s"}.`
           )}
         </Text>
       </Center>
@@ -58,4 +56,5 @@ const Error = (): JSX.Element => {
     </>
   );
 };
+
 export default Error;

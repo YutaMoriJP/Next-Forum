@@ -6,6 +6,7 @@ export const getAllPosts = async () => {
     const res = await fetch(`${process.env.API_URI}`, {
       method: "GET"
     });
+
     if (!res.ok) errorHandler.baseError(res);
 
     const data: Posts = await res.json();

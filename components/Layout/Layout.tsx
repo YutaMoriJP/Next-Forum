@@ -19,25 +19,25 @@ interface LayoutProps {
   startLoading: () => void;
 }
 
-const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutProps): JSX.Element => {
-  //only render children and navbar if user is authorized
+const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutProps) => {
+  // only render children and navbar if user is authorized
   const { authReady } = useAuth();
 
   const { open, onClose, onOpen } = useToggle();
 
-  //removed, when project is done
+  // removed, when project is done
   useEffect((): void => {
-    //checks if user has already visited the page, if hasVisitedPage is true, then return and do not call onOpen, which opens message modal
-    //the message modal should only be shown to users that visit the page for the first time and not for every page visit
+    // checks if user has already visited the page, if hasVisitedPage is true, then return and do not call onOpen, which opens message modal
+    // the message modal should only be shown to users that visit the page for the first time and not for every page visit
     const hasVisitedPage: boolean = getItem("hasVisitedPage");
     if (hasVisitedPage) return;
 
-    //if the code block below runs, then it means the user is visiting the page for the first time
-    //so open modal with onOpen(), and then set localStorage item to true, so in the next page visit, hasVisitedPage points at true, and modal isn't shown
-    //opens modal AFTER initial mounting
+    // if the code block below runs, then it means the user is visiting the page for the first time
+    // so open modal with onOpen(), and then set localStorage item to true, so in the next page visit, hasVisitedPage points at true, and modal isn't shown
+    // opens modal AFTER initial mounting
     onOpen();
     setItem("hasVisitedPage", true);
-  }, []);
+  }, [onOpen]);
 
   return (
     <>
@@ -56,10 +56,10 @@ const Layout = ({ children, CreateThread, showLoading, startLoading }: LayoutPro
             <BoxContent>
               <ReactMarkdown>
                 Please note that this project is not fully done yet and is still under construction. Please checkout the
-                [GitHub repo](https://github.com/YutaMoriJP/next-forum) if you are curious about the development. More
+                [GitHub repo](https:// github.com/YutaMoriJP/next-forum) if you are curious about the development. More
                 features will be added 😊. You are welcome to make posts and submit comments. But only logged in users
                 can delete/update their posts. I will likely delete your post after a couple of days to keep things
-                organized. Please don't take it personally.
+                organized. Please don&apos;t take it personally.
               </ReactMarkdown>
             </BoxContent>
           </Box>

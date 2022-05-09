@@ -4,9 +4,7 @@ import Content from "../components/Content"; // renders post content
 import { useEffect, useRef } from "react";
 import Loading from "../components/Loading"; // removed if static reg. isn't used
 import Source from "../components/Source"; // used for linking to github
-import useGetPosts, {
-  usePreFetchPostsQuery,
-} from "../hooks/queries/useGetPosts";
+import useGetPosts, { preFetchPostsQuery } from "../hooks/queries/useGetPosts";
 
 interface HomeProps {
   setPostsState: any;
@@ -16,13 +14,11 @@ interface HomeProps {
 // TODO remove unnecessary stuff
 
 /**
- * @note posts is pre-fetched by getServerSideProps
- *
- * @returns {JSX.Element} The home page of the app.
+ *  @note posts is pre-fetched by getServerSideProps
  */
 
 const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
-  const { data, refetch, status } = useGetPosts();
+  const { data = [], refetch, status } = useGetPosts();
 
   // if Home is mounted, setPostsState shouldn't be called, so it blocks data fetching in initial mounting phase
   const initialRender = useRef(true);
@@ -30,7 +26,7 @@ const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
   useEffect(() => {
     // stops loading animation when navigated from slug.tsx->index.tsx
     stopLoading();
-  }, []);
+  }, [stopLoading]);
 
   // called when a new post submission happens, and fetches the updated data from the database
   useEffect(() => {
@@ -45,7 +41,7 @@ const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
       // after post request is sent
       initialRender.current = false;
     };
-  }, [postSubmitted]);
+  }, [postSubmitted, refetch]);
 
   // can be deleted if page is server side rendered
   if (status === "loading") return <Loading />; // If page is being statically re-generated
@@ -54,14 +50,8 @@ const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
     <>
       <Head>
         <title>HOME</title>
-        <meta
-          name="description"
-          content="Modern Forum Applications for fun discussions"
-        />
-        <meta
-          name="keywords"
-          content="Forum, Discussions, NextJS Forum, React Forum"
-        />
+        <meta name="description" content="Modern Forum Applications for fun discussions" />
+        <meta name="keywords" content="Forum, Discussions, NextJS Forum, React Forum" />
       </Head>
 
       {/* Github link */}
@@ -98,12 +88,12 @@ const Home = ({ postSubmitted, stopLoading }: HomeProps): JSX.Element => {
  * @see https://prateeksurana.me/blog/mastering-data-fetching-with-react-query-and-next-js/#fetching-data-on-the-server
  */
 export const getServerSideProps: GetServerSideProps = async () => {
-  const dehydratedState = await usePreFetchPostsQuery();
+  const dehydratedState = await preFetchPostsQuery();
 
   return {
     props: {
-      dehydratedState,
-    },
+      dehydratedState
+    }
   };
 };
 
