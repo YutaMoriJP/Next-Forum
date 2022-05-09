@@ -31,18 +31,25 @@ interface ModalProps {
 
 const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
   const ref = useRef<HTMLDivElement | null>(null);
+  const storeHandler = useRef<Function | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     // event will NOT bubble up to parent element
     event.stopPropagation();
   };
 
+  useEffect(() => {
+    storeHandler.current = handleClose;
+  }, [handleClose]);
+
   // Allow closing modal with esc keypress
   useEffect(() => {
     const isSupported = "addEventListener" in document?.body;
     if (!isSupported) return;
 
-    const handleEscClose = (e: KeyboardEvent) => e.key === "Escape" && handleClose();
+    const handleEscClose = (e: KeyboardEvent) =>
+      e.key === "Escape" && typeof storeHandler.current === "function" && storeHandler.current();
+
     document.body.addEventListener("keydown", handleEscClose);
 
     return () => document.body.removeEventListener("keydown", handleEscClose);
@@ -50,7 +57,7 @@ const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
 
   useEffect(() => {
     // For Accessibility modal should be focused, tabIndex={1} is necessary since it's a div element
-    ref.current.focus();
+    ref.current && ref.current.focus();
   }, []);
 
   return (

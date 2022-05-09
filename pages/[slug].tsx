@@ -1,18 +1,22 @@
+import * as React from "react";
 import { GetServerSideProps } from "next";
 import Form from "../components/Form/Form";
 import Content from "../components/Content";
-import { getAllPosts } from "../util/getAllPosts";
 import Head from "next/head";
 import Loading from "../components/Loading/";
-import useGetPosts, { usePreFetchPostsQuery } from "../hooks/queries/useGetPosts";
+import useGetPosts, { preFetchPostsQuery } from "../hooks/queries/useGetPosts";
 
 import type { Post as TPost } from "@/typings/posts";
 
-const Post = ({ slug }): JSX.Element => {
+interface PostProps {
+  slug: string;
+}
+
+const Post = ({ slug }: PostProps): JSX.Element => {
   // needed to re-render component PUT request is sent
   // const [postState, setPostState] = useState(post);
 
-  const { data: posts, status } = useGetPosts();
+  const { data: posts = [], status } = useGetPosts();
 
   if (status === "loading") return <Loading />;
 
@@ -50,11 +54,11 @@ const Post = ({ slug }): JSX.Element => {
  * @see https://swizec.com/blog/prefetch-data-with-react-query-and-nextjs-codewithswiz-8-9/#add-react-query-to-the-mix
  */
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const dehydratedState = await usePreFetchPostsQuery();
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const dehydratedState = await preFetchPostsQuery();
 
   // { slug: 'title-c8fc3155-497b-48c2-99f7-240a9407eea6' }
-  const { slug } = params;
+  const { slug } = context.params as { slug: string };
 
   return {
     props: {

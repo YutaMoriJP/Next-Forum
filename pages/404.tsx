@@ -9,8 +9,8 @@ import Head from "next/head";
 
 // custom Error Page  next/Error
 const Error = (): JSX.Element => {
-  const timerRef = useRef<NodeJS.Timeout>(null);
-  const counterRef = useRef<NodeJS.Timeout>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const counterRef = useRef<NodeJS.Timeout | null>(null);
 
   const [counter, setCount] = useState(5);
 
@@ -29,10 +29,10 @@ const Error = (): JSX.Element => {
 
     return (): void => {
       // when component unmounts, clean up side-effects
-      clearTimeout(timerRef.current);
-      clearInterval(counterRef.current);
+      timerRef.current && clearTimeout(timerRef.current);
+      counterRef.current && clearInterval(counterRef.current);
     };
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -41,9 +41,9 @@ const Error = (): JSX.Element => {
       </Head>
 
       <Center>
-        <Title align="center">Page not found...</Title>
+        <Title $align="center">Page not found...</Title>
 
-        <Text align="center">
+        <Text $align="center">
           {counter === 0 ? (
             <Loading style={{ color: "white" }} />
           ) : (
@@ -56,4 +56,5 @@ const Error = (): JSX.Element => {
     </>
   );
 };
+
 export default Error;

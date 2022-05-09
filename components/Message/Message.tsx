@@ -1,11 +1,13 @@
 import { useEffect, useRef } from "react";
-import Text from "../../styles/Text";
+import Text from "@/styles/Text";
 
-interface MessageProps extends Omit<React.ComponentProps<"p">, "children"> {
+interface MessageProps {
   children: string;
   onClose: () => void;
   ms: number;
   color: string;
+  role?: string;
+  id?: string;
 }
 
 const Message = ({ children, onClose, ms = 2000, color = "black", ...rest }: MessageProps): JSX.Element => {
@@ -17,10 +19,10 @@ const Message = ({ children, onClose, ms = 2000, color = "black", ...rest }: Mes
     return () => {
       clearTimeout(timerRef.current);
     };
-  }, []);
+  }, [ms, onClose]);
 
   return (
-    <Text color={color} weight={600} padding="38px 0px 0px 0px" {...rest}>
+    <Text {...rest} $color={color} $weight={600} $padding="38px 0px 0px 0px" aria-label="Popover message">
       {children}
     </Text>
   );

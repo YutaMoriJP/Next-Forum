@@ -5,12 +5,17 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "format": "npx prettier --write .",
+    "format:check": "npx prettier --check .",
+    "lint": "eslint . --ext ts --ext tsx --ext js",
+    "types": "tsc --pretty --noEmit",
+    "prepare": "husky install",
+    "run-all": "npm run format && npm run lint && num types && npm run build"
   },
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
-    "babel-plugin-transform-remove-console": "^6.9.4",
     "crypto-js": "^4.1.1",
     "express": "^4.17.1",
     "framer-motion": "^4.1.17",
@@ -29,10 +34,24 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
+    "@types/netlify-identity-widget": "^1.9.3",
     "@types/node": "^16.9.1",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
+    "@types/styled-components": "^5.1.25",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.22.0",
+    "@typescript-eslint/parser": "^5.22.0",
     "babel-plugin-styled-components": "^1.13.2",
+    "babel-plugin-transform-remove-console": "^6.9.4",
+    "eslint": "^8.15.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-next": "12.1.6",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.29.4",
+    "husky": "^7.0.0",
+    "prettier": "^2.6.2",
     "typescript": "^4.4.3"
   }
 }

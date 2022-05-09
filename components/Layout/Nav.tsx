@@ -16,8 +16,9 @@ import { Message } from "kantan-components";
 const IconButton = styled(IconWrapper)`
   pointer-events: ${(props: { pointerEvent: string }) => props.pointerEvent || "auto"};
 `;
-const HomeIcon = styled(Home)`
-  color: ${(props: { color: string }) => props.color || "purple"};
+
+const HomeIcon = styled(Home)<{ $color: string }>`
+  color: ${(props) => props.$color || "purple"};
 `;
 
 interface NavProps {
@@ -29,33 +30,25 @@ interface NavProps {
 const Nav = ({ CreateThread, showLoading, startLoading }: NavProps): JSX.Element => {
   const { login, logout, authReady, user, open, onClose, message } = useAuth();
 
-  const { asPath } = useRouter(); //used to check the current route
+  const { asPath } = useRouter(); // used to check the current route
   console.log("user", user);
   console.log("authReady", authReady);
 
   const isHome = asPath === "/";
 
-  //used to disable <Link/> when already at '/' route, so that <Home/> isn't unnecessarily rendered
+  // used to disable <Link/> when already at '/' route, so that <Home/> isn't unnecessarily rendered
   const disableIconButton = isHome ? "none" : "auto";
-  //changes icon color to grey if button is disabled
+  // changes icon color to grey if button is disabled
   const disableHomeButton = isHome ? "grey" : "#4926b4";
 
-  const handleClick = (): void => {
-    if (user) {
-      //if user is logged in, then logout should be called
-      logout();
-    } else {
-      //if user is not logged in, then login should be called
-      login();
-    }
-  };
+  const handleClick = () => (user ? logout() : login());
 
   return (
     <>
       {/* loading animation when user navigates back to homepage */}
       {showLoading ? <OverlayLoading fixed={true} /> : null}
       <Navbar>
-        {/*component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav */}
+        {/* component that allows users to create new post *, passed from _app.tsx -> Layout -> Nav */}
         {CreateThread}
 
         {/* allows user to navigate back to homepage*/}
@@ -64,12 +57,12 @@ const Nav = ({ CreateThread, showLoading, startLoading }: NavProps): JSX.Element
           Icon={
             <LinkWrapper onClick={asPath === "/" ? () => null : startLoading} href="/">
               <IconButton pointerEvent={disableIconButton} aria-label="Home Icon">
-                <HomeIcon color={disableHomeButton} />
+                <HomeIcon $color={disableHomeButton} />
               </IconButton>
             </LinkWrapper>
           }
         />
-        {/*login/logout option*/}
+        {/* login/logout option*/}
         <IconComponent
           txt={user ? "LOGOUT" : "LOGIN"}
           Icon={
@@ -104,7 +97,7 @@ const Nav = ({ CreateThread, showLoading, startLoading }: NavProps): JSX.Element
         {user && (
           <>
             {/* the getUsername function receives the user object and returns the formatted username */}
-            <Text weight={600}>Hi, {getUsername(user)}</Text>
+            <Text $weight={600}>Hi, {getUsername(user)}</Text>
           </>
         )}
       </Navbar>

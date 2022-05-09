@@ -3,9 +3,9 @@ import IconComponent from "../Icon";
 import Left from "../../styles/Left";
 
 const Source = (): JSX.Element => (
-  <Left bottom>
+  <Left $bottom>
     <IconComponent
-      Icon={<FaGithub color="black" aria-describedby="Github Icon" />}
+      Icon={<FaGithub color="black" aria-label="Github Icon" />}
       txt="GitHub Source"
       href="https://github.com/YutaMoriJP/next-forum"
     />

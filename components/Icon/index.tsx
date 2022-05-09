@@ -1,6 +1,6 @@
-import Link from "../../styles/Link";
-//why add a div? it's to follow the philosophy of 'single source of style' from Josh Comeau
-import IconWrapper from "../../styles/IconWrapper";
+import Link from "@/styles/Link";
+// why add a div? it's to follow the philosophy of 'single source of style' from Josh Comeau
+import IconWrapper from "@/styles/IconWrapper";
 import styled from "styled-components";
 
 const IconComponentWrapper = styled.article`
@@ -51,7 +51,7 @@ export const IconComponent = ({ Icon, txt }: IconComponentProps): JSX.Element =>
 const IconLinkComponent = ({ href, txt, Icon }: IoncLinkComponent): JSX.Element => {
   return (
     <IconWrapper>
-      <Link href={href} target="_blank" rel="noreferrer" alt="Github repository">
+      <Link href={href} target="_blank" rel="noreferrer">
         <span className="tooltiptext">{txt}</span>
         {Icon}
       </Link>

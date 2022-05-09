@@ -9,7 +9,9 @@ export const POST_QUERY_KEY = "getPostList";
 
 export const getPosts = async (): Promise<Posts> => {
   try {
-    const res = await fetch("/.netlify/functions/express/posts", { method: "GET" });
+    const res = await fetch("/.netlify/functions/express/posts", {
+      method: "GET"
+    });
 
     if (!res.ok) errorHandler.baseError(res);
 
@@ -21,7 +23,7 @@ export const getPosts = async (): Promise<Posts> => {
   }
 };
 
-export const usePreFetchPostsQuery = async () => {
+export const preFetchPostsQuery = async () => {
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery(POST_QUERY_KEY, getPosts);

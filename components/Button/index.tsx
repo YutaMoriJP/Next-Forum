@@ -1,6 +1,6 @@
 import StyledButton from "../../styles/Button";
 
-interface ButtonProps extends Omit<React.ComponentProps<"button">, "children"> {
+interface ButtonProps {
   children: string;
 }
 

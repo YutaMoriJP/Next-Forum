@@ -41,7 +41,10 @@ const StyledMarkdown = styled(ReactMarkDown)`
   }
 `;
 
-type MarkdownProps = { children: React.ReactNode | string; main?: boolean };
+interface MarkdownProps {
+  children: string;
+  main?: boolean;
+}
 
 const Markdown = ({ children }: MarkdownProps) => <StyledMarkdown>{children}</StyledMarkdown>;
 

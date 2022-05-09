@@ -5,27 +5,27 @@ const postSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     content: {
       type: String,
-      required: true,
+      required: true
     },
     comments: {
       type: Array,
-      required: true,
+      required: true
     },
     slug: {
       type: String,
-      required: true,
+      required: true
     },
     creator: {
       type: String,
-      required: true,
+      required: true
     },
     postID: {
-      type: String,
-    },
+      type: String
+    }
   },
   { timestamps: true }
 );

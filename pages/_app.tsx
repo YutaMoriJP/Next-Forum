@@ -15,26 +15,33 @@ import { ReactQueryDevtools } from "react-query/devtools";
 
 import type { AppProps } from "next/app";
 
-const CreateThread = ({ open, toggle, onClose, postToggle }) => {
+interface CreateThreadProps {
+  open: boolean;
+  toggle: () => void;
+  onClose: () => void;
+  postToggle: () => void;
+}
+
+const CreateThread = ({ open, toggle, onClose, postToggle }: CreateThreadProps) => {
   return (
     <>
       <IconComponent
         txt={!open ? "CREATE THREAD" : "CLOSE THREAD"}
         Icon={
           <IconButton onClick={toggle} aria-label={open ? "Close Thread" : "Open Thread"}>
-            {/*if open is false, then + open icon will be rendered, if not then - close icon will be rendered*/}
+            {/* if open is false, then + open icon will be rendered, if not then - close icon will be rendered */}
             {!open ? <Add color="primary" /> : <Close color="primary" />}
           </IconButton>
         }
       />
 
-      {/* after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post */}
+      {/*  after  Modal is rendered by button click,the <Post/> component gets rendered, allowing users to submit a new post  */}
       {open && (
         <AnimatePresence exitBeforeEnter>
           <Modal handleClose={onClose}>
-            {/*handleClose will close Modal, can be fired by Close Icon */}
-            {/*postToggle is called after Post request is sent, causing useEffect to be called that updates postState state */}
-            {/* Composition Model avoids passing props from <Modal> => <Post/>, instead passes handleClose & postToggle directly */}
+            {/* handleClose will close Modal, can be fired by Close Icon  */}
+            {/* postToggle is called after Post request is sent, causing useEffect to be called that updates postState state  */}
+            {/*  Composition Model avoids passing props from <Modal> => <Post/>, instead passes handleClose & postToggle directly  */}
             <Post handleClose={onClose} postToggle={postToggle} />
           </Modal>
         </AnimatePresence>

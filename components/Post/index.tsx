@@ -43,7 +43,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     resetContent();
   };
 
-  const pageSlug = useRef(null);
+  const pageSlug = useRef<string>("");
 
   const cleanUp = (data: Post) => {
     // update <Home/> to render the newly created data
@@ -69,6 +69,7 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     // validation - if title or content are empty, then POST request is not sent
     if (isStringEmpty(titleVal) || isStringEmpty(contentVal)) {
       onOpen();
+
       return;
     }
 
@@ -78,7 +79,9 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
     // if user is logged in pass user id as postID
     // user could be null if user is not logged in, use ternary operator to assign postID to an empty object in that case
     // which means that the post will not contain postID, {title, content, creator, ...postID}
-    const postID = (user ? { postID: user.id } : {}) as { [key: string]: string };
+    const postID = (user ? { postID: user.id } : {}) as {
+      [key: string]: string;
+    };
 
     // if postID exists then postID:1, but if not then a new property is not added
     // and the created post cannot be updated/deleted by the use
@@ -109,16 +112,16 @@ const Thread = ({ handleClose, postToggle }: MockProps) => {
       // after 800ms seconds
       if (pageSlug.current) {
         setTimeout(() => {
-          router.push(pageSlug.current);
+          pageSlug.current && router.push(pageSlug.current);
         }, 800);
       }
     };
-  }, []);
+  }, [router]);
 
   return (
     <Box>
       <BoxHeader>
-        <Title alignSelf="center">New Topic</Title>
+        <Title $align="center">New Topic</Title>
         <IconButton onClick={handleClose}>
           <CloseIcon aria-label="Close Thread" />
         </IconButton>

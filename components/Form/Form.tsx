@@ -17,6 +17,7 @@ import useToggle from "@/hooks/useToggle";
 import useUpdateComments from "@/hooks/mutations/useUpdateComments";
 
 import type { Comments as TComments } from "@/typings/comments";
+import type { User } from "netlify-identity-widget";
 
 interface FormProps {
   main: boolean;
@@ -33,7 +34,7 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
   const { user } = useAuth();
 
   // getUsername gets the username from the user object and formats it
-  const userName = getUsername(user || { user_metadata: { full_name: "Anonymous" } });
+  const userName = getUsername((user || { user_metadata: { full_name: "Anonymous" } }) as User);
   console.log("username", userName);
 
   // used for clearing input field, after submit event is fired
@@ -57,6 +58,7 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
 
       return;
     }
+
     // unmounts <Message/> component if it's still mounted
     // it's not needed anymore since user has passed the test
     onClose();
@@ -68,11 +70,16 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
         id: uuidv4(),
         date: new Date(),
         userName,
+        // @ts-ignore
         colorID: user?.user_metadata?.color || generateNumber(1, 6)
       }
     ] as unknown as TComments;
 
-    updateComments({ method: "PUT", body: updatedComments, params: new URLSearchParams({ id }) });
+    updateComments({
+      method: "PUT",
+      body: updatedComments,
+      params: new URLSearchParams({ id })
+    });
 
     toggle();
   };
@@ -89,15 +96,19 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
         date: new Date(),
         colorID: user?.user_metadata?.color || generateNumber(1, 6)
       }
-    ];
+    ] as unknown as TComments;
 
-    updateComments({ method: "PUT", body: replyComment, params: new URLSearchParams({ id }) });
+    updateComments({
+      method: "PUT",
+      body: replyComment,
+      params: new URLSearchParams({ id })
+    });
   };
 
   return (
     <CommentsWrapper>
       <FormStyled onSubmit={handleMainSubmit}>
-        <Center center={center ? "center" : "flex-start"}>
+        <Center $center={center ? "center" : "flex-start"}>
           <Input
             name="comment"
             id="comment"
@@ -111,7 +122,7 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
             style={{ resize: "vertical", fontFamily: "arial" }}
           />
 
-          <Right center={center}>
+          <Right $center={center}>
             <MaterialButton startIcon={<BiCommentDetail />} variant="contained" color="primary" type="submit">
               SUBMIT
             </MaterialButton>
@@ -120,7 +131,7 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
           {/* <Message /> is rendered when user submits without commenting anything */}
           {isMessageOpen && (
             <Message ms={3000} onClose={onClose} color="#f03e3e" role="alert" id="alertMessage">
-              Please ensure your comment isn't empty.
+              Please ensure your comment isn&apos;t empty.
             </Message>
           )}
         </Center>

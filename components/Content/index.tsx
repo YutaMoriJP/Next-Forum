@@ -68,7 +68,7 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
     stopLoading(); // unmount loading component
   };
 
-  const { mutate: updatePosts, data } = useUpdatePosts(cleanUpAfterMutate);
+  const { mutate: updatePosts } = useUpdatePosts(cleanUpAfterMutate);
 
   // input value for title && content, but it's for updating them, so default value is what <Update/> receives
   const [titleProps] = useInput(title);
@@ -99,6 +99,7 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
     // which ensures that only either title or content needs to be filled
     if (isStringEmpty(title) && isStringEmpty(content)) {
       openMessage(); // tell user what went wrong
+
       return;
     }
 
@@ -117,7 +118,12 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
     updatePosts({
       method: "PUT",
       body,
-      params: new URLSearchParams({ userID, _id, postUpdated: "true", main: JSON.stringify(main) })
+      params: new URLSearchParams({
+        userID,
+        _id,
+        postUpdated: "true",
+        main: JSON.stringify(main)
+      })
     });
   };
 
@@ -143,7 +149,7 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
       {/* used to indicate request is sent and app is being updated */}
       {showLoading ? <OverlayLoading fixed={true} /> : null}
 
-      {/*rendered next to title of the post, CreateIcon opens Modal to update post, DeleteIcon will delete the post */}
+      {/* rendered next to title of the post, CreateIcon opens Modal to update post, DeleteIcon will delete the post */}
       <IconButton onClick={onOpen} aria-label="Update Post">
         <CreateIcon style={{ fontSize: "1rem" }} />
       </IconButton>
@@ -156,7 +162,7 @@ const Update = ({ postID, userID, title, content, main, _id }: UpdateProps) => {
         <Modal handleClose={onClose}>
           <Box>
             <BoxHeader>
-              <Title alignSelf="center">Update Post</Title>
+              <Title $align="center">Update Post</Title>
               <IconButton onClick={onClose} aria-label="Close Thread">
                 <CloseIcon />
               </IconButton>
@@ -235,14 +241,14 @@ const Content = (props: ContentProps): JSX.Element => {
           {/* if main is true, then turn title to a link */}
           {main ? (
             <LinkWrapper onClick={startLoading} href={`/${slug}`}>
-              <Title as="h3" alignSelf="center" position="left" cursor="pointer">
+              <Title as="h3" $align="center" $position="left" $cursor="pointer">
                 {/* if title was shortened, then add '...'*/}
                 {shortenedTitle + (title.length > shortenedTitle.length ? "..." : "")}
               </Title>
             </LinkWrapper>
           ) : (
             // if not, then user is in the slug page, and it should not be a link
-            <Title as="h4" position="left" alignSelf="center">
+            <Title as="h4" $position="left" $align="center">
               {title}
             </Title>
           )}
@@ -250,7 +256,7 @@ const Content = (props: ContentProps): JSX.Element => {
           {/* first check if user is logged in, if they are not then UPDATE operations are not allowed so return null*/}
           {/* if user is loggedin, then Update component will check if user is allowed to update the post i.e. author of the post*/}
           {user ? (
-            <RowFlex align="center" flex="0 1 120px" wrap="wrap" justify="flex-end">
+            <RowFlex $align="center" $flex="0 1 120px" $wrap="wrap" $justify="flex-end">
               <Update {...props} userID={user.id} />{" "}
             </RowFlex>
           ) : null}
@@ -258,16 +264,10 @@ const Content = (props: ContentProps): JSX.Element => {
 
         <BoxContent>
           {/* DATE section */}
-          <Text weight={500} color="#656f79" size="0.8rem" align="right">
-            {`Posted by ${creator}`}{" "}
-            <Text
-              as="time"
-              weight={500}
-              color="#656f79"
-              size="0.8rem"
-              aria-label={getToday(new Date(createdAt))}
-              datetime={createdAt}
-            >
+          <Text $weight={500} color="#656f79" $size="0.8rem" $align="right">
+            {`Posted by ${creator} `}
+            {/* @ts-ignore */}
+            <Text as="time" $weight={500} $color="#656f79" $size="0.8rem" aria-label="Post Date" dateTime={createdAt}>
               {getToday(new Date(createdAt))}
             </Text>
           </Text>

@@ -1,10 +1,15 @@
 import styled from "styled-components";
 
-const ReadMore = styled.span`
+interface ReadMoreProps {
+  $weight: number;
+  $size: string;
+}
+
+const ReadMore = styled.span<Partial<ReadMoreProps>>`
   color: #37378a;
   cursor: pointer;
-  font-weight: ${props => props.weight || 400};
-  font-size: ${props => props.size || "1rem"};
+  font-weight: ${(props) => props.$weight || 400};
+  font-size: ${(props) => props.$size || "1rem"};
   word-break: normal;
 `;
 

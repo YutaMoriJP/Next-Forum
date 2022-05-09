@@ -5,7 +5,7 @@ const {
   postGetController,
   postPostController,
   postPutController,
-  postDeleteController,
+  postDeleteController
 } = require("../controller/postsController");
 
 router.get("/", postGetController);
