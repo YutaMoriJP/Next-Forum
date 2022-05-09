@@ -11,6 +11,10 @@ const Modal = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  :focus {
+    all: unset;
+  }
 `;
 
 export default Modal;

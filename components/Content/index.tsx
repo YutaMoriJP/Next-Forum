@@ -265,7 +265,7 @@ const Content = (props: ContentProps): JSX.Element => {
         <BoxContent>
           {/* DATE section */}
           <Text $weight={500} color="#656f79" $size="0.8rem" $align="right">
-            {`Posted by ${creator}`}
+            {`Posted by ${creator} `}
             {/* @ts-ignore */}
             <Text as="time" $weight={500} $color="#656f79" $size="0.8rem" aria-label="Post Date" dateTime={createdAt}>
               {getToday(new Date(createdAt))}

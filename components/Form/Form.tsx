@@ -70,6 +70,7 @@ const Form = ({ main = true, center = false, comment, id }: FormProps): JSX.Elem
         id: uuidv4(),
         date: new Date(),
         userName,
+        // @ts-ignore
         colorID: user?.user_metadata?.color || generateNumber(1, 6)
       }
     ] as unknown as TComments;

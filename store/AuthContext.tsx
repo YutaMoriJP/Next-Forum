@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import netlifyIdentity, { User } from "netlify-identity-widget";
+import netlifyIdentity from "netlify-identity-widget";
 import { generateNumber } from "../util/generateNum";
 import { useToggle } from "kantan-hooks";
 
@@ -14,6 +14,36 @@ const initialContextValue = {
   open: false,
   onClose: () => {}
 };
+
+interface User {
+  api: {
+    _sameOrigin?: boolean | undefined;
+    apiURL: string;
+    defaultHeaders: {
+      [header: string]: string | string[] | undefined;
+    };
+  };
+  app_metadata: {
+    provider: string;
+    roles: string[];
+  };
+  aud: string;
+  audience?: any;
+  confirmed_at: string;
+  created_at: string;
+  updated_at: string;
+  invited_at: string;
+  recovery_sent_at: string;
+  email: string;
+  id: string;
+  role: string;
+  url: string;
+  user_metadata: {
+    avatar_url?: string;
+    full_name?: string;
+    color?: string;
+  } | null;
+}
 
 type AuthContextValue =
   | typeof initialContextValue
