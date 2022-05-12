@@ -66,6 +66,7 @@ const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
   return (
     <Backdrop onClick={handleClose}>
       <ModalMotion
+        tabIndex={0}
         role="dialog"
         onClick={handleClick}
         ref={ref}
