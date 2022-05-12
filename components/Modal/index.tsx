@@ -47,8 +47,10 @@ const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
     const isSupported = "addEventListener" in document?.body;
     if (!isSupported) return;
 
+    const eventHandler = storeHandler.current;
+
     const handleEscClose = (e: KeyboardEvent) =>
-      e.key === "Escape" && typeof storeHandler.current === "function" && storeHandler.current();
+      e.key === "Escape" && typeof eventHandler === "function" && eventHandler();
 
     document.body.addEventListener("keydown", handleEscClose);
 
@@ -56,20 +58,23 @@ const Modal = ({ handleClose, children }: ModalProps): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    // For Accessibility modal should be focused, tabIndex={1} is necessary since it's a div element
-    ref.current && ref.current.focus();
+    const modalElement = ref.current;
+
+    modalElement && modalElement.focus();
   }, []);
 
   return (
     <Backdrop onClick={handleClose}>
       <ModalMotion
+        tabIndex={0}
+        role="dialog"
         onClick={handleClick}
+        ref={ref}
+        aria-role="modal"
         variants={dropIn}
         initial="hidden"
         animate="visible"
         exit="exit"
-        tabIndex={0}
-        ref={ref}
       >
         {children}
       </ModalMotion>

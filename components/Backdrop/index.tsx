@@ -1,4 +1,4 @@
-import BackDropMotion from "../../styles/Backdrop";
+import BackDropMotion from "@/styles/Backdrop";
 
 interface BackdropProps {
   children: React.ReactNode;
